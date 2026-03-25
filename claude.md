@@ -1232,3 +1232,65 @@ Section2 (86px) — 하단 법적 고지 바
 | 비교 카드 강조 배경 | 파란 계열 | Comparison Card (Blue) |
 | Delight Lime (강조) | `#F2FF66` | 포인트 컬러 |
 | Accordion Item | 높이 86px (닫힘) / 244px (열림) |
+
+---
+
+## 반응형 레이아웃 패턴 (Responsive CSS — 확정 패턴)
+
+### 전역 오버플로 방지
+
+```css
+html, body { overflow-x: hidden; }
+```
+
+### 반응형 브레이크포인트
+
+| 브레이크포인트 | 적용 대상 |
+|---|---|
+| `max-width: 1200px` | 캐러셀 그리드 narrow, infra 섹션 gap 제거 |
+| `max-width: 1024px` | Hero 1컬럼, Feature 1컬럼, Stats 2×2, Footer 4컬럼, FAQ 1컬럼 |
+| `max-width: 900px` | GNB: 메뉴 숨기고 hamburger 표시 |
+| `max-width: 768px` | 폰트 축소, Footer 2컬럼 |
+
+### Feature Grid reversed 패턴
+
+이미지가 **왼쪽(first-child)**인 2컬럼 레이아웃은 모바일에서 이미지가 텍스트 아래로 내려가야 함.
+→ `<div class="feature-grid reversed">` 클래스 추가 후 아래 CSS 적용.
+
+```css
+/* Mobile에서 reversed grid: 이미지(first-child)를 텍스트(last-child) 아래로 */
+@media (max-width: 1024px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature-grid.reversed > *:first-child { order: 2; }
+  .feature-grid.reversed > *:last-child  { order: 1; }
+}
+```
+
+### GNB 모바일 반응형 (900px 이하)
+
+```css
+.gnb-hamburger { display: none; width: 32px; height: 32px; align-items: center; justify-content: center; cursor: pointer; border: none; background: none; padding: 0; }
+@media (max-width: 900px) {
+  .gnb-menu, .gnb-utility { display: none; }
+  .gnb-hamburger { display: flex; }
+  .gnb-cta { padding: 0 12px; min-width: auto; font-size: 14px; }
+  .gnb-left { gap: 16px; }
+}
+```
+
+hamburger 버튼은 `.gnb-right` 안, `.gnb-cta` 바로 다음에 배치:
+```html
+<button class="gnb-hamburger" aria-label="Open menu">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M3 5h14M3 10h14M3 15h14" stroke="#1A1612" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+</button>
+```
+
+### 타입 스케일 — Responsive 폰트 사이즈
+
+반응형 CSS에서도 반드시 허용된 폰트 사이즈 스케일만 사용할 것:
+`72/66/40/38/36/34/32/30/28/26/22/20/18/16/15/14/13/12/11px`
+
+- Hero H1 (1024px 이하): `48px` ❌ → `40px` ✅
+- Section H2 (768px 이하): `28px` ✅
