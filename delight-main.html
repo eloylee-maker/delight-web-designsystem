@@ -55,7 +55,7 @@
     em { font-style: normal; }
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
-    button { border: none; cursor: pointer; font-family: inherit; letter-spacing: -0.02em; }
+    button { border: none; cursor: pointer; font-family: 'Helvetica Now Text', sans-serif; letter-spacing: -0.02em; }
     img { max-width: 100%; display: block; }
 
     /* ============================================================
@@ -112,7 +112,7 @@
       background: var(--lime); color: var(--text);
       border-radius: 8px;
     }
-    .btn-lime:hover { background: #e8f552; }
+    .btn-lime:hover { background: #D6E84A; }
     /* Sizes */
     .btn-lg  { height: 48px; padding: 0 25px; font-size: 16px; }
     .btn-md  { height: 42px; padding: 0 20px; font-size: 16px; }
@@ -358,14 +358,14 @@
       font-family: 'Helvetica Now Text', sans-serif;
       font-size: 12px; font-weight: 500;
       color: rgb(140, 134, 126);
-      letter-spacing: 0.01em;
+      letter-spacing: -0.02em;
       padding: 0 0 8px;
     }
     .drop-promo-img {
       width: 100%; height: 148px;
       border-radius: 8px;
       overflow: hidden;
-      background: #EDEAE5;
+      background: #EDEAE4;
       margin-bottom: 10px;
       flex-shrink: 0;
     }
@@ -394,7 +394,7 @@
       font-size: 12px; font-weight: 500;
       color: rgb(140, 134, 126);
       white-space: nowrap; flex-shrink: 0;
-      letter-spacing: 0.01em;
+      letter-spacing: -0.02em;
     }
     .drop-int-logos {
       display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
@@ -518,12 +518,12 @@
     }
     .hero-title-col {
       flex: 0 1 auto;
-      max-width: 800px;
+      max-width: 100%;
     }
     .hero-content-col {
       flex: 0 0 auto;
       width: 572px;
-      max-width: 572px;
+      max-width: 100%;
       padding-top: 12px;
       display: flex; flex-direction: column; align-items: flex-start; gap: 28px;
     }
@@ -540,7 +540,7 @@
       font-size: 20px; font-weight: 400;
       line-height: 1.36;
       color: #66625E;
-      max-width: 480px;
+      max-width: 100%;
     }
     .hero-ctas {
       display: flex; align-items: center; gap: 6px;
@@ -552,7 +552,7 @@
       min-height: 420px;
       border-radius: 16px;
       overflow: hidden;
-      background: linear-gradient(135deg, #B8D4E8 0%, #A0BED8 50%, #8FB0CF 100%);
+      background: linear-gradient(135deg, #D8F0FF 0%, #91D2FB 50%, #27A6F7 100%);
       position: relative;
       display: flex; align-items: center; justify-content: center;
     }
@@ -565,7 +565,7 @@
     }
     .chat-mockup {
       width: 100%;
-      max-width: 480px;
+      max-width: 100%;
       background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 20px;
@@ -661,7 +661,7 @@
     }
     .conf-title { font-weight: 600; font-size: 13px; color: var(--text); }
     .conf-badge {
-      background: #D0F3E6; color: #1A6B4A;
+      background: #D0F3E6; color: var(--text);
       border-radius: 4px; padding: 2px 8px;
       font-size: 11px; font-weight: 500;
     }
@@ -714,7 +714,7 @@
     }
     .stat-number {
       font-family: 'Serrif', serif;
-      font-weight: 500; font-size: 48px;
+      font-weight: 500; font-size: 40px;
       line-height: 1.1;
       letter-spacing: -0.02em;
       color: var(--text);
@@ -737,7 +737,7 @@
       text-align: center;
       font-size: 13px; font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: -0.02em;
       color: var(--text-dim);
       margin-bottom: 32px;
     }
@@ -767,7 +767,7 @@
       font-weight: 700; font-size: 18px;
       color: var(--text-dim);
       white-space: nowrap;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
       opacity: 0.55;
       transition: opacity 0.2s;
     }
@@ -779,7 +779,7 @@
     .section-label {
       font-size: 13px; font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: -0.02em;
       color: var(--text-dim);
       margin-bottom: 16px;
     }
@@ -843,7 +843,7 @@
     .mc-header-left { display: flex; align-items: center; gap: 12px; }
     .mc-avatar {
       width: 40px; height: 40px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--lime), #c8e83a);
+      background: linear-gradient(135deg, var(--lime), var(--lime-border));
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; font-weight: 700; color: var(--text);
     }
@@ -852,7 +852,7 @@
     .mc-user-tier {
       display: inline-flex; align-items: center; gap: 4px;
       font-size: 11px; font-weight: 500;
-      background: var(--lime-tint); color: #5C6B00;
+      background: var(--lime-tint); color: #1A1612;
       padding: 2px 8px; border-radius: 4px; border: 1px solid var(--lime-border);
     }
     .mc-score {
@@ -861,7 +861,7 @@
     .mc-score-val { font-family: 'Serrif', serif; font-size: 28px; font-weight: 500; color: var(--text); }
     .mc-score-label { font-size: 11px; color: var(--text-dim); }
     .mc-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
-    .mc-section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); margin-bottom: 8px; }
+    .mc-section-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: -0.02em; color: var(--text-dim); margin-bottom: 8px; }
     .mc-tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .mc-tag {
       padding: 5px 12px; border-radius: 6px;
@@ -926,10 +926,10 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 20px;
     }
-    .channel-icon.chat-icon { background: #E3F2FD; }
-    .channel-icon.voice-icon { background: #E8F5E9; }
-    .channel-icon.email-icon { background: #FFF3E0; }
-    .channel-icon.sms-icon { background: #F3E5F5; }
+    .channel-icon.chat-icon { background: #D8F0FF; }
+    .channel-icon.voice-icon { background: #D0F3E6; }
+    .channel-icon.email-icon { background: #FAFFD4; }
+    .channel-icon.sms-icon { background: #F5F2ED; }
     .channel-name { font-size: 15px; font-weight: 600; color: var(--text); }
     .channel-stat { font-size: 12px; color: var(--text-muted); }
     .channel-live-badge {
@@ -961,7 +961,7 @@
       padding: 120px 0;
     }
     .trust-header { text-align: center; margin-bottom: 64px; }
-    .trust-header .section-body { max-width: 520px; margin: 0 auto; }
+    .trust-header .section-body { max-width: 100%; margin: 0 auto; }
     .trust-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1051,7 +1051,7 @@
       min-height: 460px;
       box-shadow: 4px 14px 24px 3px rgba(33,33,33,0.10);
     }
-    .panel-label { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 16px; }
+    .panel-label { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: -0.02em; color: var(--text-dim); margin-bottom: 16px; }
     .panel-title {
       font-family: 'Serrif', serif;
       font-size: 28px; font-weight: 500;
@@ -1079,9 +1079,9 @@
       font-size: 11px; font-weight: 500;
       padding: 3px 8px; border-radius: 4px;
     }
-    .pvr-badge.green { background: #D0F3E6; color: #1A6B4A; }
-    .pvr-badge.lime  { background: var(--lime-tint); color: #5C6B00; border: 1px solid var(--lime-border); }
-    .pvr-badge.blue  { background: #D8F0FF; color: #1A5C8A; }
+    .pvr-badge.green { background: #D0F3E6; color: var(--text); }
+    .pvr-badge.lime  { background: var(--lime-tint); color: #1A1612; border: 1px solid var(--lime-border); }
+    .pvr-badge.blue  { background: #D8F0FF; color: var(--text); }
 
     /* ============================================================
        BOTTOM FEATURE CARDS
@@ -1132,7 +1132,7 @@
       gap: 80px;
       align-items: start;
     }
-    .faq-left { position: sticky; top: 100px; }
+    .faq-left { position: relative; }
     .faq-left .section-label { margin-bottom: 16px; }
     .faq-left .section-h2 { margin-bottom: 20px; }
     .faq-left-body { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
@@ -1206,20 +1206,20 @@
     }
     .cta-label {
       font-size: 13px; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.08em;
+      text-transform: uppercase; letter-spacing: -0.02em;
       color: var(--text-dim);
     }
     .cta-h2 {
       font-family: 'Serrif', serif;
-      font-weight: 500; font-size: 48px;
+      font-weight: 500; font-size: 40px;
       line-height: 1.12; letter-spacing: -0.02em;
       color: var(--text);
-      max-width: 720px;
+      max-width: 100%;
     }
     .cta-subtext {
       font-size: 18px; line-height: 1.5;
       color: var(--text-muted);
-      max-width: 520px;
+      max-width: 100%;
     }
     .cta-buttons {
       display: flex; align-items: center; gap: 12px;
@@ -1269,7 +1269,7 @@
     .footer-col-header {
       font-family: 'Helvetica Now Text', sans-serif;
       font-size: 12px; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.07em;
+      text-transform: uppercase; letter-spacing: -0.02em;
       color: #A8A39B;
       margin-bottom: 16px;
     }
@@ -1329,7 +1329,7 @@
       border-radius: 6px;
       padding: 5px 10px;
     }
-    .g2-badge-star { color: #FF8C3B; font-size: 11px; }
+    .g2-badge-star { color: var(--text-muted); font-size: 11px; }
     .g2-badge-text {
       font-family: 'Gellix', sans-serif;
       font-size: 11px; font-weight: 500;
@@ -1356,8 +1356,8 @@
     .infra-stat + .infra-stat { border-left: 1px solid var(--border); }
     .infra-number {
       font-family: 'Serrif', serif;
-      font-weight: 500; font-size: 64px;
-      line-height: 1.0; letter-spacing: -0.03em;
+      font-weight: 500; font-size: 66px;
+      line-height: 1.0; letter-spacing: -0.02em;
       color: var(--text);
     }
     .infra-label {
@@ -1373,6 +1373,102 @@
 
     /* Divider line */
     .section-divider { width: 100%; height: 1px; background: var(--border); }
+
+    /* ============================================================
+       RESPONSIVE — 가로 오버플로우 방지 + 반응형 레이아웃
+    ============================================================ */
+
+    /* 전역 오버플로우 차단 */
+    html, body { overflow-x: hidden; }
+
+    /* 대문자 레이블: 가독성을 위해 positive letter-spacing 복원
+       (text-transform: uppercase 요소에만 적용) */
+    .section-label,
+    .panel-label,
+    .mc-section-title,
+    .logo-garden-label,
+    .cta-label,
+    .footer-col-header,
+    .drop-col-header,
+    .drop-solutions-label,
+    .drop-int-label { letter-spacing: -0.02em; }
+
+    /* Hero: content-col을 비율 기반으로 유연하게 */
+    .hero-content-col { flex: 0 0 min(572px, 46%); }
+
+    /* ── 1200px 이하 ─────────────────────────────── */
+    @media (max-width: 1200px) {
+      .carousel-grid { grid-template-columns: 300px 1fr; gap: 40px; }
+      .infra-stats   { gap: 0; }
+    }
+
+    /* ── 1024px 이하 ─────────────────────────────── */
+    @media (max-width: 1024px) {
+      /* Hero */
+      .hero-head { flex-direction: column; gap: 32px; }
+      .hero-content-col { flex: none; width: 100%; }
+      .hero-h1 { font-size: 40px; }
+
+      /* Feature sections */
+      .feature-grid { grid-template-columns: 1fr; gap: 48px; }
+      .feature-grid.reversed > *:first-child { order: 2; }
+      .feature-grid.reversed > *:last-child  { order: 1; }
+
+      /* Carousel */
+      .carousel-grid { grid-template-columns: 1fr; }
+      .carousel-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+      /* Stats */
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item + .stat-item { border-left: none; border-top: 1px solid var(--border); }
+      .stat-item:nth-child(2n+1) + .stat-item { border-left: 1px solid var(--border); border-top: none; }
+
+      /* Infra */
+      .infra-stats { grid-template-columns: repeat(2, 1fr); }
+      .infra-stat + .infra-stat { border-left: none; }
+      .infra-stat:nth-child(2n+1) + .infra-stat { border-left: 1px solid var(--border); }
+
+      /* Trust */
+      .trust-cards { grid-template-columns: 1fr; }
+
+      /* Bottom cards */
+      .bottom-cards-grid { grid-template-columns: 1fr; }
+
+      /* FAQ */
+      .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+
+      /* Footer */
+      .footer-grid { grid-template-columns: 1.4fr repeat(3, 1fr); }
+      .footer-grid > *:nth-child(n+6) { grid-column: auto; }
+    }
+
+    /* ── GNB 모바일: 메뉴 숨기고 hamburger 표시 ──── */
+    .gnb-hamburger { display: none; width: 32px; height: 32px; align-items: center; justify-content: center; cursor: pointer; border: none; background: none; padding: 0; }
+    @media (max-width: 900px) {
+      .gnb-menu, .gnb-utility { display: none; }
+      .gnb-hamburger { display: flex; }
+      .gnb-cta { padding: 0 12px; min-width: auto; font-size: 14px; }
+      .gnb-left { gap: 16px; }
+    }
+
+    /* ── 768px 이하 ──────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-h1  { font-size: 40px; }
+      .section-h2 { font-size: 28px; }
+      .cta-h2  { font-size: 28px; }
+
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .infra-stats { grid-template-columns: repeat(2, 1fr); }
+
+      .carousel-tabs { grid-template-columns: 1fr; }
+      .carousel-panel { padding: 28px; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      .cta-banner { padding: 64px 0; }
+    }
   </style>
 </head>
 <body>
@@ -1529,6 +1625,9 @@
           </span>
         </div>
         <button class="gnb-cta">Contact sales</button>
+        <button class="gnb-hamburger" aria-label="Open menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="#1A1612" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
       </div>
     </div>
 
@@ -1575,7 +1674,7 @@
             <!-- Card 1: What's new -->
             <a class="drop-promo-card" href="#">
               <div class="drop-promo-eyebrow">What's new</div>
-              <div class="drop-promo-img" style="background: #EAE7E2; display:flex; align-items:center; justify-content:center;">
+              <div class="drop-promo-img" style="background: #F0EDE6; display:flex; align-items:center; justify-content:center;">
                 <!-- UI mockup preview -->
                 <div style="width:88%; height:82%; background:#fff; border-radius:8px; border:1px solid #E0DAD2; padding:10px; display:flex; flex-direction:column; gap:5px; overflow:hidden;">
                   <div style="display:flex;align-items:center;gap:5px;">
@@ -1586,7 +1685,7 @@
                   <div style="height:4px;background:#EDEAE4;border-radius:2px;width:70%;"></div>
                   <div style="height:4px;background:#EDEAE4;border-radius:2px;width:55%;"></div>
                   <div style="margin-top:4px;height:18px;background:var(--lime);border-radius:4px;width:50%;display:flex;align-items:center;justify-content:center;">
-                    <div style="height:3px;background:#6B8F00;border-radius:1px;width:55%;"></div>
+                    <div style="height:3px;background:#1A1612;border-radius:1px;width:55%;"></div>
                   </div>
                 </div>
               </div>
@@ -1599,7 +1698,7 @@
               <div class="drop-promo-img dark-card" style="display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
                 <div style="position:absolute;top:8px;right:12px;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(255,180,30,0.5) 0%,transparent 70%);"></div>
                 <div style="position:absolute;bottom:8px;left:12px;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,rgba(242,80,40,0.4) 0%,transparent 70%);"></div>
-                <div style="color:#fff;font-family:'Helvetica Now Text',sans-serif;font-size:17px;font-weight:600;line-height:1.2;text-align:center;position:relative;z-index:1;">Delight<br>Spark<br><span style="color:#F2FF66;font-size:20px;">2026</span></div>
+                <div style="color:#fff;font-size:16px;font-weight:600;line-height:1.2;text-align:center;position:relative;z-index:1;">Delight<br>Spark<br><span style="color:#F2FF66;font-size:20px;">2026</span></div>
               </div>
               <div class="drop-promo-title">Delight Spark 2026</div>
               <div class="drop-promo-desc">May 7th: Build the future of AI concierge</div>
@@ -1850,19 +1949,19 @@
           <ul class="feature-bullets">
             <li class="feature-bullet">
               <span class="bullet-icon">
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5C6B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#1A1612" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Cross-channel context retention
             </li>
             <li class="feature-bullet">
               <span class="bullet-icon">
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5C6B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#1A1612" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Preference learning over time
             </li>
             <li class="feature-bullet">
               <span class="bullet-icon">
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5C6B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#1A1612" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Zero repetition for the customer
             </li>
@@ -1948,7 +2047,7 @@
   ============================================================ -->
   <section class="feature-section-2">
     <div class="container">
-      <div class="feature-grid">
+      <div class="feature-grid reversed">
         <!-- Left: Channel Mockup -->
         <div class="channel-mockup">
           <div class="channel-mockup-title">Active channels</div>
@@ -1998,19 +2097,19 @@
           <ul class="feature-bullets">
             <li class="feature-bullet">
               <span class="bullet-icon">
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5C6B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#1A1612" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Voice AI with natural speech
             </li>
             <li class="feature-bullet">
               <span class="bullet-icon">
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5C6B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#1A1612" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               SMS &amp; email continuity
             </li>
             <li class="feature-bullet">
               <span class="bullet-icon">
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#5C6B00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#1A1612" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Proactive outreach before they ask
             </li>
