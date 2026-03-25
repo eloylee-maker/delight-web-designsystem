@@ -34,8 +34,6 @@
       --text-muted:   #6B6258;
       --text-dim:     #9E9890;
       --lime:         #F2FF66;
-      --lime-tint:    #FAFFD4;
-      --lime-border:  #D6E84A;
       --cta-dark:     #18140F;
       --max-w:        1552px;
     }
@@ -109,10 +107,10 @@
     .btn-tertiary-white:hover::after { content: ' →'; }
     /* Lime */
     .btn-lime {
-      background: var(--lime); color: var(--text);
+      background: #000000; color: #FFFFFF;
       border-radius: 8px;
     }
-    .btn-lime:hover { background: #D6E84A; }
+    .btn-lime:hover { background: #1A1612; }
     /* Sizes */
     .btn-lg  { height: 48px; padding: 0 25px; font-size: 16px; }
     .btn-md  { height: 42px; padding: 0 20px; font-size: 16px; }
@@ -623,7 +621,7 @@
       display: flex; align-items: center; justify-content: center;
     }
     .msg-avatar.user-av {
-      background: linear-gradient(135deg, #D6E84A, #F2FF66);
+      background: var(--surface-2);
     }
     .msg-bubble {
       max-width: 78%;
@@ -651,7 +649,7 @@
     }
     .chat-confirmation {
       background: linear-gradient(135deg, #F5F2ED, #FFFFFF);
-      border: 1px solid var(--lime-border);
+      border: 1px solid var(--border);
       border-radius: 12px;
       padding: 14px 16px;
       font-size: 13px;
@@ -823,7 +821,7 @@
     }
     .bullet-icon {
       width: 20px; height: 20px; border-radius: 50%;
-      background: var(--lime-tint); border: 1px solid var(--lime-border);
+      background: var(--bg-subtle); border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; margin-top: 2px;
     }
@@ -844,7 +842,7 @@
     .mc-header-left { display: flex; align-items: center; gap: 12px; }
     .mc-avatar {
       width: 40px; height: 40px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--lime), var(--lime-border));
+      background: var(--surface-2);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; font-weight: 700; color: var(--text);
     }
@@ -853,8 +851,8 @@
     .mc-user-tier {
       display: inline-flex; align-items: center; gap: 4px;
       font-size: 11px; font-weight: 500;
-      background: var(--lime-tint); color: #1A1612;
-      padding: 2px 8px; border-radius: 4px; border: 1px solid var(--lime-border);
+      background: var(--bg-subtle); color: var(--text-muted);
+      padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);
     }
     .mc-score {
       text-align: right;
@@ -871,7 +869,7 @@
       color: var(--text-muted);
     }
     .mc-tag.active {
-      background: var(--lime-tint); border-color: var(--lime-border);
+      background: var(--surface-2); border-color: var(--border);
       color: var(--text);
     }
     .mc-history { display: flex; flex-direction: column; gap: 10px; }
@@ -921,7 +919,7 @@
       display: flex; flex-direction: column; gap: 10px;
       position: relative; overflow: hidden;
     }
-    .channel-card.active { border-color: var(--lime-border); background: var(--lime-tint); }
+    .channel-card.active { border-color: var(--border); background: var(--bg-subtle); }
     .channel-icon {
       width: 40px; height: 40px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
@@ -929,7 +927,7 @@
     }
     .channel-icon.chat-icon { background: #D8F0FF; }
     .channel-icon.voice-icon { background: #D0F3E6; }
-    .channel-icon.email-icon { background: #FAFFD4; }
+    .channel-icon.email-icon { background: var(--bg-subtle); }
     .channel-icon.sms-icon { background: #F5F2ED; }
     .channel-name { font-size: 15px; font-weight: 600; color: var(--text); }
     .channel-stat { font-size: 12px; color: var(--text-muted); }
@@ -1039,7 +1037,7 @@
     .carousel-tab.active .tab-name { font-weight: 600; }
     .tab-progress {
       position: absolute; bottom: 0; left: 0;
-      height: 2px; background: var(--lime);
+      height: 2px; background: var(--text);
       width: 0%; border-radius: 0 1px 1px 0;
       transition: width 0.1s linear;
     }
@@ -1081,7 +1079,7 @@
       padding: 3px 8px; border-radius: 4px;
     }
     .pvr-badge.green { background: #D0F3E6; color: var(--text); }
-    .pvr-badge.lime  { background: var(--lime-tint); color: #1A1612; border: 1px solid var(--lime-border); }
+    .pvr-badge.lime  { background: var(--bg-subtle); color: var(--text); border: 1px solid var(--border); }
     .pvr-badge.blue  { background: #D8F0FF; color: var(--text); }
 
     /* ============================================================
@@ -1163,9 +1161,9 @@
     }
     .faq-icon .icon-minus { display: none; }
     .faq-item.open .faq-icon {
-      background: var(--lime);
-      border-color: var(--lime-border);
-      color: var(--text);
+      background: var(--text);
+      border-color: var(--text);
+      color: #FFFFFF;
     }
     .faq-item.open .faq-icon .icon-plus  { display: none; }
     .faq-item.open .faq-icon .icon-minus { display: block; }
@@ -1685,7 +1683,7 @@
                   <div style="height:4px;background:#EDEAE4;border-radius:2px;width:85%;"></div>
                   <div style="height:4px;background:#EDEAE4;border-radius:2px;width:70%;"></div>
                   <div style="height:4px;background:#EDEAE4;border-radius:2px;width:55%;"></div>
-                  <div style="margin-top:4px;height:18px;background:var(--lime);border-radius:4px;width:50%;display:flex;align-items:center;justify-content:center;">
+                  <div style="margin-top:4px;height:18px;background:var(--surface-2);border-radius:4px;width:50%;display:flex;align-items:center;justify-content:center;">
                     <div style="height:3px;background:#1A1612;border-radius:1px;width:55%;"></div>
                   </div>
                 </div>
@@ -1699,7 +1697,7 @@
               <div class="drop-promo-img dark-card" style="display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
                 <div style="position:absolute;top:8px;right:12px;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(255,180,30,0.5) 0%,transparent 70%);"></div>
                 <div style="position:absolute;bottom:8px;left:12px;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,rgba(242,80,40,0.4) 0%,transparent 70%);"></div>
-                <div style="color:#fff;font-size:16px;font-weight:600;line-height:1.2;text-align:center;position:relative;z-index:1;">Delight<br>Spark<br><span style="color:#F2FF66;font-size:20px;">2026</span></div>
+                <div style="color:#fff;font-size:16px;font-weight:600;line-height:1.2;text-align:center;position:relative;z-index:1;">Delight<br>Spark<br><span style="color:#FFFFFF;font-size:20px;">2026</span></div>
               </div>
               <div class="drop-promo-title">Delight Spark 2026</div>
               <div class="drop-promo-desc">May 7th: Build the future of AI concierge</div>
@@ -1788,8 +1786,8 @@
               <div class="chat-topbar-left">
                 <div class="chat-agent-avatar">
                   <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
-                    <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#F2FF66"/>
-                    <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#F2FF66"/>
+                    <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#FFFFFF"/>
+                    <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#FFFFFF"/>
                   </svg>
                 </div>
                 <div class="chat-agent-info">
@@ -1815,8 +1813,8 @@
               <div class="chat-msg agent">
                 <div class="msg-avatar">
                   <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
-                    <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#F2FF66"/>
-                    <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#F2FF66"/>
+                    <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#FFFFFF"/>
+                    <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#FFFFFF"/>
                   </svg>
                 </div>
                 <div class="msg-bubble">
@@ -1837,8 +1835,8 @@
               <div class="chat-msg agent">
                 <div class="msg-avatar">
                   <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
-                    <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#F2FF66"/>
-                    <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#F2FF66"/>
+                    <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#FFFFFF"/>
+                    <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#FFFFFF"/>
                   </svg>
                 </div>
                 <div class="msg-bubble" style="padding:0; background: transparent; border: none; max-width: 85%;">
