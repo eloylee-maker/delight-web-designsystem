@@ -226,11 +226,28 @@
     }
     .drop-sol-link:hover { background: var(--bg-subtle); }
 
-    #drop-resources { min-width: 260px; padding: 10px 0; }
-    .drop-resources-list { display: flex; flex-direction: column; }
-    .drop-res-link { display: flex; align-items: center; padding: 10px 20px; cursor: pointer; transition: background 0.12s; }
+    /* Resources dropdown — 2컬럼 구조 (Figma 확인) */
+    #drop-resources { width: 532px; padding: 16px; }
+    .drop-resources-grid { display: flex; gap: 4px; }
+    .drop-res-col { flex: 0 0 248px; display: flex; flex-direction: column; gap: 4px; }
+    .drop-res-col-right { flex: 0 0 248px; display: flex; flex-direction: column; gap: 24px; }
+    .drop-res-group { display: flex; flex-direction: column; gap: 4px; }
+    .drop-res-header {
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 12px; font-weight: 500;
+      color: #8C867E; letter-spacing: 0.24px;
+      padding: 0 12px 4px;
+    }
+    .drop-res-link {
+      display: flex; align-items: center;
+      padding: 10px 12px; border-radius: 8px;
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 16px; font-weight: 500;
+      color: var(--text); letter-spacing: -0.02em;
+      cursor: pointer; transition: background 0.12s;
+      text-decoration: none; white-space: nowrap;
+    }
     .drop-res-link:hover { background: var(--bg-subtle); }
-    .drop-res-label { font-size: 16px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; }
 
     /* ── Capabilities Mega Menu ── */
     .gnb-drop {
@@ -436,15 +453,28 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
             </span>
-            <div class="gnb-drop-panel" id="drop-resources" style="min-width:260px;padding:10px 0;">
-              <div class="drop-resources-list">
-                <a class="drop-res-link" href="#"><span class="drop-res-label">Customer stories</span></a>
-                <a class="drop-res-link" href="#"><span class="drop-res-label">Ebooks & guides</span></a>
-                <a class="drop-res-link" href="#"><span class="drop-res-label">Webinars & podcasts</span></a>
-                <a class="drop-res-link" href="#"><span class="drop-res-label">ROI Calculator</span></a>
-                <a class="drop-res-link" href="#"><span class="drop-res-label">Delight AI Perspectives</span></a>
-                <a class="drop-res-link" href="#"><span class="drop-res-label">Documentation</span></a>
-                <a class="drop-res-link" href="#"><span class="drop-res-label">Community</span></a>
+            <div class="gnb-drop-panel" id="drop-resources">
+              <div class="drop-resources-grid">
+                <!-- Left col: Learning -->
+                <div class="drop-res-col">
+                  <div class="drop-res-header">Learning</div>
+                  <a class="drop-res-link" href="#">eBooks &amp; webinars</a>
+                  <a class="drop-res-link" href="#">AI Learning Center</a>
+                  <a class="drop-res-link" href="#">Security</a>
+                </div>
+                <!-- Right col: Insights + Tools -->
+                <div class="drop-res-col-right">
+                  <div class="drop-res-group">
+                    <div class="drop-res-header">Insights</div>
+                    <a class="drop-res-link" href="#">Blog</a>
+                    <a class="drop-res-link" href="#">Delight AI Perspectives</a>
+                  </div>
+                  <div class="drop-res-group">
+                    <div class="drop-res-header">Tools</div>
+                    <a class="drop-res-link" href="#">AI Readiness Assessment</a>
+                    <a class="drop-res-link" href="#">ROI Calculator</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
