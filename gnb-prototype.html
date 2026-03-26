@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>GNB Prototype — delight.ai</title>
+  <style>
+    :root {
+      --bg:           #FFFFFF;
+      --bg-subtle:    #F7F5F0;
+      --surface:      #FFFFFF;
+      --border:       #E5E3DF;
+      --border-light: #EAE6DF;
+      --text:         #292016;
+      --text-muted:   #736E68;
+      --text-dim:     #8C867E;
+    }
+    *, *::before, *::after { box-sizing: border-box; padding: 0; margin: 0; }
+    html { color-scheme: light; }
+    html, body { overflow-x: hidden; }
+    body {
+      font-family: 'Helvetica Now Text', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    @font-face { font-family: 'Helvetica Now Text'; src: url('delight-web/public/fonts/HelveticaNowText.otf'); font-weight: 400; }
+    @font-face { font-family: 'Helvetica Now Text'; src: url('delight-web/public/fonts/HelveticaNowTextMedium.otf'); font-weight: 500; }
+
+    /* ── GNB Shell ── */
+    .gnb-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
+    .gnb-spacer { height: 72px; }
+
+    .gnb {
+      width: 100%; height: 72px;
+      background: var(--bg);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+      position: relative;
+    }
+    .gnb.scrolled { border-color: var(--border); }
+
+    .gnb-inner {
+      width: 100%; max-width: 1616px;
+      margin: 0 auto; padding: 0 32px;
+      height: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* ── Left ── */
+    .gnb-left { display: flex; align-items: center; gap: 48px; height: 100%; }
+
+    /* Logo switcher */
+    .gnb-logo-switcher {
+      position: relative;
+      width: 74px; height: 50px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg-subtle);
+      display: flex; align-items: center;
+      padding: 8px 8px 8px 12px; gap: 4px;
+      cursor: pointer; flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .gnb-logo-switcher:hover,
+    .gnb-logo-switcher.active { background: #EDEAE4; }
+
+    /* Covert Popover — card style */
+    .gnb-covert-pop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: 280px;
+      padding: 16px;
+      flex-direction: column;
+      gap: 4px;
+      background: #FFFFFF;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.10);
+      z-index: 200;
+      animation: dropFadeIn 0.15s ease;
+    }
+    .gnb-covert-pop.open { display: flex; }
+    .gnb-covert-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 8px;
+      cursor: pointer; transition: background 0.12s;
+    }
+    .gnb-covert-item:hover { background: var(--bg-subtle); }
+    /* active item: 기본 bg 표시 */
+    .gnb-covert-item-active { background: var(--bg-subtle); }
+    /* 다른 item hover 시 active bg 해제 → 한 번에 하나만 bg 표시 */
+    .gnb-covert-pop:has(.gnb-covert-item:hover) .gnb-covert-item-active:not(:hover) {
+      background: transparent;
+    }
+    .gnb-covert-thumb { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+    /* icon-wrap: white + border → active bg와 시각적으로 구분 */
+    .gnb-covert-icon-wrap {
+      width: 42px; height: 42px; border-radius: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .gnb-covert-label {
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 20px; font-weight: 500;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+
+    /* Menu */
+    .gnb-menu { display: flex; align-items: stretch; gap: 24px; height: 72px; }
+
+    .gnb-menu-item {
+      font-size: 16px; font-weight: 500;
+      color: var(--text); letter-spacing: -0.02em;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 4px;
+      padding: 0 8px;   /* ← 피그마 기준 8px */
+      white-space: nowrap; position: relative; height: 72px;
+      transition: background 0.12s; user-select: none;
+    }
+    .gnb-menu-item:hover { background: var(--bg-subtle); }
+    .gnb-menu-item.active { background: transparent !important; }
+    .gnb-menu-item.active::after {
+      content: ''; position: absolute; bottom: 0; left: 8px; right: 8px;
+      height: 2px; background: var(--text); border-radius: 1px;
+    }
+
+    .gnb-item-wrap { position: relative; display: flex; align-items: center; }
+
+    .gnb-chevron { display: flex; align-items: center; color: var(--text-muted); transition: transform 0.2s ease; }
+    .gnb-chevron.open { transform: rotate(180deg); }
+
+    /* ── Right ── */
+    .gnb-right { display: flex; align-items: center; gap: 24px; /* ← 피그마 기준 24px */ }
+    .gnb-utility { display: flex; align-items: center; gap: 8px; }
+
+    .gnb-lang {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 16px; font-weight: 500; color: var(--text);
+      cursor: pointer; padding: 6px 8px; border-radius: 6px;
+      white-space: nowrap; transition: background 0.12s; position: relative; user-select: none;
+    }
+    .gnb-lang:hover, .gnb-lang.active { background: var(--bg-subtle); }
+
+    .gnb-login {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 16px; font-weight: 500; color: var(--text);
+      cursor: pointer; padding: 6px 10px; border-radius: 6px;
+      white-space: nowrap; transition: background 0.12s; user-select: none;
+    }
+    .gnb-login:hover { background: var(--bg-subtle); }
+
+    .gnb-cta {
+      height: 42px; padding: 0 20px; min-width: 139px;
+      background: #000; color: #fff; border-radius: 8px; border: none;
+      font-size: 16px; font-weight: 500; letter-spacing: -0.02em;
+      cursor: pointer; transition: background 0.15s; white-space: nowrap;
+    }
+    .gnb-cta:hover { background: #1A1612; }
+
+    .gnb-hamburger {
+      display: none; width: 32px; height: 32px;
+      align-items: center; justify-content: center;
+      cursor: pointer; border: none; background: none; padding: 0;
+    }
+
+    /* ── Animations ── */
+    @keyframes dropFadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Popover ── */
+    .gnb-drop-pop {
+      display: none; position: absolute; top: calc(100% + 8px);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.10);
+      z-index: 200; overflow: hidden; min-width: 180px;
+    }
+    .gnb-drop-pop.open { display: block; animation: dropFadeIn 0.15s ease; }
+
+    .gnb-drop-pop-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 16px;
+      font-size: 15px; font-weight: 400; color: var(--text);
+      cursor: pointer; transition: background 0.12s; white-space: nowrap;
+    }
+    .gnb-drop-pop-item:hover { background: var(--bg-subtle); }
+    .gnb-drop-pop-item.selected { font-weight: 500; }
+    .drop-check { margin-left: auto; color: var(--text-muted); font-size: 13px; }
+
+    /* ── Panel (Solutions / Resources) ── */
+    .gnb-drop-panel {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: var(--bg);
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.13);
+      border: 1px solid rgba(0,0,0,.06); border-top: none;
+      z-index: 200; overflow: hidden;
+    }
+    .gnb-drop-panel.open { display: block; animation: dropFadeIn 0.18s ease; }
+
+    #drop-solutions { min-width: 500px; padding: 20px 0 16px; }
+    .drop-solutions-layout { display: flex; }
+    .drop-solutions-col { flex: 1; padding: 0 4px; }
+    .drop-solutions-col + .drop-solutions-col { border-left: 1px solid var(--border); }
+    .drop-solutions-label {
+      font-size: 11px; font-weight: 500; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 0 16px; margin-bottom: 8px; display: block;
+    }
+    .drop-sol-link {
+      display: block; padding: 9px 16px;
+      font-size: 16px; font-weight: 500; color: var(--text);
+      letter-spacing: -0.02em; transition: background 0.12s;
+    }
+    .drop-sol-link:hover { background: var(--bg-subtle); }
+
+    #drop-resources { min-width: 260px; padding: 10px 0; }
+    .drop-resources-list { display: flex; flex-direction: column; }
+    .drop-res-link { display: flex; align-items: center; padding: 10px 20px; cursor: pointer; transition: background 0.12s; }
+    .drop-res-link:hover { background: var(--bg-subtle); }
+    .drop-res-label { font-size: 16px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; }
+
+    /* ── Capabilities Mega Menu ── */
+    .gnb-drop {
+      display: none; position: absolute; top: 72px;
+      background: var(--bg);
+      box-shadow: 0 4px 16px rgba(0,0,0,.10);
+      z-index: 198; border-radius: 0 0 16px 16px; overflow: hidden;
+      width: 1265px;
+    }
+    .gnb-drop.open { display: block; animation: dropFadeIn 0.18s ease; }
+
+    .drop-products-grid {
+      display: flex;
+      background: rgb(227,229,244); /* 1px gap 구분선 역할 */
+      gap: 1px; min-height: 360px;
+    }
+
+    .drop-col {
+      flex: 0 0 300px; background: var(--bg);
+      padding: 16px; display: flex; flex-direction: column;
+    }
+    .drop-col-2 { padding-top: 37px; }
+
+    .drop-col-header {
+      font-size: 12px; font-weight: 500;
+      color: rgb(140,134,126); letter-spacing: -0.02em;
+      padding: 4px 0 8px 12px;
+    }
+
+    .drop-link {
+      display: flex; flex-direction: column; gap: 0;
+      padding: 12px; border-radius: 8px;
+      cursor: pointer; transition: background 0.12s;
+      text-decoration: none; color: inherit;
+    }
+    .drop-link:hover { background: var(--bg-subtle); }
+    .drop-link.highlight { background: var(--bg-subtle); }
+
+    .drop-link-title { font-size: 16px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; }
+    .drop-link-desc  { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.4; margin-top: 2px; }
+
+    .drop-right { flex: 1; background: var(--bg); display: flex; flex-direction: column; }
+    .drop-right-top { flex: 1; display: flex; padding: 16px; gap: 16px; }
+
+    .drop-promo-card {
+      flex: 1; display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+      cursor: pointer; border-radius: 10px; overflow: hidden; transition: opacity 0.15s;
+    }
+    .drop-promo-card:hover { opacity: 0.85; }
+
+    .drop-promo-eyebrow { font-size: 12px; font-weight: 500; color: rgb(140,134,126); padding: 0 0 8px; }
+    .drop-promo-img {
+      width: 100%; height: 148px;
+      border-radius: 8px; background: var(--border-light);
+      margin-bottom: 10px; flex-shrink: 0;
+      background-size: cover; background-position: center;
+    }
+    .drop-promo-title { font-size: 16px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 4px; }
+    .drop-promo-desc  { font-size: 13px; font-weight: 400; color: var(--text-muted); line-height: 1.4; }
+
+    .drop-right-bottom {
+      padding: 6px 16px 8px;
+      display: flex; align-items: center; gap: 24px; /* ← 피그마 24px */
+      border-top: 1px solid var(--border-light);
+      height: 79px; flex-shrink: 0;
+    }
+    .drop-int-label { font-size: 12px; font-weight: 500; color: rgb(140,134,126); white-space: nowrap; flex-shrink: 0; }
+
+    /* ← 단일 컨테이너 border (피그마 구조) */
+    .drop-int-logos {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 2px 16px;
+    }
+    .drop-int-icon {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; cursor: pointer; transition: opacity 0.12s;
+    }
+    .drop-int-icon:hover { opacity: 0.7; }
+    .drop-int-icon img { width: 28px; height: 28px; object-fit: contain; }
+
+    /* ── Mobile ── */
+    @media (max-width: 900px) {
+      .gnb-menu, .gnb-utility { display: none; }
+      .gnb-hamburger { display: flex; }
+      .gnb-cta { padding: 0 12px; min-width: auto; font-size: 14px; }
+      .gnb-left { gap: 16px; }
+    }
+
+    /* ── Demo body ── */
+    .demo-body { padding: 64px; max-width: 900px; margin: 0 auto; }
+    .demo-label { font-size: 11px; font-weight: 500; color: var(--text-dim); text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .demo-hint { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 48px; }
+    .demo-hint code { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 12px; font-family: 'Helvetica Now Text', sans-serif; color: var(--text); }
+    .diff-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 32px; }
+    .diff-table th { text-align: left; padding: 8px 12px; background: var(--bg-subtle); color: var(--text-dim); font-weight: 500; text-transform: uppercase; letter-spacing: -0.02em; font-size: 11px; border-bottom: 1px solid var(--border); }
+    .diff-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+    .diff-table td:first-child { color: var(--text); font-weight: 500; }
+    .badge-fix { display: inline-block; background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text-muted); font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+    /* Scroll demo */
+    .scroll-demo-intro { max-width: 900px; margin: 0 auto; padding: 0 64px; }
+    .scroll-demo-divider { height: 1px; background: var(--border); margin: 64px 0 48px; }
+    .scroll-demo-label { font-size: 11px; font-weight: 500; color: var(--text-dim); letter-spacing: -0.02em; text-transform: uppercase; margin-bottom: 24px; }
+    .scroll-demo-hint { font-size: 16px; color: var(--text-muted); line-height: 1.7; letter-spacing: -0.02em; }
+    .scroll-demo-zone { height: 800px; background: linear-gradient(to bottom, var(--bg) 0%, var(--bg-subtle) 100%); display: flex; align-items: center; justify-content: center; }
+    .scroll-demo-zone-text { font-size: 22px; font-weight: 500; color: var(--text-dim); letter-spacing: -0.02em; }
+  </style>
+</head>
+<body>
+
+<!-- ── GNB ── -->
+<div class="gnb-wrap">
+  <header class="gnb" id="gnb">
+    <div class="gnb-inner">
+
+      <!-- Left -->
+      <div class="gnb-left">
+
+        <!-- Logo Switcher -->
+        <div class="gnb-item-wrap" id="wrap-covert">
+          <div class="gnb-logo-switcher" id="trigger-covert">
+            <!-- delight.ai spark (32×32) -->
+            <svg width="32" height="32" viewBox="0 0 22 22" fill="none">
+              <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="black"/>
+              <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="black"/>
+            </svg>
+            <span class="gnb-chevron" id="chev-covert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <!-- Covert Popover — card style -->
+          <div class="gnb-covert-pop" id="pop-covert">
+            <!-- delight.ai (active) -->
+            <div class="gnb-covert-item gnb-covert-item-active">
+              <img src="https://www.figma.com/api/mcp/asset/b54c8e90-e523-4907-b509-9bcd39f756e0" alt="delight.ai" class="gnb-covert-thumb" />
+              <span class="gnb-covert-label">delight.ai</span>
+            </div>
+            <!-- Sendbird -->
+            <div class="gnb-covert-item">
+              <div class="gnb-covert-icon-wrap">
+                <img src="https://www.figma.com/api/mcp/asset/382df1bb-5b1e-4ed0-8b38-9c76365608d6" alt="Sendbird" width="22" height="22" />
+              </div>
+              <span class="gnb-covert-label">sendbird</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nav -->
+        <nav class="gnb-menu">
+
+          <!-- Capabilities -->
+          <span class="gnb-menu-item" id="trigger-capabilities">
+            Capabilities
+            <span class="gnb-chevron" id="chev-capabilities">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </span>
+
+          <!-- Solutions -->
+          <div class="gnb-item-wrap" id="wrap-solutions">
+            <span class="gnb-menu-item" id="trigger-solutions">
+              Solutions
+              <span class="gnb-chevron" id="chev-solutions">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </span>
+            <div class="gnb-drop-panel" id="drop-solutions">
+              <div class="drop-solutions-layout">
+                <div class="drop-solutions-col">
+                  <span class="drop-solutions-label">Industries</span>
+                  <a class="drop-sol-link" href="#">Retail</a>
+                  <a class="drop-sol-link" href="#">B2B</a>
+                  <a class="drop-sol-link" href="#">On-demand</a>
+                  <a class="drop-sol-link" href="#">Travel & hospitality</a>
+                </div>
+                <div class="drop-solutions-col">
+                  <span class="drop-solutions-label">Use Cases</span>
+                  <a class="drop-sol-link" href="#">Customer service</a>
+                  <a class="drop-sol-link" href="#">Enterprise</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resources -->
+          <div class="gnb-item-wrap" id="wrap-resources">
+            <span class="gnb-menu-item" id="trigger-resources">
+              Resources
+              <span class="gnb-chevron" id="chev-resources">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </span>
+            <div class="gnb-drop-panel" id="drop-resources" style="min-width:260px;padding:10px 0;">
+              <div class="drop-resources-list">
+                <a class="drop-res-link" href="#"><span class="drop-res-label">Customer stories</span></a>
+                <a class="drop-res-link" href="#"><span class="drop-res-label">Ebooks & guides</span></a>
+                <a class="drop-res-link" href="#"><span class="drop-res-label">Webinars & podcasts</span></a>
+                <a class="drop-res-link" href="#"><span class="drop-res-label">ROI Calculator</span></a>
+                <a class="drop-res-link" href="#"><span class="drop-res-label">Delight AI Perspectives</span></a>
+                <a class="drop-res-link" href="#"><span class="drop-res-label">Documentation</span></a>
+                <a class="drop-res-link" href="#"><span class="drop-res-label">Community</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customers -->
+          <span class="gnb-menu-item" id="trigger-customers">Customers</span>
+
+        </nav>
+      </div>
+
+      <!-- Right -->
+      <div class="gnb-right">
+        <div class="gnb-utility">
+
+          <!-- Lang -->
+          <div class="gnb-item-wrap" id="wrap-lang">
+            <span class="gnb-lang" id="trigger-lang">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11.9902 2.09961C17.465 2.09974 21.9004 6.53537 21.9004 12C21.9004 17.4646 17.465 21.9003 11.9902 21.9004C6.52559 21.9004 2.09961 17.4649 2.09961 12C2.09961 6.5351 6.52559 2.09961 11.9902 2.09961ZM9.99414 16.0283C10.4272 17.4686 11.0822 18.8083 11.918 20.0166L12 20.1357L12.082 20.0166C12.9178 18.8083 13.5728 17.4686 14.0059 16.0283L14.0449 15.9004H9.95508L9.99414 16.0283ZM4.99316 16.0498C5.96517 17.7306 7.51493 19.0164 9.37793 19.6543L9.61914 19.7373L9.49805 19.5127C8.90226 18.4105 8.44506 17.2181 8.12695 15.9756L8.10742 15.9004H4.90625L4.99316 16.0498ZM15.873 15.9756C15.5549 17.2181 15.0977 18.4105 14.502 19.5127L14.3809 19.7373L14.6221 19.6543C16.4853 19.0163 18.035 17.7202 19.0068 16.0498L19.0938 15.9004H15.8926L15.873 15.9756ZM4.16309 9.97559C4.0015 10.6219 3.90039 11.3003 3.90039 12C3.90039 12.6997 4.0015 13.3781 4.16309 14.0244L4.18164 14.0996H7.75293L7.73926 13.9883C7.65948 13.3301 7.59961 12.6743 7.59961 12C7.59961 11.3257 7.65948 10.6699 7.73926 10.0117L7.75293 9.90039H4.18164L4.16309 9.97559ZM9.56055 9.98633C9.47028 10.6383 9.40039 11.3134 9.40039 12C9.40039 12.6867 9.47032 13.352 9.56055 14.0137L9.57227 14.0996H14.4277L14.4395 14.0137C14.5297 13.352 14.5996 12.6867 14.5996 12C14.5996 11.3134 14.5297 10.6383 14.4395 9.98633L14.4268 9.90039H9.57324L9.56055 9.98633ZM16.2607 10.0117C16.3405 10.6699 16.4004 11.3257 16.4004 12C16.4004 12.6743 16.3405 13.3301 16.2607 13.9883L16.2471 14.0996H19.8184L19.8369 14.0244C19.9985 13.3781 20.0996 12.6997 20.0996 12C20.0996 11.3003 19.9985 10.6219 19.8369 9.97559L19.8184 9.90039H16.2471L16.2607 10.0117ZM9.37793 4.3457C7.51493 4.98358 5.96517 6.26944 4.99316 7.9502L4.90625 8.09961H8.10742L8.12695 8.02441C8.44506 6.78191 8.90226 5.58951 9.49805 4.4873L9.61914 4.2627L9.37793 4.3457ZM11.918 3.9834C11.0822 5.19174 10.4272 6.53143 9.99414 7.97168L9.95508 8.09961H14.0449L14.0059 7.97168C13.5728 6.53143 12.9178 5.19174 12.082 3.9834L12 3.86426L11.918 3.9834ZM14.502 4.4873C15.0977 5.58951 15.5549 6.78191 15.873 8.02441L15.8926 8.09961H19.0938L19.0068 7.9502C18.035 6.27983 16.4853 4.98366 14.6221 4.3457L14.3809 4.2627L14.502 4.4873Z" fill="#1A1612"/></svg>
+              EN
+              <span class="gnb-chevron" id="chev-lang">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </span>
+            <div class="gnb-drop-pop" id="pop-lang" style="right:0;left:auto;">
+              <div class="gnb-drop-pop-item selected">EN — English <span class="drop-check">✓</span></div>
+              <div class="gnb-drop-pop-item">KO — 한국어 <span class="drop-check"></span></div>
+            </div>
+          </div>
+
+          <!-- Log in -->
+          <span class="gnb-login">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><mask id="m1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#D9D9D9"/></mask><g mask="url(#m1)"><circle cx="12" cy="7.5" r="4.5" stroke="#1A1612" stroke-width="2"/><path d="M12 12C7.33285 12 3.49543 15.9473 3.04434 21.0011C2.99524 21.5512 3.44772 22 4 22H20C20.5523 22 21.0048 21.5512 20.9557 21.0011C20.5046 15.9473 16.6672 12 12 12Z" stroke="#1A1612" stroke-width="2"/></g></svg>
+            Log in
+          </span>
+
+        </div>
+
+        <button class="gnb-cta">Contact sales</button>
+
+        <button class="gnb-hamburger" aria-label="Open menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="#1A1612" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Capabilities Mega Menu ── -->
+    <div class="gnb-drop" id="drop-capabilities">
+      <div class="drop-products-grid">
+
+        <!-- Col 1 — Product overview (3 items) -->
+        <div class="drop-col">
+          <div class="drop-col-header">Product overview</div>
+          <a class="drop-link" href="#">
+            <span class="drop-link-title">Agent memory platform</span>
+            <span class="drop-link-desc">A living memory of each customer</span>
+          </a>
+          <a class="drop-link" href="#">
+            <span class="drop-link-title">Omnipresent</span>
+            <span class="drop-link-desc">Proactive, omnichannel AI</span>
+          </a>
+          <!-- Trust OS: highlight (피그마 active bg) -->
+          <a class="drop-link highlight" href="#">
+            <span class="drop-link-title">Trust OS</span>
+            <span class="drop-link-desc">The foundation for responsible AI</span>
+          </a>
+        </div>
+
+        <!-- Col 2 (padding-top: 37px, no header) -->
+        <div class="drop-col drop-col-2">
+          <a class="drop-link" href="#">
+            <span class="drop-link-title">For you conversations</span>
+            <span class="drop-link-desc">Make every interaction feel personal</span>
+          </a>
+          <a class="drop-link" href="#">
+            <span class="drop-link-title">Voice AI agent</span>
+            <span class="drop-link-desc">Fast, human-like voice support</span>
+          </a>
+          <a class="drop-link" href="#">
+            <span class="drop-link-title">AI Copilot</span>
+            <span class="drop-link-desc">Your AI partner for faster support</span>
+          </a>
+        </div>
+
+        <!-- Right promo -->
+        <div class="drop-right">
+          <div class="drop-right-top">
+            <!-- What's new -->
+            <a class="drop-promo-card" href="#">
+              <div class="drop-promo-eyebrow">What's new</div>
+              <div class="drop-promo-img"></div>
+              <div class="drop-promo-title">Product releases</div>
+              <div class="drop-promo-desc">Catch up on the latest updates from Delight.</div>
+            </a>
+            <!-- Delight Spark 2026 — Figma 에셋 이미지 -->
+            <a class="drop-promo-card" href="#">
+              <div class="drop-promo-eyebrow">Event</div>
+              <div class="drop-promo-img" style="background-image:url('https://www.figma.com/api/mcp/asset/65fdd80b-27d1-4d9a-b878-de23bdfe8384');background-size:cover;background-position:center;"></div>
+              <div class="drop-promo-title">Delight Spark 2026</div>
+              <div class="drop-promo-desc">AI will finish what it starts on May 7, 2026</div>
+            </a>
+          </div>
+          <!-- Integrations — 단일 컨테이너 border -->
+          <div class="drop-right-bottom">
+            <span class="drop-int-label">Integrations</span>
+            <div class="drop-int-logos">
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/b1a85ea4-6ca2-4eeb-9364-898ddd647fdf" alt="Salesforce"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/f28801bc-f040-424f-a256-a7ab795a6fcd" alt="Zendesk"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/7ac50c18-3e28-4311-853f-e5d1dbfffc09" alt="Freshworks"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/f8b0cae7-f421-4560-991c-2855eb50b085" alt="Sprinklr"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/02a48095-9bc9-461d-b5a1-43e4a2f8b140" alt="Confluence"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/033d1feb-9450-44ce-90eb-38286adc07f7" alt="Google Drive"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/bfb62e83-7840-44cc-b31d-c8dbae177910" alt="Notion"></div>
+              <div class="drop-int-icon"><img src="https://www.figma.com/api/mcp/asset/68bb1217-3be5-4db5-baf6-e9d8b44d3942" alt="Intercom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </header>
+</div>
+<div class="gnb-spacer"></div>
+
+<!-- ── Demo body ── -->
+<div class="demo-body">
+  <p class="demo-label">GNB Prototype v2 · delight.ai · 피그마 원본 기준 업데이트</p>
+  <p class="demo-hint">
+    <code>Capabilities</code> hover → 메가메뉴 &nbsp;·&nbsp;
+    <code>Solutions / Resources</code> hover → 패널 &nbsp;·&nbsp;
+    로고 / <code>EN</code> hover → 팝오버
+  </p>
+
+  <table class="diff-table">
+    <thead>
+      <tr><th>항목</th><th>변경 내용</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>로고 크기</td><td><span class="badge-fix">수정</span> 22×22 → 32×32</td></tr>
+      <tr><td>GNB Right gap</td><td><span class="badge-fix">수정</span> 16px → 24px</td></tr>
+      <tr><td>메뉴 아이템 padding</td><td><span class="badge-fix">수정</span> 0 12px → 0 8px</td></tr>
+      <tr><td>Capabilities Col1</td><td><span class="badge-fix">수정</span> 4개 → 3개 (Agent Memory · Omnipresent · Trust OS)</td></tr>
+      <tr><td>Trust OS 배경</td><td><span class="badge-fix">수정</span> highlight bg (#F7F5F0) 적용</td></tr>
+      <tr><td>링크 설명 텍스트</td><td><span class="badge-fix">수정</span> 피그마 원문으로 정확히 맞춤</td></tr>
+      <tr><td>이벤트 카드 이미지</td><td><span class="badge-fix">수정</span> 피그마 Delight Spark 2026 실제 이미지</td></tr>
+      <tr><td>이벤트 날짜 텍스트</td><td><span class="badge-fix">수정</span> "AI will finish what it starts on May 7, 2026"</td></tr>
+      <tr><td>인테그레이션 아이콘</td><td><span class="badge-fix">수정</span> 텍스트 약어 → 실제 로고 이미지 (Salesforce·Zendesk·Freshworks·Sprinklr·Confluence·Google Drive·Notion·Intercom)</td></tr>
+      <tr><td>인테그레이션 레이아웃</td><td><span class="badge-fix">수정</span> 개별 border → 단일 컨테이너 border</td></tr>
+      <tr><td>Covert 팝오버</td><td><span class="badge-fix">수정</span> 텍스트 리스트 → 카드 스타일 (42×42 썸네일 + 20px 텍스트, 280px, 그림자만)</td></tr>
+      <tr><td>Covert 호버</td><td><span class="badge-fix">수정</span> active item 호버 억제 + icon-wrap white/border로 active bg와 구분</td></tr>
+      <tr><td>스크롤 인터랙션</td><td><span class="badge-fix">수정</span> 스크롤 20px 이상 시 드롭다운 close + border 전환</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── Scroll demo zone ── -->
+<div class="scroll-demo-intro">
+  <div class="scroll-demo-divider"></div>
+  <p class="scroll-demo-label">스크롤 시연 영역</p>
+  <p class="scroll-demo-hint">
+    아래로 스크롤하면 GNB 하단에 구분선이 나타납니다.
+    드롭다운이 열린 상태에서 20px 이상 스크롤하면 자동으로 닫힙니다.
+  </p>
+</div>
+<div class="scroll-demo-zone">
+  <p class="scroll-demo-zone-text">↑ GNB 상단으로 스크롤하면 구분선 사라짐</p>
+</div>
+
+<script>
+(function () {
+  const gnb = document.getElementById('gnb');
+  if (!gnb) return;
+  let closeTimer = null;
+  let currentOpen = null;
+
+  function cancelClose() { clearTimeout(closeTimer); }
+  function closeAll() {
+    gnb.querySelectorAll('.gnb-drop.open, .gnb-drop-pop.open, .gnb-drop-panel.open, .gnb-covert-pop.open')
+      .forEach(el => el.classList.remove('open'));
+    gnb.querySelectorAll('.gnb-menu-item.active, .gnb-lang.active, .gnb-logo-switcher.active')
+      .forEach(el => el.classList.remove('active'));
+    gnb.querySelectorAll('.gnb-chevron.open').forEach(el => el.classList.remove('open'));
+    currentOpen = null;
+  }
+  function scheduleClose() { closeTimer = setTimeout(closeAll, 160); }
+
+  function openDrop(triggerEl, dropEl, chevEl) {
+    cancelClose();
+    if (currentOpen === triggerEl) return;
+    closeAll();
+    if (dropEl.id === 'drop-capabilities') {
+      const tr = triggerEl.getBoundingClientRect();
+      const gr = gnb.getBoundingClientRect();
+      dropEl.style.left = (tr.left - gr.left) + 'px';
+    }
+    dropEl.classList.add('open');
+    if (triggerEl) triggerEl.classList.add('active');
+    if (chevEl) chevEl.classList.add('open');
+    currentOpen = triggerEl;
+  }
+
+  // Capabilities
+  const capT = document.getElementById('trigger-capabilities');
+  const capD = document.getElementById('drop-capabilities');
+  const capC = document.getElementById('chev-capabilities');
+  if (capT && capD) {
+    capT.addEventListener('mouseenter', () => openDrop(capT, capD, capC));
+    capT.addEventListener('mouseleave', scheduleClose);
+    capD.addEventListener('mouseenter', cancelClose);
+    capD.addEventListener('mouseleave', scheduleClose);
+  }
+
+  // Solutions
+  const solW = document.getElementById('wrap-solutions');
+  const solT = document.getElementById('trigger-solutions');
+  const solD = document.getElementById('drop-solutions');
+  const solC = document.getElementById('chev-solutions');
+  if (solW && solD) {
+    solW.addEventListener('mouseenter', () => openDrop(solT, solD, solC));
+    solW.addEventListener('mouseleave', scheduleClose);
+  }
+
+  // Resources
+  const resW = document.getElementById('wrap-resources');
+  const resT = document.getElementById('trigger-resources');
+  const resD = document.getElementById('drop-resources');
+  const resC = document.getElementById('chev-resources');
+  if (resW && resD) {
+    resW.addEventListener('mouseenter', () => openDrop(resT, resD, resC));
+    resW.addEventListener('mouseleave', scheduleClose);
+  }
+
+  // Logo Switcher
+  const covW = document.getElementById('wrap-covert');
+  const covT = document.getElementById('trigger-covert');
+  const covD = document.getElementById('pop-covert');
+  const covC = document.getElementById('chev-covert');
+  if (covW && covD) {
+    covW.addEventListener('mouseenter', () => openDrop(covT, covD, covC));
+    covW.addEventListener('mouseleave', scheduleClose);
+  }
+
+  // Lang
+  const langW = document.getElementById('wrap-lang');
+  const langT = document.getElementById('trigger-lang');
+  const langD = document.getElementById('pop-lang');
+  const langC = document.getElementById('chev-lang');
+  if (langW && langD) {
+    langW.addEventListener('mouseenter', () => openDrop(langT, langD, langC));
+    langW.addEventListener('mouseleave', scheduleClose);
+  }
+
+  // Customers (hover underline only)
+  ['trigger-customers'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('mouseenter', () => { cancelClose(); closeAll(); el.classList.add('active'); });
+    el.addEventListener('mouseleave', () => { closeTimer = setTimeout(() => el.classList.remove('active'), 160); });
+  });
+
+  document.addEventListener('click', e => { if (!gnb.contains(e.target)) closeAll(); });
+
+  // Scroll: border 전환 + 드롭다운 close (20px 이상 스크롤 시)
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    gnb.classList.toggle('scrolled', y > 10);
+    if (Math.abs(y - lastScrollY) > 20) { closeAll(); }
+    lastScrollY = y;
+  }, { passive: true });
+  gnb.classList.toggle('scrolled', window.scrollY > 10);
+})();
+</script>
+</body>
+</html>
