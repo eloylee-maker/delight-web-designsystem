@@ -695,15 +695,19 @@
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       margin-top: 1px; transition: background 0.15s, border-color 0.15s;
+      position: relative;
     }
-    .checkbox-box.checked { background: #000000; border-color: #000000; }
-    .checkbox-box.checked::after {
+    /* Default: faint gray checkmark always visible */
+    .checkbox-box::after {
       content: '';
       display: block; width: 5px; height: 9px;
-      border: 2px solid #FFFFFF;
+      border: 1.5px solid var(--disabled);
       border-top: none; border-left: none;
       transform: rotate(45deg) translateY(-1px);
     }
+    /* Selected: black fill + white checkmark */
+    .checkbox-box.checked { background: #000000; border-color: #000000; }
+    .checkbox-box.checked::after { border-color: #FFFFFF; border-width: 2px; }
     .checkbox-text { font-size: 14px; color: var(--text); line-height: 1.5; }
 
     .radio-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -714,14 +718,17 @@
       background: var(--surface);
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.15s;
+      transition: background 0.15s, border-color 0.15s;
     }
-    .radio-box.checked { border-color: #000000; }
-    .radio-box.checked::after {
+    /* Default: faint gray center dot always visible */
+    .radio-box::after {
       content: ''; display: block;
-      width: 8px; height: 8px;
-      border-radius: 50%; background: #000000;
+      width: 6px; height: 6px;
+      border-radius: 50%; background: var(--disabled);
     }
+    /* Selected: black fill + white center dot */
+    .radio-box.checked { background: #000000; border-color: #000000; }
+    .radio-box.checked::after { background: #FFFFFF; }
 
     /* ============================================================
        PAGINATION
@@ -1335,101 +1342,149 @@
           </div>
         </div>
 
-        <!-- Type scale -->
-        <table class="type-table">
-          <thead>
-            <tr>
-              <th style="width:60px;">Level</th>
-              <th style="width:120px;">Font</th>
-              <th style="width:80px;">Weight</th>
-              <th style="width:80px;">PC Size</th>
-              <th style="width:80px;">Mobile</th>
-              <th>Sample</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="type-tag">H1</span></td>
-              <td class="type-meta">Serrif</td>
-              <td class="type-meta">500</td>
-              <td class="type-meta">72px</td>
-              <td class="type-meta">40px</td>
-              <td><span class="type-sample" style="font-family:'Serrif',serif;font-size:clamp(32px,3.75vw,56px);font-weight:500;line-height:1.08;">Enterprise AI</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">H2</span></td>
-              <td class="type-meta">Serrif</td>
-              <td class="type-meta">500</td>
-              <td class="type-meta">38px</td>
-              <td class="type-meta">32px</td>
-              <td><span class="type-sample" style="font-family:'Serrif',serif;font-size:38px;font-weight:500;line-height:1.2;">Customer experience</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">H3</span></td>
-              <td class="type-meta">Serrif</td>
-              <td class="type-meta">500</td>
-              <td class="type-meta">28px</td>
-              <td class="type-meta">20px</td>
-              <td><span class="type-sample" style="font-family:'Serrif',serif;font-size:28px;font-weight:500;line-height:1.32;">Agent Memory Platform</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">H4</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">500</td>
-              <td class="type-meta">22px</td>
-              <td class="type-meta">18px</td>
-              <td><span class="type-sample" style="font-size:22px;font-weight:500;line-height:1.44;">Omnipresent AI</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">B1</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">400/500</td>
-              <td class="type-meta">20px</td>
-              <td class="type-meta">16px</td>
-              <td><span class="type-sample" style="font-size:20px;font-weight:400;line-height:1.36;color:var(--text-muted);">Build a living memory of every customer interaction.</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">B2</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">400</td>
-              <td class="type-meta">18px</td>
-              <td class="type-meta">15px</td>
-              <td><span class="type-sample" style="font-size:18px;font-weight:400;line-height:1.38;color:var(--text-muted);">Deliver personalized experiences at scale.</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">B3</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">400</td>
-              <td class="type-meta">16px</td>
-              <td class="type-meta">14px</td>
-              <td><span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.4;color:var(--text-muted);">Delight AI makes every touchpoint feel personal.</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">C1</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">400</td>
-              <td class="type-meta">14px</td>
-              <td class="type-meta">13px</td>
-              <td><span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.36;color:var(--text-dim);">Last updated March 2026</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">C2</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">400</td>
-              <td class="type-meta">13px</td>
-              <td class="type-meta">12px</td>
-              <td><span class="type-sample" style="font-size:13px;font-weight:400;line-height:1.38;color:var(--text-dim);">© 2025 Sendbird, Inc.</span></td>
-            </tr>
-            <tr>
-              <td><span class="type-tag">C3</span></td>
-              <td class="type-meta">Helvetica Now Text</td>
-              <td class="type-meta">500</td>
-              <td class="type-meta">12px</td>
-              <td class="type-meta">11px</td>
-              <td><span class="type-sample" style="font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-dim);">AI CAPABILITIES</span></td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Type scale tabs -->
+        <div style="display:flex;gap:8px;margin-bottom:24px;">
+          <button onclick="showTypoTab('pc')" id="typo-tab-pc" style="height:34px;padding:0 16px;border-radius:6px;border:1px solid #000;background:#000;color:#fff;font-family:'Helvetica Now Text',sans-serif;font-size:13px;font-weight:500;letter-spacing:-0.02em;cursor:pointer;">PC Web</button>
+          <button onclick="showTypoTab('mobile')" id="typo-tab-mobile" style="height:34px;padding:0 16px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:'Helvetica Now Text',sans-serif;font-size:13px;font-weight:500;letter-spacing:-0.02em;cursor:pointer;">Mobile</button>
+        </div>
+
+        <!-- PC Typography -->
+        <div id="typo-pc">
+          <!-- PC EN -->
+          <div style="margin-bottom:32px;">
+            <div style="font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">EN — Serrif / Helvetica Now Text</div>
+            <table class="type-table">
+              <thead>
+                <tr>
+                  <th style="width:56px;">Level</th>
+                  <th style="width:150px;">Font</th>
+                  <th style="width:70px;">Weight</th>
+                  <th style="width:64px;">Size</th>
+                  <th style="width:64px;">LH</th>
+                  <th>Sample</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="type-tag">H1</span></td><td class="type-meta">Serrif</td><td class="type-meta">M 500</td><td class="type-meta">72px</td><td class="type-meta">108%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:clamp(28px,3.75vw,52px);font-weight:500;line-height:1.08;">Enterprise AI</span></td></tr>
+                <tr><td rowspan="2"><span class="type-tag">H2</span></td><td class="type-meta">Serrif</td><td class="type-meta">M / R</td><td class="type-meta">38px</td><td class="type-meta">120%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:38px;font-weight:500;line-height:1.2;">Customer experience</span></td></tr>
+                <tr><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">38px</td><td class="type-meta">120%</td><td><span class="type-sample" style="font-family:'Helvetica Now Text',sans-serif;font-size:38px;font-weight:500;line-height:1.2;">Customer experience</span></td></tr>
+                <tr><td rowspan="2"><span class="type-tag">H3</span></td><td class="type-meta">Serrif</td><td class="type-meta">M / R</td><td class="type-meta">28px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:28px;font-weight:500;line-height:1.32;">Agent Memory Platform</span></td></tr>
+                <tr><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">28px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-family:'Helvetica Now Text',sans-serif;font-size:28px;font-weight:500;line-height:1.32;">Agent Memory Platform</span></td></tr>
+                <tr><td><span class="type-tag">H4</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">22px</td><td class="type-meta">144%</td><td><span class="type-sample" style="font-size:22px;font-weight:500;line-height:1.44;">Omnipresent AI</span></td></tr>
+                <tr><td><span class="type-tag">B1</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">20px</td><td class="type-meta">136%</td><td><span class="type-sample" style="font-size:20px;font-weight:400;line-height:1.36;color:var(--text-muted);">Build a living memory of every customer interaction.</span></td></tr>
+                <tr><td><span class="type-tag">B2</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">18px</td><td class="type-meta">138%</td><td><span class="type-sample" style="font-size:18px;font-weight:400;line-height:1.38;color:var(--text-muted);">Deliver personalized experiences at scale.</span></td></tr>
+                <tr><td><span class="type-tag">B3</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">16px</td><td class="type-meta">140%</td><td><span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.4;color:var(--text-muted);">Delight AI makes every touchpoint feel personal.</span></td></tr>
+                <tr><td><span class="type-tag">C1</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">14px</td><td class="type-meta">136%</td><td><span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.36;color:var(--text-dim);">Last updated March 2026</span></td></tr>
+                <tr><td><span class="type-tag">C2</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">13px</td><td class="type-meta">138%</td><td><span class="type-sample" style="font-size:13px;font-weight:400;line-height:1.38;color:var(--text-dim);">© 2025 Sendbird, Inc.</span></td></tr>
+                <tr><td><span class="type-tag">C3</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">12px</td><td class="type-meta">140%</td><td><span class="type-sample" style="font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-dim);">AI CAPABILITIES</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- PC KO -->
+          <div>
+            <div style="font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">KO — Pretendard</div>
+            <table class="type-table">
+              <thead>
+                <tr>
+                  <th style="width:56px;">Level</th>
+                  <th style="width:150px;">Font</th>
+                  <th style="width:70px;">Weight</th>
+                  <th style="width:64px;">Size</th>
+                  <th style="width:64px;">LH</th>
+                  <th>Sample</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="type-tag">H1</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB 600</td><td class="type-meta">66px</td><td class="type-meta">126%</td><td><span class="type-sample" style="font-size:clamp(28px,3.4vw,50px);font-weight:600;line-height:1.26;">엔터프라이즈 AI</span></td></tr>
+                <tr><td><span class="type-tag">H2</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / M</td><td class="type-meta">34px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-size:34px;font-weight:600;line-height:1.32;">고객 경험의 새로운 기준</span></td></tr>
+                <tr><td><span class="type-tag">H3</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / M</td><td class="type-meta">26px</td><td class="type-meta">138%</td><td><span class="type-sample" style="font-size:26px;font-weight:600;line-height:1.38;">에이전트 메모리 플랫폼</span></td></tr>
+                <tr><td><span class="type-tag">H4</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">22px</td><td class="type-meta">144%</td><td><span class="type-sample" style="font-size:22px;font-weight:500;line-height:1.44;">옴니프레즌트 AI</span></td></tr>
+                <tr><td><span class="type-tag">B1</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">20px</td><td class="type-meta">152%</td><td><span class="type-sample" style="font-size:20px;font-weight:400;line-height:1.52;color:var(--text-muted);">모든 고객 인터랙션의 살아있는 메모리를 구축합니다.</span></td></tr>
+                <tr><td><span class="type-tag">B2</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">18px</td><td class="type-meta">154%</td><td><span class="type-sample" style="font-size:18px;font-weight:400;line-height:1.54;color:var(--text-muted);">개인화된 경험을 대규모로 제공합니다.</span></td></tr>
+                <tr><td><span class="type-tag">B3</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">16px</td><td class="type-meta">156%</td><td><span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.56;color:var(--text-muted);">모든 접점을 개인화합니다.</span></td></tr>
+                <tr><td><span class="type-tag">C1</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">14px</td><td class="type-meta">152%</td><td><span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.52;color:var(--text-dim);">최종 업데이트 2026년 3월</span></td></tr>
+                <tr><td><span class="type-tag">C2</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">13px</td><td class="type-meta">154%</td><td><span class="type-sample" style="font-size:13px;font-weight:400;line-height:1.54;color:var(--text-dim);">© 2025 Sendbird, Inc.</span></td></tr>
+                <tr><td><span class="type-tag">C3</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">12px</td><td class="type-meta">156%</td><td><span class="type-sample" style="font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-dim);">AI 기능</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Mobile Typography -->
+        <div id="typo-mobile" style="display:none;">
+          <!-- Mobile EN -->
+          <div style="margin-bottom:32px;">
+            <div style="font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">EN — Serrif / Helvetica Now Text</div>
+            <table class="type-table">
+              <thead>
+                <tr>
+                  <th style="width:56px;">Level</th>
+                  <th style="width:150px;">Font</th>
+                  <th style="width:70px;">Weight</th>
+                  <th style="width:64px;">Size</th>
+                  <th style="width:64px;">LH</th>
+                  <th>Sample</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="type-tag">H1</span></td><td class="type-meta">Serrif</td><td class="type-meta">M 500</td><td class="type-meta">40px</td><td class="type-meta">120%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:40px;font-weight:500;line-height:1.2;">Enterprise AI</span></td></tr>
+                <tr><td rowspan="2"><span class="type-tag">H2</span></td><td class="type-meta">Serrif</td><td class="type-meta">M / R</td><td class="type-meta">32px</td><td class="type-meta">124%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:32px;font-weight:500;line-height:1.24;">Customer experience</span></td></tr>
+                <tr><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">32px</td><td class="type-meta">124%</td><td><span class="type-sample" style="font-family:'Helvetica Now Text',sans-serif;font-size:32px;font-weight:500;line-height:1.24;">Customer experience</span></td></tr>
+                <tr><td rowspan="2"><span class="type-tag">H3</span></td><td class="type-meta">Serrif</td><td class="type-meta">M / R</td><td class="type-meta">20px</td><td class="type-meta">128%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:20px;font-weight:500;line-height:1.28;">Agent Memory Platform</span></td></tr>
+                <tr><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">20px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-family:'Helvetica Now Text',sans-serif;font-size:20px;font-weight:500;line-height:1.32;">Agent Memory Platform</span></td></tr>
+                <tr><td rowspan="2"><span class="type-tag">H4</span></td><td class="type-meta">Serrif</td><td class="type-meta">M / R</td><td class="type-meta">18px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-family:'Serrif',serif;font-size:18px;font-weight:500;line-height:1.32;">Omnipresent AI</span></td></tr>
+                <tr><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M</td><td class="type-meta">18px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-size:18px;font-weight:500;line-height:1.32;">Omnipresent AI</span></td></tr>
+                <tr><td><span class="type-tag">B1</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">16px</td><td class="type-meta">136%</td><td><span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.36;color:var(--text-muted);">Build a living memory of every customer interaction.</span></td></tr>
+                <tr><td><span class="type-tag">B2</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">15px</td><td class="type-meta">138%</td><td><span class="type-sample" style="font-size:15px;font-weight:400;line-height:1.38;color:var(--text-muted);">Deliver personalized experiences at scale.</span></td></tr>
+                <tr><td><span class="type-tag">B3</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">14px</td><td class="type-meta">140%</td><td><span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.4;color:var(--text-muted);">Delight AI makes every touchpoint feel personal.</span></td></tr>
+                <tr><td><span class="type-tag">C1</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">13px</td><td class="type-meta">136%</td><td><span class="type-sample" style="font-size:13px;font-weight:400;line-height:1.36;color:var(--text-dim);">Last updated March 2026</span></td></tr>
+                <tr><td><span class="type-tag">C2</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">12px</td><td class="type-meta">138%</td><td><span class="type-sample" style="font-size:12px;font-weight:400;line-height:1.38;color:var(--text-dim);">© 2025 Sendbird, Inc.</span></td></tr>
+                <tr><td><span class="type-tag">C3</span></td><td class="type-meta">Helvetica Now Text</td><td class="type-meta">M / R</td><td class="type-meta">11px</td><td class="type-meta">140%</td><td><span class="type-sample" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-dim);">AI CAPABILITIES</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Mobile KO -->
+          <div>
+            <div style="font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">KO — Pretendard</div>
+            <table class="type-table">
+              <thead>
+                <tr>
+                  <th style="width:56px;">Level</th>
+                  <th style="width:150px;">Font</th>
+                  <th style="width:70px;">Weight</th>
+                  <th style="width:64px;">Size</th>
+                  <th style="width:64px;">LH</th>
+                  <th>Sample</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="type-tag">H1</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB 600</td><td class="type-meta">36px</td><td class="type-meta">132%</td><td><span class="type-sample" style="font-size:36px;font-weight:600;line-height:1.32;">엔터프라이즈 AI</span></td></tr>
+                <tr><td><span class="type-tag">H2</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / M</td><td class="type-meta">30px</td><td class="type-meta">138%</td><td><span class="type-sample" style="font-size:30px;font-weight:600;line-height:1.38;">고객 경험의 새로운 기준</span></td></tr>
+                <tr><td><span class="type-tag">H3</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / M</td><td class="type-meta">20px</td><td class="type-meta">144%</td><td><span class="type-sample" style="font-size:20px;font-weight:600;line-height:1.44;">에이전트 메모리 플랫폼</span></td></tr>
+                <tr><td><span class="type-tag">H4</span></td><td class="type-meta">Pretendard</td><td class="type-meta">M</td><td class="type-meta">18px</td><td class="type-meta">150%</td><td><span class="type-sample" style="font-size:18px;font-weight:500;line-height:1.5;">옴니프레즌트 AI</span></td></tr>
+                <tr><td><span class="type-tag">B1</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">16px</td><td class="type-meta">152%</td><td><span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.52;color:var(--text-muted);">모든 고객 인터랙션의 살아있는 메모리를 구축합니다.</span></td></tr>
+                <tr><td><span class="type-tag">B2</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">15px</td><td class="type-meta">154%</td><td><span class="type-sample" style="font-size:15px;font-weight:400;line-height:1.54;color:var(--text-muted);">개인화된 경험을 대규모로 제공합니다.</span></td></tr>
+                <tr><td><span class="type-tag">B3</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">14px</td><td class="type-meta">156%</td><td><span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.56;color:var(--text-muted);">모든 접점을 개인화합니다.</span></td></tr>
+                <tr><td><span class="type-tag">C1</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">13px</td><td class="type-meta">152%</td><td><span class="type-sample" style="font-size:13px;font-weight:400;line-height:1.52;color:var(--text-dim);">최종 업데이트 2026년 3월</span></td></tr>
+                <tr><td><span class="type-tag">C2</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">12px</td><td class="type-meta">154%</td><td><span class="type-sample" style="font-size:12px;font-weight:400;line-height:1.54;color:var(--text-dim);">© 2025 Sendbird, Inc.</span></td></tr>
+                <tr><td><span class="type-tag">C3</span></td><td class="type-meta">Pretendard</td><td class="type-meta">SB / R</td><td class="type-meta">11px</td><td class="type-meta">156%</td><td><span class="type-sample" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-dim);">AI 기능</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <script>
+          function showTypoTab(tab) {
+            document.getElementById('typo-pc').style.display = tab === 'pc' ? 'block' : 'none';
+            document.getElementById('typo-mobile').style.display = tab === 'mobile' ? 'block' : 'none';
+            document.getElementById('typo-tab-pc').style.cssText = tab === 'pc'
+              ? 'height:34px;padding:0 16px;border-radius:6px;border:1px solid #000;background:#000;color:#fff;font-family:\'Helvetica Now Text\',sans-serif;font-size:13px;font-weight:500;letter-spacing:-0.02em;cursor:pointer;'
+              : 'height:34px;padding:0 16px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:\'Helvetica Now Text\',sans-serif;font-size:13px;font-weight:500;letter-spacing:-0.02em;cursor:pointer;';
+            document.getElementById('typo-tab-mobile').style.cssText = tab === 'mobile'
+              ? 'height:34px;padding:0 16px;border-radius:6px;border:1px solid #000;background:#000;color:#fff;font-family:\'Helvetica Now Text\',sans-serif;font-size:13px;font-weight:500;letter-spacing:-0.02em;cursor:pointer;'
+              : 'height:34px;padding:0 16px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:\'Helvetica Now Text\',sans-serif;font-size:13px;font-weight:500;letter-spacing:-0.02em;cursor:pointer;';
+          }
+        </script>
       </div>
 
       <!-- ===== EFFECTS ===== -->
