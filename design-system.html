@@ -447,18 +447,26 @@
     .btn-md { height: 42px; padding: 0 20px; font-size: 16px; border-radius: 8px; justify-content: center; }
     .btn-sm { height: 30px; padding: 0 14px; font-size: 14px; border-radius: 6px; justify-content: center; }
 
-    /* ---- Arrow: absolute — 버튼 너비 변화 없이 우측에 나타남 ---- */
+    /* ---- Arrow: normal flow, 항상 공간 차지 (visibility hidden) ----
+       좌측 ::before 스페이서(동일 크기)로 밸런스 → 텍스트 항상 중앙 ---- */
+    .btn::before {
+      content: ''; flex-shrink: 0;
+      width: 12px; height: 9px;
+      visibility: hidden;
+    }
+    .btn-loading::before, .btn-tertiary::before { display: none; }
+
     .btn-arrow {
-      position: absolute;
-      display: flex; align-items: center;
+      display: flex; align-items: center; flex-shrink: 0;
+      width: 12px;
+      visibility: hidden;
       opacity: 0; transform: translateX(-4px);
       transition: opacity 0.15s ease, transform 0.15s ease;
-      pointer-events: none;
     }
-    .btn-lg .btn-arrow { right: 20px; }
-    .btn-md .btn-arrow { right: 16px; }
-    .btn-sm .btn-arrow { right: 12px; }
-    .btn:not(:disabled):hover .btn-arrow { opacity: 1; transform: translateX(0); }
+    .btn:not(:disabled):hover .btn-arrow {
+      visibility: visible;
+      opacity: 1; transform: translateX(0);
+    }
 
     /* ---- Loading ---- */
     @keyframes btn-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

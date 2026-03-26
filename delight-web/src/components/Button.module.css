@@ -19,18 +19,29 @@
   cursor: not-allowed;
 }
 
-/* ---- Arrow: absolute — 버튼 너비 변화 없이 우측에 나타남 ---- */
+/* ---- Balance spacer: arrow와 동일 크기 → 텍스트 항상 중앙 ---- */
+.btn::before {
+  content: '';
+  flex-shrink: 0;
+  width: 12px;
+  height: 9px;
+  visibility: hidden;
+}
+
+/* ---- Arrow: normal flow, 항상 공간 차지, hover 시 visible ---- */
 .arrowIcon {
-  position: absolute;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  width: 12px;
+  visibility: hidden;
   opacity: 0;
   transform: translateX(-4px);
   transition: opacity 0.15s ease, transform 0.15s ease;
-  pointer-events: none;
 }
 
 .btn:not(:disabled):hover .arrowIcon {
+  visibility: visible;
   opacity: 1;
   transform: translateX(0);
 }
@@ -127,7 +138,8 @@
   color: #C4C0B9;
 }
 
-/* Tertiary: underline on label, arrow shows on hover (same as other hierarchies) */
+/* Tertiary: spacer 제거 (padding 없음), underline */
+.tertiary::before { display: none; }
 .tertiary .label {
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -148,11 +160,12 @@
   height: 16px;
 }
 
-/* ---- Loading ---- */
+/* ---- Loading: spacer 제거 ---- */
 .loading {
   pointer-events: none;
   justify-content: center;
 }
+.loading::before { display: none; }
 
 /* ---- Spinner animation ---- */
 @keyframes spin {
