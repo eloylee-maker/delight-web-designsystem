@@ -118,7 +118,7 @@ Green500: #25BD85  |  Green100: #D0F3E6
 | H2 | Serrif | Medium / Regular | 32px | 124% |
 | H2 | Helvetica Now Text | Medium | 32px | 124% |
 | H3 | Serrif | Medium / Regular | 20px | 128% |
-| H3 | Helvetica Now Text | Medium | 20px | 128% |
+| H3 | Helvetica Now Text | Medium | 20px | 132% |
 | H4 | Serrif | Medium / Regular | 18px | 132% |
 | H4 | Helvetica Now Text | Medium | 18px | 132% |
 | B1 | Helvetica Now Text | Medium / Regular | 16px | 136% |
