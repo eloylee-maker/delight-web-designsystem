@@ -96,11 +96,10 @@
     .gnb-covert-pop:has(.gnb-covert-item:hover) .gnb-covert-item-active:not(:hover) {
       background: transparent;
     }
-    .gnb-covert-thumb { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
-    /* icon-wrap: white + border → active bg와 시각적으로 구분 */
+    /* icon-wrap: #F7F5F0 bg, no border (Figma 확인) */
     .gnb-covert-icon-wrap {
       width: 42px; height: 42px; border-radius: 8px;
-      background: var(--surface); border: 1px solid var(--border);
+      background: #F7F5F0;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .gnb-covert-label {
@@ -350,10 +349,10 @@
         <!-- Logo Switcher -->
         <div class="gnb-item-wrap" id="wrap-covert">
           <div class="gnb-logo-switcher" id="trigger-covert">
-            <!-- delight.ai spark (32×32) -->
-            <svg width="32" height="32" viewBox="0 0 22 22" fill="none">
-              <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="black"/>
-              <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="black"/>
+            <!-- delight.ai spark (22×22) -->
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#1A1612"/>
+              <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#1A1612"/>
             </svg>
             <span class="gnb-chevron" id="chev-covert">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -363,13 +362,20 @@
           <div class="gnb-covert-pop" id="pop-covert">
             <!-- delight.ai (active) -->
             <div class="gnb-covert-item gnb-covert-item-active">
-              <img src="https://www.figma.com/api/mcp/asset/b54c8e90-e523-4907-b509-9bcd39f756e0" alt="delight.ai" class="gnb-covert-thumb" />
+              <div class="gnb-covert-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#1A1612"/>
+                  <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#1A1612"/>
+                </svg>
+              </div>
               <span class="gnb-covert-label">delight.ai</span>
             </div>
             <!-- Sendbird -->
             <div class="gnb-covert-item">
               <div class="gnb-covert-icon-wrap">
-                <img src="https://www.figma.com/api/mcp/asset/382df1bb-5b1e-4ed0-8b38-9c76365608d6" alt="Sendbird" width="22" height="22" />
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M22 11C22 4.92476 17.0751 0 11 0H10.9964H0V5.5C0 8.49977 2.40269 10.934 5.38822 10.9942H0C0 17.0694 4.92493 21.9942 11 21.9942V22C17.0751 22 22 17.0751 22 11Z" fill="#0E1017"/>
+                </svg>
               </div>
               <span class="gnb-covert-label">sendbird</span>
             </div>
