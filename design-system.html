@@ -448,23 +448,23 @@
     .btn-md { height: 42px; padding: 0 20px; font-size: 16px; border-radius: 8px; }
     .btn-sm { height: 30px; padding: 0 14px; font-size: 14px; border-radius: 6px; }
 
-    /* ---- Label: hover 시 좌측으로 이동해 arrow 공간 확보 (gap 4px + arrow 12px) / 2 = 8px ---- */
+    /* ---- Label: hover 시 좌측으로 이동해 arrow 공간 확보 ---- */
     .btn-label { transition: transform 0.3s ease; }
-    .btn:not(:disabled):hover .btn-label { transform: translateX(-8px); }
+    .btn:not(:disabled):hover .btn-label { transform: translateX(-10px); }
 
-    /* ---- Arrow: absolute 우측 고정 (padding에 맞춤), hover 시 fade in + 이동 ---- */
+    /* ---- Arrow: absolute 우측 고정, hover 시 fade in + 이동 ---- */
     .btn-arrow {
       position: absolute;
       top: 50%;
       display: flex; align-items: center;
-      transform: translate(-8px, -50%);
+      transform: translate(-10px, -50%);
       opacity: 0;
       transition: opacity 0.3s ease, transform 0.3s ease;
       pointer-events: none;
     }
-    .btn-lg .btn-arrow { right: 26px; }
-    .btn-md .btn-arrow { right: 20px; }
-    .btn-sm .btn-arrow { right: 14px; }
+    .btn-lg .btn-arrow { right: 22px; }
+    .btn-md .btn-arrow { right: 14px; }
+    .btn-sm .btn-arrow { right: 10px; }
     .btn:not(:disabled):hover .btn-arrow {
       opacity: 1;
       transform: translateY(-50%);
