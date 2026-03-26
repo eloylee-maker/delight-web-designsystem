@@ -19,12 +19,15 @@
   cursor: not-allowed;
 }
 
-/* ---- Arrow (hidden by default, shown on hover) ---- */
+/* ---- Arrow: absolute — 버튼 너비 변화 없이 우측에 나타남 ---- */
 .arrowIcon {
+  position: absolute;
+  display: flex;
+  align-items: center;
   opacity: 0;
   transform: translateX(-4px);
   transition: opacity 0.15s ease, transform 0.15s ease;
-  flex-shrink: 0;
+  pointer-events: none;
 }
 
 .btn:not(:disabled):hover .arrowIcon {
@@ -32,13 +35,14 @@
   transform: translateX(0);
 }
 
-/* ---- Sizes ---- */
+/* ---- Sizes: 좌우 패딩 동일, justify-content: center ---- */
 .large {
   height: 52px;
   padding: 0 26px;
   min-width: 136px;
   font-size: 18px;
   border-radius: 8px;
+  justify-content: center;
 }
 
 .medium {
@@ -47,6 +51,7 @@
   min-width: 112px;
   font-size: 16px;
   border-radius: 8px;
+  justify-content: center;
 }
 
 .small {
@@ -55,7 +60,12 @@
   min-width: 88px;
   font-size: 14px;
   border-radius: 6px;
+  justify-content: center;
 }
+
+.large .arrowIcon { right: 20px; }
+.medium .arrowIcon { right: 16px; }
+.small .arrowIcon { right: 10px; }
 
 /* ---- Hierarchy: Primary ---- */
 .primary {

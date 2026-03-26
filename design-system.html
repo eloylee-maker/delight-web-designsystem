@@ -441,17 +441,22 @@
       text-decoration: none;
     }
 
-    .btn-lg { height: 52px; padding: 0 26px; font-size: 18px; border-radius: 8px; }
-    .btn-md { height: 42px; padding: 0 20px; font-size: 16px; border-radius: 8px; }
-    .btn-sm { height: 30px; padding: 0 14px; font-size: 14px; border-radius: 6px; }
+    /* 기본 너비 고정: 좌우 패딩 동일, 내용 중앙 정렬 */
+    .btn-lg { height: 52px; padding: 0 26px; font-size: 18px; border-radius: 8px; justify-content: center; }
+    .btn-md { height: 42px; padding: 0 20px; font-size: 16px; border-radius: 8px; justify-content: center; }
+    .btn-sm { height: 30px; padding: 0 14px; font-size: 14px; border-radius: 6px; justify-content: center; }
 
-    /* ---- Arrow hover (Figma: 모든 hierarchy hover 시 → 추가) ---- */
+    /* ---- Arrow: absolute — 버튼 너비 변화 없이 우측에 나타남 ---- */
     .btn-arrow {
-      display: inline-flex; align-items: center; flex-shrink: 0;
-      opacity: 0; transform: translateX(-6px);
+      position: absolute;
+      display: flex; align-items: center;
+      opacity: 0; transform: translateX(-4px);
       transition: opacity 0.15s ease, transform 0.15s ease;
-      margin-left: 2px;
+      pointer-events: none;
     }
+    .btn-lg .btn-arrow { right: 20px; }
+    .btn-md .btn-arrow { right: 16px; }
+    .btn-sm .btn-arrow { right: 12px; }
     .btn:not(:disabled):hover .btn-arrow { opacity: 1; transform: translateX(0); }
 
     /* ---- Loading ---- */
