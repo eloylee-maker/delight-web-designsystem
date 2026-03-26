@@ -106,7 +106,7 @@
 /* ---- Hierarchy: Tertiary ---- */
 .tertiary {
   background: transparent;
-  color: #1A1612;
+  color: #292016;   /* WGray900 / H1 */
   border: none;
   padding: 0;
   min-width: unset;

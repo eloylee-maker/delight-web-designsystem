@@ -165,10 +165,24 @@
     .gnb-cta {
       height: 42px; padding: 0 20px; min-width: 139px;
       background: #000; color: #fff; border-radius: 8px; border: none;
+      font-family: 'Helvetica Now Text', sans-serif;
       font-size: 16px; font-weight: 500; letter-spacing: -0.02em;
-      cursor: pointer; transition: background 0.15s; white-space: nowrap;
+      cursor: pointer; white-space: nowrap;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      position: relative; overflow: hidden;
+      transition: background 0.3s ease;
+      text-decoration: none;
     }
-    .gnb-cta:hover { background: #1A1612; }
+    .gnb-cta .gnb-cta-label { transition: transform 0.3s ease; }
+    .gnb-cta:hover .gnb-cta-label { transform: translateX(-10px); }
+    .gnb-cta .gnb-cta-arrow {
+      position: absolute; right: 14px; top: 50%;
+      transform: translate(-10px, -50%); opacity: 0;
+      display: flex; align-items: center;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    .gnb-cta:hover .gnb-cta-arrow { opacity: 1; transform: translateY(-50%); }
 
     .gnb-hamburger {
       display: none; width: 32px; height: 32px;
@@ -513,7 +527,10 @@
 
         </div>
 
-        <button class="gnb-cta">Contact sales</button>
+        <button class="gnb-cta">
+          <span class="gnb-cta-label">Contact sales</span>
+          <span class="gnb-cta-arrow"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M7 1l4 3.5L7 8M1 4.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
 
         <button class="gnb-hamburger" aria-label="Open menu">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="#1A1612" stroke-width="1.8" stroke-linecap="round"/></svg>

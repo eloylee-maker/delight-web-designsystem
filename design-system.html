@@ -21,19 +21,20 @@
     /* ---- Tokens ---- */
     :root {
       --bg:           #FFFFFF;
-      --bg-subtle:    #F5F2ED;
+      --bg-subtle:    #F7F5F0;   /* WGray100 / bg1 */
       --surface:      #FFFFFF;
-      --surface-2:    #F0EDE6;
-      --border:       #E0DAD2;
-      --border-light: #EAE6DF;
-      --text:         #1A1612;
-      --text-muted:   #6B6258;
-      --text-dim:     #9E9890;
+      --surface-2:    #F7F5F0;   /* WGray100 / bg1 */
+      --border:       #D9D6D2;   /* WGray200 / line2 */
+      --border-light: #E5E3DF;   /* WGray150 / line1 */
+      --text:         #292016;   /* WGray900 / H1 */
+      --text-muted:   #66625E;   /* WGray500 / B1 */
+      --text-dim:     #8C867E;   /* WGray350 / C1 */
+      --disabled:     #C4C0B9;   /* WGray250 / disabled */
       --lime:         #F2FF66;
       --cta-dark:     #18140F;
       --max-w:        1552px;
       /* Sidebar */
-      --sidebar-w:    240px;
+      --sidebar-w:    240px;ㄱ
     }
 
     /* ---- Reset ---- */
@@ -500,28 +501,24 @@
     /* ============================================================
        FORMS
     ============================================================ */
-    .form-showcase {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-    }
-
     .form-field {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
+    /* Label: 13px Regular, var(--text-dim) — Figma 확인값 */
     .form-label {
       font-size: 13px;
       font-weight: 400;
-      color: var(--text);
+      color: var(--text-dim);
       letter-spacing: -0.02em;
+      line-height: 1.38;
     }
-
     .form-label .required { color: #FF5E69; }
 
-    .form-input, .form-select, .form-textarea {
+    /* ---- Input base ---- */
+    .form-input, .form-textarea {
       font-family: 'Helvetica Now Text', sans-serif;
       font-size: 14px;
       font-weight: 400;
@@ -534,26 +531,124 @@
       transition: border-color 0.15s ease;
       width: 100%;
     }
-
     .form-input { height: 40px; padding: 0 16px; }
     .form-textarea { padding: 10px 16px; min-height: 100px; resize: vertical; line-height: 1.5; }
-    .form-select { height: 40px; padding: 0 16px; appearance: none; cursor: pointer; }
 
     .form-input::placeholder, .form-textarea::placeholder { color: var(--text-dim); }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #000000; }
+    .form-input:focus, .form-textarea:focus { border-color: #000000; }
 
-    .form-input.state-error { border-color: #FF5E69; }
-    .form-input.state-disabled { background: var(--surface-2); border-color: var(--border-light); color: var(--text-dim); cursor: not-allowed; }
+    /* ---- Input States ---- */
+    .form-input.state-error  { border-color: #FF5E69; }
+    .form-input.state-disabled { background: var(--bg-subtle); border-color: var(--border-light); color: var(--disabled); cursor: not-allowed; }
 
-    .form-error {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      color: #FF5E69;
-      letter-spacing: -0.02em;
+    /* Input with right icon (Checking state) */
+    .form-input-wrap { position: relative; }
+    .form-input-wrap .form-input { padding-right: 40px; }
+    .form-input-icon {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      display: flex; align-items: center; pointer-events: none; color: var(--text-muted);
     }
 
+    /* ---- Error message ---- */
+    .form-error {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 12px; color: #FF5E69; letter-spacing: -0.02em;
+    }
+
+    /* ---- Custom Select ---- */
+    .form-select-wrap { position: relative; }
+
+    .form-select-trigger {
+      height: 40px;
+      padding: 0 12px 0 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      cursor: pointer;
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 14px; font-weight: 400;
+      color: var(--text-dim);
+      letter-spacing: -0.02em;
+      transition: border-color 0.15s ease;
+      user-select: none;
+    }
+    .form-select-trigger.has-value { color: var(--text); }
+    .form-select-wrap.open .form-select-trigger { border-color: #000000; }
+    .form-select-wrap.state-disabled .form-select-trigger { background: var(--bg-subtle); border-color: var(--border-light); color: var(--disabled); cursor: not-allowed; pointer-events: none; }
+
+    .form-select-chevron {
+      width: 16px; height: 16px; flex-shrink: 0;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+    .form-select-wrap.open .form-select-chevron { transform: rotate(180deg); }
+
+    .form-select-drop {
+      display: none;
+      position: absolute; top: calc(100% + 2px); left: 0; right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      box-shadow: 2px 6px 12px rgba(0,0,0,0.10);
+      padding: 8px;
+      z-index: 100;
+      max-height: 200px; overflow-y: auto;
+    }
+    .form-select-wrap.open .form-select-drop { display: block; }
+
+    /* Scrollbar */
+    .form-select-drop::-webkit-scrollbar { width: 5px; }
+    .form-select-drop::-webkit-scrollbar-track { background: transparent; }
+    .form-select-drop::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 50px; }
+
+    .form-select-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 10px 9px;
+      border-radius: 8px;
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 14px; font-weight: 400;
+      color: var(--text); letter-spacing: -0.02em;
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    .form-select-item:hover { background: var(--bg-subtle); }
+    .form-select-item.selected { background: var(--bg-subtle); }
+
+    /* ---- Select + Text (Phone combo) ---- */
+    .form-combo {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+    .form-combo:focus-within { border-color: #000000; }
+
+    .form-combo-prefix {
+      display: flex; align-items: center; gap: 4px;
+      padding: 0 10px;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 14px; font-weight: 400;
+      color: var(--text); letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .form-combo-prefix svg { color: var(--text-muted); }
+
+    .form-combo-input {
+      flex: 1; height: 40px; padding: 0 12px;
+      border: none; background: transparent; outline: none;
+      font-family: 'Helvetica Now Text', sans-serif;
+      font-size: 14px; font-weight: 400;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .form-combo-input::placeholder { color: var(--text-dim); }
+
+    /* ---- States grid ---- */
     .form-states-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -561,15 +656,13 @@
     }
 
     .state-label {
-      font-size: 11px;
-      font-weight: 500;
+      font-size: 11px; font-weight: 500;
       color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      text-transform: uppercase; letter-spacing: 0.06em;
       margin-bottom: 8px;
     }
 
-    /* Checkbox */
+    /* ---- Checkbox & Radio ---- */
     .checkbox-wrap { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
     .checkbox-box {
       width: 20px; height: 20px;
@@ -578,18 +671,34 @@
       background: var(--surface);
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      margin-top: 1px;
+      margin-top: 1px; transition: background 0.15s, border-color 0.15s;
     }
     .checkbox-box.checked { background: #000000; border-color: #000000; }
     .checkbox-box.checked::after {
       content: '';
-      display: block;
-      width: 5px; height: 9px;
+      display: block; width: 5px; height: 9px;
       border: 2px solid #FFFFFF;
       border-top: none; border-left: none;
       transform: rotate(45deg) translateY(-1px);
     }
     .checkbox-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+    .radio-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .radio-box {
+      width: 20px; height: 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      background: var(--surface);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s;
+    }
+    .radio-box.checked { border-color: #000000; }
+    .radio-box.checked::after {
+      content: ''; display: block;
+      width: 8px; height: 8px;
+      border-radius: 50%; background: #000000;
+    }
 
     /* ============================================================
        PAGINATION
@@ -1480,12 +1589,14 @@
         <div class="ds-section-header">
           <div class="ds-section-eyebrow">Components</div>
           <div class="ds-section-title">Form Inputs</div>
-          <div class="ds-section-desc">인풋 높이 40px · border-radius 8px · focus → border #000 · error → border #FF5E69.</div>
+          <div class="ds-section-desc">인풋 높이 40px · border-radius 8px · Normal border #D9D6D2 · Focus/Active #000 · Error #FF5E69</div>
         </div>
 
-        <!-- States -->
-        <div class="state-label" style="margin-bottom:16px;">Input States</div>
+        <!-- Text Input States: 3×3 grid -->
+        <div class="state-label" style="margin-bottom:16px;">Text Input</div>
         <div class="form-states-grid" style="margin-bottom:48px;">
+
+          <!-- Normal -->
           <div>
             <div class="state-label">Normal</div>
             <div class="form-field">
@@ -1493,24 +1604,40 @@
               <input class="form-input" type="text" placeholder="e.g. Acme Inc.">
             </div>
           </div>
+
+          <!-- Focus -->
           <div>
             <div class="state-label">Focus</div>
+            <div class="form-field">
+              <label class="form-label">Email address <span class="required">*</span></label>
+              <input class="form-input" type="email" placeholder="name@company.com" style="border-color:#000;" autofocus>
+            </div>
+          </div>
+
+          <!-- Typing -->
+          <div>
+            <div class="state-label">Typing</div>
             <div class="form-field">
               <label class="form-label">Email address <span class="required">*</span></label>
               <input class="form-input" type="email" value="sarah@acme.com" style="border-color:#000;">
             </div>
           </div>
+
+          <!-- Checking -->
           <div>
-            <div class="state-label">Error</div>
+            <div class="state-label">Checking</div>
             <div class="form-field">
-              <label class="form-label">Work email <span style="color:#FF5E69;">*</span></label>
-              <input class="form-input state-error" type="email" value="not-an-email">
-              <span class="form-error">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#FF5E69"/><path d="M6 3.5v3M6 8h.01" stroke="#FF5E69" stroke-width="1.2" stroke-linecap="round"/></svg>
-                Please enter a valid email address
-              </span>
+              <label class="form-label">Work email <span class="required">*</span></label>
+              <div class="form-input-wrap">
+                <input class="form-input" type="email" value="sarah@acme.com">
+                <span class="form-input-icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
             </div>
           </div>
+
+          <!-- Disabled -->
           <div>
             <div class="state-label">Disabled</div>
             <div class="form-field">
@@ -1518,28 +1645,91 @@
               <input class="form-input state-disabled" type="text" value="ACC-00123" disabled>
             </div>
           </div>
+
+          <!-- Error / Alert -->
           <div>
-            <div class="state-label">Select</div>
+            <div class="state-label">Alert</div>
+            <div class="form-field">
+              <label class="form-label">Work email <span class="required">*</span></label>
+              <input class="form-input state-error" type="email" value="not-an-email">
+              <span class="form-error">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#FF5E69"/><path d="M6 3.5v3M6 8h.01" stroke="#FF5E69" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Please enter a valid email address
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Select States -->
+        <div class="state-label" style="margin-bottom:16px;">Select</div>
+        <div class="form-states-grid" style="margin-bottom:48px;">
+
+          <!-- Select: Normal / Closed -->
+          <div>
+            <div class="state-label">Normal</div>
             <div class="form-field">
               <label class="form-label">Team size</label>
-              <div style="position:relative;">
-                <select class="form-input form-select">
-                  <option value="">Select an option</option>
-                  <option>1–10</option>
-                  <option>11–50</option>
-                  <option>51–200</option>
-                  <option>200+</option>
-                </select>
-                <svg style="position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-muted);" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="form-select-wrap" id="select-teamsize">
+                <div class="form-select-trigger" onclick="toggleSelect('select-teamsize')">
+                  <span class="form-select-value">Select an option</span>
+                  <svg class="form-select-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="form-select-drop">
+                  <div class="form-select-item" onclick="selectItem('select-teamsize', this)">1–10</div>
+                  <div class="form-select-item" onclick="selectItem('select-teamsize', this)">11–50</div>
+                  <div class="form-select-item" onclick="selectItem('select-teamsize', this)">51–200</div>
+                  <div class="form-select-item" onclick="selectItem('select-teamsize', this)">201–1,000</div>
+                  <div class="form-select-item" onclick="selectItem('select-teamsize', this)">1,000+</div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Select: Active / Open (static demo) -->
           <div>
-            <div class="state-label">Textarea</div>
+            <div class="state-label">Active (Open)</div>
             <div class="form-field">
-              <label class="form-label">Message</label>
-              <textarea class="form-textarea" placeholder="Tell us about your use case…" style="min-height:80px;"></textarea>
+              <label class="form-label">Industry</label>
+              <div class="form-select-wrap open" id="select-industry-demo">
+                <div class="form-select-trigger has-value" onclick="toggleSelect('select-industry-demo')">
+                  <span class="form-select-value">E-commerce</span>
+                  <svg class="form-select-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="form-select-drop">
+                  <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Retail &amp; E-commerce</div>
+                  <div class="form-select-item selected" onclick="selectItem('select-industry-demo', this)">B2B SaaS</div>
+                  <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Financial Services</div>
+                  <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Healthcare</div>
+                  <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Travel &amp; Hospitality</div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Select + Text (Phone combo) -->
+          <div>
+            <div class="state-label">Select + Text</div>
+            <div class="form-field">
+              <label class="form-label">Phone number</label>
+              <div class="form-combo">
+                <div class="form-combo-prefix" onclick="toggleSelect('select-country')">
+                  🇺🇸 +1
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <input class="form-combo-input" type="tel" placeholder="(555) 000-0000">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Textarea -->
+        <div class="state-label" style="margin-bottom:16px;">Textarea</div>
+        <div style="max-width:480px; margin-bottom:48px;">
+          <div class="form-field">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" placeholder="Tell us about your use case…"></textarea>
           </div>
         </div>
 
@@ -1559,12 +1749,12 @@
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div class="state-label">Radio</div>
-            <label class="checkbox-wrap">
-              <div class="checkbox-box" style="border-radius:50%;"><div style="width:10px;height:10px;border-radius:50%;background:#000;"></div></div>
+            <label class="radio-wrap">
+              <div class="radio-box checked"></div>
               <span class="checkbox-text">Enterprise plan</span>
             </label>
-            <label class="checkbox-wrap">
-              <div class="checkbox-box" style="border-radius:50%;"></div>
+            <label class="radio-wrap">
+              <div class="radio-box"></div>
               <span class="checkbox-text">Startup plan</span>
             </label>
           </div>
@@ -1842,6 +2032,35 @@
       document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
     }
+
+    // ---- Custom Select ----
+    function toggleSelect(id) {
+      const wrap = document.getElementById(id);
+      if (!wrap || wrap.classList.contains('state-disabled')) return;
+      const isOpen = wrap.classList.contains('open');
+      // close all selects
+      document.querySelectorAll('.form-select-wrap.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) wrap.classList.add('open');
+    }
+
+    function selectItem(wrapId, item) {
+      const wrap = document.getElementById(wrapId);
+      if (!wrap) return;
+      const val = wrap.querySelector('.form-select-value');
+      const trigger = wrap.querySelector('.form-select-trigger');
+      wrap.querySelectorAll('.form-select-item').forEach(i => i.classList.remove('selected'));
+      item.classList.add('selected');
+      val.textContent = item.textContent.trim();
+      trigger.classList.add('has-value');
+      wrap.classList.remove('open');
+    }
+
+    // Close selects on outside click
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.form-select-wrap') && !e.target.closest('.form-combo-prefix')) {
+        document.querySelectorAll('.form-select-wrap.open').forEach(el => el.classList.remove('open'));
+      }
+    });
   </script>
 
 </body>

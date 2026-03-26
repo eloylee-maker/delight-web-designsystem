@@ -1244,15 +1244,25 @@
       border-top: 1px solid var(--border);
     }
     .footer-main-section {
-      padding: 80px 0 64px;
+      padding: 80px 0 60px;
     }
-    .footer-grid {
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+    }
+    .footer-brand {
+      width: 284px;
+      flex-shrink: 0;
+      margin-right: 116px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .footer-links-grid {
       display: grid;
-      grid-template-columns: 284px repeat(4, 1fr);
-      gap: 48px;
+      grid-template-columns: repeat(4, 240px);
+      gap: 64px;
     }
-    .footer-brand { display: flex; flex-direction: column; gap: 24px; }
-    .footer-logo { display: flex; align-items: center; gap: 8px; }
     .footer-brand-tagline {
       font-family: 'Serrif', serif;
       font-size: 28px; font-weight: 600;
@@ -1279,9 +1289,9 @@
       font-size: 12px; font-weight: 500;
       text-transform: uppercase; letter-spacing: 1px;
       color: #A8A39B;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links { display: flex; flex-direction: column; gap: 16px; }
     .footer-link {
       font-size: 16px; font-weight: 400;
       color: var(--text-muted);
@@ -1446,8 +1456,9 @@
       .faq-grid { grid-template-columns: 1fr; gap: 40px; }
 
       /* Footer */
-      .footer-grid { grid-template-columns: 1fr repeat(2, 1fr); }
-      .footer-brand { grid-column: 1 / -1; }
+      .footer-inner { flex-direction: column; gap: 48px; }
+      .footer-brand { width: 100%; margin-right: 0; }
+      .footer-links-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
     }
 
     /* ── GNB 모바일: 메뉴 숨기고 hamburger 표시 ──── */
@@ -1471,8 +1482,7 @@
       .carousel-tabs { grid-template-columns: 1fr; }
       .carousel-panel { padding: 28px; }
 
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .footer-brand { grid-column: 1 / -1 !important; }
+      .footer-links-grid { grid-template-columns: 1fr 1fr; }
       .footer-bottom-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
 
       .cta-banner { padding: 64px 0; }
@@ -2495,20 +2505,14 @@
   <footer class="footer">
     <div class="footer-main-section">
       <div class="container">
-        <div class="footer-grid">
+        <div class="footer-inner">
           <!-- Brand Column -->
           <div class="footer-brand">
-            <div class="footer-logo">
-              <!-- delight.ai spark SVG — dark fill -->
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.5254 9.47461H22V12.5254H14.683L19.8569 17.6993L17.7001 19.8569L12.5254 14.6815V22H9.47461V14.6823L4.30071 19.8569L2.14307 17.7001L7.31773 12.5254H0V9.47461H7.3185L2.14383 4.29994L4.30071 2.14307L9.47461 7.31696V0H12.5254V9.47461Z" fill="#1A1612"/>
-                <path d="M19.4737 4.44604C19.4737 5.5246 18.5994 6.39894 17.5208 6.39894C16.4423 6.39894 15.5679 5.5246 15.5679 4.44604C15.5679 3.36749 16.4423 2.49315 17.5208 2.49315C18.5994 2.49315 19.4737 3.36749 19.4737 4.44604Z" fill="#1A1612"/>
-              </svg>
-            </div>
             <p class="footer-brand-tagline">Enterprise AI customer experience</p>
             <a href="#" class="footer-contact-btn">Contact sales</a>
           </div>
 
+          <div class="footer-links-grid">
           <!-- Col 1: AI Capabilities + delight.ai Overview -->
           <div>
             <div class="footer-col-group">
@@ -2595,7 +2599,8 @@
               </ul>
             </div>
           </div>
-        </div>
+          </div><!-- /.footer-links-grid -->
+        </div><!-- /.footer-inner -->
       </div>
     </div>
 
