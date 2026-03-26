@@ -112,6 +112,7 @@
   min-width: unset;
   border-radius: 0;
   overflow: visible;
+  gap: 4px;
 }
 
 .tertiary.large {
