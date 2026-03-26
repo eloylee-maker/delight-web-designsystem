@@ -64,9 +64,7 @@
   border: none;
 }
 
-.primary:not(:disabled):hover {
-  background: #1A1612;
-}
+
 
 .primary:disabled {
   background: #D3D6E3;

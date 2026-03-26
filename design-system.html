@@ -460,14 +460,12 @@
     .btn-spinner { width: 20px; height: 20px; flex-shrink: 0; animation: btn-spin 0.8s linear infinite; }
     .btn-sm .btn-spinner { width: 16px; height: 16px; }
 
-    /* ---- Primary ---- */
+    /* ---- Primary: hover bg stays black (Figma 확인) ---- */
     .btn-primary { background: #000000; color: #FFFFFF; }
-    .btn-primary:not(:disabled):hover { background: #1A1612; }
     .btn-primary:disabled { background: var(--border); color: #FFFFFF; cursor: not-allowed; }
 
     /* ---- Secondary: bg stays white on hover (Figma 확인) ---- */
     .btn-secondary { background: #FFFFFF; color: #000000; border: 1px solid #000000; }
-    .btn-secondary:not(:disabled):hover { background: #FFFFFF; }
     .btn-secondary:disabled { color: var(--text-dim); border-color: var(--border); cursor: not-allowed; }
 
     /* ---- Tertiary: underline + arrow on hover (Figma 확인) ---- */
@@ -475,9 +473,6 @@
     .btn-tertiary .btn-label { text-decoration: underline; text-underline-offset: 2px; }
     .btn-tertiary:disabled { color: #C4C0B9; cursor: not-allowed; }
 
-    /* Lime CTA (used only in CTA banner) */
-    .btn-lime { background: var(--lime); color: var(--text); }
-    .btn-lime:hover { background: var(--lime); opacity: 0.88; }
 
     /* ============================================================
        FORMS
@@ -1454,16 +1449,6 @@
             </div>
           </div>
 
-          <!-- Lime CTA (dark bg only) -->
-          <div>
-            <div class="btn-row-label">Lime CTA — dark bg 전용</div>
-            <div class="preview-frame dark-frame">
-              <div class="btn-row">
-                <button class="btn btn-lime btn-lg">Book a demo</button>
-                <button class="btn btn-lime btn-md">Book a demo</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -1776,7 +1761,7 @@
           <div style="font-family:'Serrif',serif;font-size:38px;font-weight:500;color:#FFFFFF;line-height:1.2;letter-spacing:-0.02em;margin-bottom:12px;">Build an AI concierge<br>your customers love</div>
           <div style="font-size:18px;color:rgba(255,255,255,0.6);margin-bottom:32px;letter-spacing:-0.02em;">See delight.ai in action — live demo in 30 minutes</div>
           <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
-            <button class="btn btn-lime btn-lg">Book a demo</button>
+            <button class="btn btn-primary btn-lg" style="background:var(--lime);color:var(--text);">Book a demo</button>
             <button class="btn btn-secondary btn-lg" style="background:transparent;color:#FFFFFF;border-color:rgba(255,255,255,0.3);">Contact sales</button>
           </div>
         </div>
