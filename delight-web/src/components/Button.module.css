@@ -12,7 +12,6 @@
   white-space: nowrap;
   transition: background 0.3s ease, border-color 0.3s ease;
   position: relative;
-  overflow: hidden;
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -82,6 +81,7 @@
   background: #000000;
   color: #FFFFFF;
   border: none;
+  overflow: hidden;
 }
 
 .primary:disabled {
@@ -94,6 +94,7 @@
   background: #FFFFFF;
   color: #000000;
   border: 1px solid #000000;
+  overflow: hidden;
 }
 
 .secondary:disabled {
@@ -140,18 +141,17 @@
 
 .tertiary .arrowIcon {
   position: static;
-  transform: translateX(-4px);
+  transform: none;
   opacity: 0;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .tertiary:not(:disabled):hover .label {
-  transform: none;
+  transform: none !important;
 }
 
 .tertiary:not(:disabled):hover .arrowIcon {
   opacity: 1;
-  transform: translateX(0);
 }
 
 /* ---- Icon left ---- */

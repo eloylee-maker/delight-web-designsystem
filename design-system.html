@@ -440,7 +440,6 @@
       white-space: nowrap;
       text-decoration: none;
       position: relative;
-      overflow: hidden;
       transition: background 0.3s ease, border-color 0.3s ease;
     }
 
@@ -479,18 +478,23 @@
     .btn-spinner { width: 20px; height: 20px; flex-shrink: 0; animation: btn-spin 0.8s linear infinite; }
     .btn-sm .btn-spinner { width: 16px; height: 16px; }
 
-    /* ---- Primary: hover bg stays black (Figma 확인) ---- */
-    .btn-primary { background: #000000; color: #FFFFFF; }
+    /* ---- Primary: overflow hidden for arrow clip ---- */
+    .btn-primary { background: #000000; color: #FFFFFF; overflow: hidden; }
     .btn-primary:disabled { background: var(--border); color: #FFFFFF; cursor: not-allowed; }
 
-    /* ---- Secondary: bg stays white on hover (Figma 확인) ---- */
-    .btn-secondary { background: #FFFFFF; color: #000000; border: 1px solid #000000; }
+    /* ---- Secondary: overflow hidden for arrow clip ---- */
+    .btn-secondary { background: #FFFFFF; color: #000000; border: 1px solid #000000; overflow: hidden; }
     .btn-secondary:disabled { color: var(--text-dim); border-color: var(--border); cursor: not-allowed; }
 
-    /* ---- Tertiary: underline + arrow on hover (Figma 확인) ---- */
+    /* ---- Tertiary: 텍스트 고정, 화살표만 fade in ---- */
     .btn-tertiary { background: transparent; color: var(--text); padding: 0; border-radius: 0; height: auto; border: none; }
     .btn-tertiary .btn-label { text-decoration: underline; text-underline-offset: 2px; }
     .btn-tertiary:disabled { color: #C4C0B9; cursor: not-allowed; }
+    /* 텍스트 이동 없음 */
+    .btn-tertiary:not(:disabled):hover .btn-label { transform: none !important; }
+    /* 화살표: normal flow, fade in만 */
+    .btn-tertiary .btn-arrow { position: static; transform: none; opacity: 0; transition: opacity 0.2s ease; }
+    .btn-tertiary:not(:disabled):hover .btn-arrow { opacity: 1; transform: none; }
 
 
     /* ============================================================
