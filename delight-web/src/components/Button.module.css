@@ -2,6 +2,7 @@
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   font-family: 'Helvetica Now Text', sans-serif;
   font-weight: 500;
@@ -9,8 +10,9 @@
   border: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
   position: relative;
+  overflow: hidden;
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -19,41 +21,44 @@
   cursor: not-allowed;
 }
 
-/* ---- Balance spacer: arrow와 동일 크기 → 텍스트 항상 중앙 ---- */
-.btn::before {
-  content: '';
-  flex-shrink: 0;
-  width: 12px;
-  height: 9px;
-  visibility: hidden;
+/* ---- Label: hover 시 좌측으로 이동해 arrow 공간 확보 ---- */
+.label {
+  transition: transform 0.3s ease;
 }
 
-/* ---- Arrow: normal flow, 항상 공간 차지, hover 시 visible ---- */
+.btn:not(:disabled):hover .label {
+  transform: translateX(-13px);
+}
+
+/* ---- Arrow: absolute 우측 고정, hover 시 fade in + 이동 ---- */
 .arrowIcon {
+  position: absolute;
+  top: 50%;
+  transform: translate(-13px, -50%);
+  opacity: 0;
   display: flex;
   align-items: center;
-  flex-shrink: 0;
-  width: 12px;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
 }
 
 .btn:not(:disabled):hover .arrowIcon {
-  visibility: visible;
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(-50%);
 }
 
-/* ---- Sizes: 좌우 패딩 동일, justify-content: center ---- */
+/* ---- Arrow right position per size ---- */
+.large .arrowIcon { right: 20px; }
+.medium .arrowIcon { right: 16px; }
+.small .arrowIcon { right: 10px; }
+
+/* ---- Sizes ---- */
 .large {
   height: 52px;
   padding: 0 26px;
   min-width: 136px;
   font-size: 18px;
   border-radius: 8px;
-  justify-content: center;
 }
 
 .medium {
@@ -62,7 +67,6 @@
   min-width: 112px;
   font-size: 16px;
   border-radius: 8px;
-  justify-content: center;
 }
 
 .small {
@@ -71,12 +75,7 @@
   min-width: 88px;
   font-size: 14px;
   border-radius: 6px;
-  justify-content: center;
 }
-
-.large .arrowIcon { right: 20px; }
-.medium .arrowIcon { right: 16px; }
-.small .arrowIcon { right: 10px; }
 
 /* ---- Hierarchy: Primary ---- */
 .primary {
@@ -84,8 +83,6 @@
   color: #FFFFFF;
   border: none;
 }
-
-
 
 .primary:disabled {
   background: #D3D6E3;
@@ -97,10 +94,6 @@
   background: #FFFFFF;
   color: #000000;
   border: 1px solid #000000;
-}
-
-.secondary:not(:disabled):hover {
-  background: #FFFFFF;
 }
 
 .secondary:disabled {
@@ -117,6 +110,7 @@
   padding: 0;
   min-width: unset;
   border-radius: 0;
+  overflow: visible;
 }
 
 .tertiary.large {
@@ -138,11 +132,26 @@
   color: #C4C0B9;
 }
 
-/* Tertiary: spacer 제거 (padding 없음), underline */
-.tertiary::before { display: none; }
+/* Tertiary: underline, arrow in normal flow (no absolute) */
 .tertiary .label {
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.tertiary .arrowIcon {
+  position: static;
+  transform: translateX(-4px);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.tertiary:not(:disabled):hover .label {
+  transform: none;
+}
+
+.tertiary:not(:disabled):hover .arrowIcon {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* ---- Icon left ---- */
@@ -160,12 +169,15 @@
   height: 16px;
 }
 
-/* ---- Loading: spacer 제거 ---- */
+/* ---- Loading ---- */
 .loading {
   pointer-events: none;
   justify-content: center;
 }
-.loading::before { display: none; }
+
+.loading .label {
+  transform: none !important;
+}
 
 /* ---- Spinner animation ---- */
 @keyframes spin {

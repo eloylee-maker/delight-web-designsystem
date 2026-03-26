@@ -430,6 +430,7 @@
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       font-family: 'Helvetica Now Text', sans-serif;
       font-weight: 500;
@@ -437,36 +438,37 @@
       border: none;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
       text-decoration: none;
       position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
-    /* 기본 너비 고정: 좌우 패딩 동일, 내용 중앙 정렬 */
-    .btn-lg { height: 52px; padding: 0 26px; font-size: 18px; border-radius: 8px; justify-content: center; }
-    .btn-md { height: 42px; padding: 0 20px; font-size: 16px; border-radius: 8px; justify-content: center; }
-    .btn-sm { height: 30px; padding: 0 14px; font-size: 14px; border-radius: 6px; justify-content: center; }
+    .btn-lg { height: 52px; padding: 0 26px; font-size: 18px; border-radius: 8px; }
+    .btn-md { height: 42px; padding: 0 20px; font-size: 16px; border-radius: 8px; }
+    .btn-sm { height: 30px; padding: 0 14px; font-size: 14px; border-radius: 6px; }
 
-    /* ---- Arrow: normal flow, 항상 공간 차지 (visibility hidden) ----
-       좌측 ::before 스페이서(동일 크기)로 밸런스 → 텍스트 항상 중앙 ---- */
-    .btn::before {
-      content: ''; flex-shrink: 0;
-      width: 12px; height: 9px;
-      visibility: hidden;
-    }
-    .btn-loading::before, .btn-tertiary::before { display: none; }
+    /* ---- Label: hover 시 좌측으로 이동해 arrow 공간 확보 ---- */
+    .btn-label { transition: transform 0.3s ease; }
+    .btn:not(:disabled):hover .btn-label { transform: translateX(-13px); }
 
+    /* ---- Arrow: absolute 우측 고정, hover 시 fade in + 이동 ---- */
     .btn-arrow {
-      display: flex; align-items: center; flex-shrink: 0;
-      width: 12px;
-      visibility: hidden;
-      opacity: 0; transform: translateX(-4px);
-      transition: opacity 0.15s ease, transform 0.15s ease;
+      position: absolute;
+      right: 14px; top: 50%;
+      display: flex; align-items: center;
+      transform: translate(-13px, -50%);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
     }
     .btn:not(:disabled):hover .btn-arrow {
-      visibility: visible;
-      opacity: 1; transform: translateX(0);
+      opacity: 1;
+      transform: translateY(-50%);
     }
+
+    /* ---- Loading: label/arrow 전환 없음 ---- */
+    .btn-loading .btn-label { transform: none !important; }
 
     /* ---- Loading ---- */
     @keyframes btn-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
