@@ -41,7 +41,8 @@
       transition: border-color 0.3s;
       position: relative;
     }
-    .gnb.scrolled { border-color: var(--border); }
+    .gnb.scrolled,
+    .gnb.dropdown-open { border-color: var(--border); }
 
     .gnb-inner {
       width: 100%; max-width: 1616px;
@@ -656,6 +657,7 @@
     gnb.querySelectorAll('.gnb-menu-item.active, .gnb-lang.active, .gnb-logo-switcher.active')
       .forEach(el => el.classList.remove('active'));
     gnb.querySelectorAll('.gnb-chevron.open').forEach(el => el.classList.remove('open'));
+    gnb.classList.remove('dropdown-open');
     currentOpen = null;
   }
   function scheduleClose() { closeTimer = setTimeout(closeAll, 160); }
@@ -672,6 +674,7 @@
     dropEl.classList.add('open');
     if (triggerEl) triggerEl.classList.add('active');
     if (chevEl) chevEl.classList.add('open');
+    gnb.classList.add('dropdown-open');
     currentOpen = triggerEl;
   }
 
