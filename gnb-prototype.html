@@ -96,11 +96,20 @@
     .gnb-covert-pop:has(.gnb-covert-item:hover) .gnb-covert-item-active:not(:hover) {
       background: transparent;
     }
-    /* icon-wrap: #F7F5F0 bg, no border (Figma 확인) */
+    /* active item의 row bg가 해제되면 icon-wrap도 #F7F5F0으로 원복 */
+    .gnb-covert-pop:has(.gnb-covert-item:hover) .gnb-covert-item-active:not(:hover) .gnb-covert-icon-wrap {
+      background: #F7F5F0;
+    }
+    /* icon-wrap: default #F7F5F0, active/hover 시 white (Figma 확인) */
     .gnb-covert-icon-wrap {
       width: 42px; height: 42px; border-radius: 8px;
       background: #F7F5F0;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .gnb-covert-item-active .gnb-covert-icon-wrap,
+    .gnb-covert-item:hover .gnb-covert-icon-wrap {
+      background: #FFFFFF;
     }
     .gnb-covert-label {
       font-family: 'Helvetica Now Text', sans-serif;
