@@ -593,19 +593,24 @@
       box-shadow: 2px 6px 12px rgba(0,0,0,0.10);
       padding: 8px;
       z-index: 100;
-      max-height: 200px; overflow-y: auto;
+      max-height: 160px; overflow-y: auto; /* Figma: 160px (4 items × 36px) */
     }
     .form-select-wrap.open .form-select-drop { display: block; }
 
-    /* Scrollbar */
+    /* Scrollbar — Figma: 5px wide, 6px right margin, rounded thumb */
     .form-select-drop::-webkit-scrollbar { width: 5px; }
-    .form-select-drop::-webkit-scrollbar-track { background: transparent; }
-    .form-select-drop::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 50px; }
+    .form-select-drop::-webkit-scrollbar-track { background: transparent; margin: 6px 0; }
+    .form-select-drop::-webkit-scrollbar-thumb {
+      background: var(--disabled); /* WGray250 */
+      border-radius: 50px;
+    }
+    .form-select-drop::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
     .form-select-item {
       display: flex; align-items: center; gap: 6px;
-      padding: 8px 10px 9px;
-      border-radius: 8px;
+      padding: 0 10px;
+      height: 36px; /* Figma: 36px per item */
+      border-radius: 6px;
       font-family: 'Helvetica Now Text', sans-serif;
       font-size: 14px; font-weight: 400;
       color: var(--text); letter-spacing: -0.02em;
@@ -613,7 +618,25 @@
       transition: background 0.1s ease;
     }
     .form-select-item:hover { background: var(--bg-subtle); }
-    .form-select-item.selected { background: var(--bg-subtle); }
+    .form-select-item.selected { background: var(--bg-subtle); font-weight: 500; }
+
+    /* Checkbox inside select item */
+    .select-checkbox {
+      width: 20px; height: 20px; flex-shrink: 0;
+      border: 1.5px solid var(--border);
+      border-radius: 4px; background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .form-select-item.selected .select-checkbox {
+      background: #000000; border-color: #000000;
+    }
+    .form-select-item.selected .select-checkbox::after {
+      content: '';
+      width: 10px; height: 7px;
+      border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff;
+      transform: rotate(-45deg) translate(1px, -1px);
+      display: block;
+    }
 
     /* ---- Select + Text (Phone combo) ---- */
     .form-combo {
@@ -1699,7 +1722,7 @@
 
         <!-- Select States -->
         <div class="state-label" style="margin-bottom:16px;">Select</div>
-        <div class="form-states-grid" style="margin-bottom:48px;">
+        <div class="form-states-grid" style="margin-bottom:48px;grid-template-columns:repeat(4,1fr);">
 
           <!-- Select: Normal / Closed -->
           <div>
@@ -1722,7 +1745,7 @@
             </div>
           </div>
 
-          <!-- Select: Active / Open (static demo) -->
+          <!-- Select: Active / Open -->
           <div>
             <div class="state-label">Active (Open)</div>
             <div class="form-field">
@@ -1738,6 +1761,44 @@
                   <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Financial Services</div>
                   <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Healthcare</div>
                   <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">Travel &amp; Hospitality</div>
+                  <div class="form-select-item" onclick="selectItem('select-industry-demo', this)">On-demand</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Select: Active with Checkbox -->
+          <div>
+            <div class="state-label">Active + Checkbox</div>
+            <div class="form-field">
+              <label class="form-label">Use case <span style="color:#FF5E69;">*</span></label>
+              <div class="form-select-wrap open" id="select-usecase-demo">
+                <div class="form-select-trigger has-value" onclick="toggleSelect('select-usecase-demo')">
+                  <span class="form-select-value" style="display:flex;align-items:center;gap:6px;">
+                    <span class="select-checkbox" style="width:16px;height:16px;border-radius:3px;"></span>
+                    <span>Customer service</span>
+                  </span>
+                  <svg class="form-select-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="form-select-drop">
+                  <div class="form-select-item selected" onclick="this.classList.toggle('selected')">
+                    <span class="select-checkbox"></span>Customer service
+                  </div>
+                  <div class="form-select-item" onclick="this.classList.toggle('selected')">
+                    <span class="select-checkbox"></span>Enterprise
+                  </div>
+                  <div class="form-select-item" onclick="this.classList.toggle('selected')">
+                    <span class="select-checkbox"></span>Sales &amp; marketing
+                  </div>
+                  <div class="form-select-item" onclick="this.classList.toggle('selected')">
+                    <span class="select-checkbox"></span>HR &amp; operations
+                  </div>
+                  <div class="form-select-item" onclick="this.classList.toggle('selected')">
+                    <span class="select-checkbox"></span>IT &amp; support
+                  </div>
+                  <div class="form-select-item" onclick="this.classList.toggle('selected')">
+                    <span class="select-checkbox"></span>Finance
+                  </div>
                 </div>
               </div>
             </div>
