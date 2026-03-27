@@ -1,0 +1,103 @@
+/* ---- Design Tokens — Delight Warm (피그마 확정값) ---- */
+:root {
+  /* Backgrounds */
+  --bg:           #FFFFFF;       /* 메인 배경 */
+  --bg-subtle:    #F7F5F0;       /* WGray100 */
+  --surface:      #FFFFFF;
+  --surface-2:    #D9D6D2;       /* WGray200 */
+
+  /* Borders */
+  --border:       #E5E3DF;       /* WGray150 */
+  --border-light: #D9D6D2;       /* WGray200 */
+
+  /* Text */
+  --text:         #292016;       /* WGray900 — H1 */
+  --text-muted:   #736E68;       /* WGray400 — B2 */
+  --text-dim:     #8C867E;       /* WGray350 — C1 */
+
+  /* Accent */
+  --lime:         #F2FF66;       /* Delight Lime */
+  --cta-dark:     #18140F;       /* CTA 다크 배경 */
+  --max-w:        1552px;
+
+  /* Delight Warm — 전체 그레이 팔레트 */
+  --w-gray-100:   #F7F5F0;
+  --w-gray-150:   #E5E3DF;
+  --w-gray-200:   #D9D6D2;
+  --w-gray-250:   #C4C0B9;
+  --w-gray-300:   #A8A39B;
+  --w-gray-350:   #8C867E;
+  --w-gray-400:   #736E68;
+  --w-gray-500:   #66625E;
+  --w-gray-600:   #54504B;
+  --w-gray-700:   #47413B;
+  --w-gray-800:   #3B3530;
+  --w-gray-900:   #292016;
+
+  /* Sendbird cool — 전체 그레이 팔레트 */
+  --c-gray-100:   #F2F3F7;
+  --c-gray-150:   #E3E5EF;
+  --c-gray-200:   #D3D6E3;
+  --c-gray-250:   #B1B4C7;
+  --c-gray-300:   #9194A8;
+  --c-gray-350:   #7A7E91;
+  --c-gray-400:   #6B6E7D;
+  --c-gray-500:   #555869;
+  --c-gray-600:   #3C3F4D;
+  --c-gray-700:   #2E303D;
+  --c-gray-800:   #1F212B;
+  --c-gray-900:   #0E1017;
+
+  /* Secondary */
+  --red-100:      #FFE3E5;
+  --red-500:      #FF5E69;
+  --blue-100:     #D8F0FF;
+  --blue-300:     #91D2FB;
+  --blue-500:     #27A6F7;
+  --green-100:    #D0F3E6;
+  --green-500:    #25BD85;
+
+  /* Accent */
+  --purple:       #7B39FE;       /* Sendbird Purple(W) */
+  --purple-d:     #8147F4;       /* Sendbird Purple(D) */
+  --sendbird-lime: #D1F778;      /* Sendbird Lime */
+}
+
+/* ---- Fonts ---- */
+@font-face { font-family: 'Serrif'; src: url('/fonts/Serrif-Regular.otf'); font-weight: 400; }
+@font-face { font-family: 'Serrif'; src: url('/fonts/Serrif-Medium.otf'); font-weight: 500; }
+@font-face { font-family: 'Serrif'; src: url('/fonts/Serrif-SemiBold.otf'); font-weight: 600; }
+@font-face { font-family: 'Helvetica Now Text'; src: url('/fonts/HelveticaNowText.otf'); font-weight: 400; }
+@font-face { font-family: 'Helvetica Now Text'; src: url('/fonts/HelveticaNowTextMedium.otf'); font-weight: 500; }
+@font-face { font-family: 'Helvetica Now Text'; src: url('/fonts/HelveticaNowTextBold.otf'); font-weight: 700; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-Regular.otf'); font-weight: 400; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-Medium.otf'); font-weight: 500; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-SemiBold.otf'); font-weight: 600; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-Bold.otf'); font-weight: 700; }
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; padding: 0; margin: 0; }
+
+html {
+  color-scheme: light;
+  height: 100%;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  background: var(--bg);
+  font-family: 'Helvetica Now Text', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+em { font-style: normal; }

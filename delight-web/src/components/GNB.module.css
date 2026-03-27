@@ -1,0 +1,598 @@
+/* ---- Wrap & Spacer ---- */
+.gnbWrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+}
+
+.gnbSpacer { height: 72px; }
+
+/* ---- Bar ---- */
+.gnb {
+  width: 100%;
+  height: 72px;
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.gnb.scrolled {
+  border-color: var(--border);
+}
+
+.gnbInner {
+  width: 100%;
+  max-width: 1616px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---- Left ---- */
+.gnbLeft {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  height: 100%;
+}
+
+/* ---- Logo Switcher ---- */
+.gnbLogoSwitcher {
+  position: relative;
+  width: 74px;
+  height: 50px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  padding: 8px 8px 8px 12px;
+  gap: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.gnbLogoSwitcher:hover,
+.gnbLogoSwitcher.active {
+  background: #EDEAE4;
+}
+
+/* ---- Menu ---- */
+.gnbMenu {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  height: 72px;
+}
+
+.gnbMenuItem {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  white-space: nowrap;
+  position: relative;
+  height: 72px;
+  transition: background 0.12s;
+}
+
+.gnbMenuItem:hover { background: var(--bg-subtle); }
+
+.gnbMenuItem.gnbMenuItemActive {
+  background: transparent !important;
+}
+
+.gnbMenuItem.gnbMenuItemActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 8px; right: 8px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+}
+
+/* ---- Item wrap (for panels) ---- */
+.gnbItemWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ---- Chevron ---- */
+.gnbChevron {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.gnbChevron.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ---- Right ---- */
+.gnbRight {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.gnbUtility {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gnbLang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: background 0.12s;
+  position: relative;
+}
+
+.gnbLang:hover,
+.gnbLang.active { background: var(--bg-subtle); }
+
+.gnbLogin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+
+.gnbLogin:hover { background: var(--bg-subtle); }
+
+.gnbCta {
+  height: 42px;
+  padding: 0 20px;
+  min-width: 139px;
+  background: #000000;
+  color: #FFFFFF;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.gnbCta:hover { background: #1A1612; }
+
+.gnbHamburger {
+  display: none;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* ---- Dropdowns — animation ---- */
+@keyframes dropFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Panel (Solutions / Resources) ---- */
+.gnbDropPanel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--bg);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-top: none;
+  z-index: 200;
+  overflow: hidden;
+  animation: dropFadeIn 0.18s ease;
+  min-width: 500px;
+  padding: 20px 0 16px;
+}
+
+.gnbDropPanelResources {
+  min-width: 260px;
+  padding: 10px 0;
+}
+
+/* Solutions layout */
+.dropSolutionsLayout {
+  display: flex;
+}
+
+.dropSolutionsCol {
+  flex: 1;
+  padding: 0 4px;
+}
+
+.dropSolutionsCol + .dropSolutionsCol {
+  border-left: 1px solid var(--border);
+}
+
+.dropSolutionsLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 16px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.dropSolLink {
+  display: block;
+  padding: 9px 16px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  transition: background 0.12s;
+}
+
+.dropSolLink:hover { background: var(--bg-subtle); }
+
+/* Resources list */
+.dropResourcesList {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropResLink {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.dropResLink:hover { background: var(--bg-subtle); }
+
+.dropResLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* ---- Popover (Lang / Logo Switcher) ---- */
+.gnbDropPop {
+  position: absolute;
+  top: calc(100% + 8px);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  z-index: 200;
+  overflow: hidden;
+  min-width: 180px;
+  animation: dropFadeIn 0.15s ease;
+}
+
+.gnbDropPopItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.gnbDropPopItem:hover { background: var(--bg-subtle); }
+
+.gnbDropPopItem.selected { font-weight: 500; }
+
+.dropCheck {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ---- Covert (Logo Switcher) Popover ---- */
+.gnbCovertPop {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 280px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #FFFFFF;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.10);
+  z-index: 200;
+  animation: dropFadeIn 0.15s ease;
+}
+
+.gnbCovertItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.gnbCovertItem:hover { background: var(--bg-subtle); }
+
+.gnbCovertItemActive { background: var(--bg-subtle); }
+
+/* 다른 item hover 시 active bg 해제 → 한 번에 하나만 bg 표시 */
+.gnbCovertPop:has(.gnbCovertItem:hover) .gnbCovertItemActive:not(:hover) {
+  background: transparent;
+}
+
+.gnbCovertThumb {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.gnbCovertIconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gnbCovertLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* ---- Capabilities Mega Menu ---- */
+.gnbDrop {
+  position: absolute;
+  top: 72px;
+  background: var(--bg);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  z-index: 198;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+  width: 1265px;
+  animation: dropFadeIn 0.18s ease;
+}
+
+.dropProductsGrid {
+  display: flex;
+  background: rgb(227, 229, 244);
+  gap: 1px;
+  min-height: 360px;
+}
+
+.dropCol {
+  flex: 0 0 300px;
+  background: var(--bg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropCol2 { padding-top: 37px; }
+
+.dropColHeader {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgb(140, 134, 126);
+  letter-spacing: -0.02em;
+  padding: 4px 0 8px 12px;
+}
+
+.dropLink {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dropLink:hover { background: var(--bg-subtle); }
+
+.dropLinkTitle {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.dropLinkDesc {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.dropRight {
+  flex: 1;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.dropRightTop {
+  flex: 1;
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+}
+
+.dropPromoCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: opacity 0.15s;
+}
+
+.dropPromoCard:hover { opacity: 0.85; }
+
+.dropPromoEyebrow {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgb(140, 134, 126);
+  padding: 0 0 8px;
+}
+
+.dropPromoImg {
+  width: 100%;
+  height: 148px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #EDEAE5;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.dropPromoImgDark { background: #1E2D55; }
+
+.dropPromoTitle {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.dropPromoDesc {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.dropRightBottom {
+  padding: 6px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-top: 1px solid var(--border-light);
+  height: 79px;
+  flex-shrink: 0;
+}
+
+.dropIntLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgb(140, 134, 126);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 단일 컨테이너에 border — 아이콘들은 border 없음 */
+.dropIntLogos {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 2px 16px;
+}
+
+.dropIntIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+
+.dropIntIcon:hover { opacity: 0.7; }
+
+/* Trust OS 하이라이트 (피그마 active 상태) */
+.dropLinkHighlight {
+  background: var(--bg-subtle) !important;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 900px) {
+  .gnbMenu,
+  .gnbUtility { display: none; }
+
+  .gnbHamburger { display: flex; }
+
+  .gnbCta {
+    padding: 0 12px;
+    min-width: auto;
+    font-size: 14px;
+  }
+
+  .gnbLeft { gap: 16px; }
+}
