@@ -109,6 +109,8 @@ export default function DesignSystemPage() {
   const [active, setActive] = useState('tokens');
   const [pgMain, setPgMain] = useState(1);
   const [pgState, setPgState] = useState(1);
+  const [tabCat, setTabCat] = useState('all');
+  const [tabFeat, setTabFeat] = useState('memory');
 
   function scrollTo(id: string) {
     setActive(id);
@@ -655,28 +657,37 @@ export default function DesignSystemPage() {
         <section id="tabs" className={styles.section}>
           <div className={styles.sectionEyebrow}>Components</div>
           <h2 className={styles.sectionTitle}>Tab</h2>
-          <p className={styles.sectionDesc}>Pill chip · 36px · border-radius 50px · Default: transparent border · Active: #000 border · Hover: var(--border)</p>
+          <p className={styles.sectionDesc}>Pill chip · 36px · r=50px · 20px Helvetica Now Text · Default: transparent border fw400 · Hover: border #D9D6D2 · Active: border #000 fw500 · Disabled: opacity 0.5</p>
 
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>States</div>
+          {/* States */}
+          <div className={styles.previewFrame} style={{ background: '#FFFFFF' }}>
+            <div className={styles.previewLabel} style={{ marginBottom: 20 }}>States</div>
             <div className={styles.tabStates}>
-              {[
-                { label: 'Default', style: {} },
-                { label: 'Hover', style: { borderColor: 'var(--border)' } },
-                { label: 'Active', style: { borderColor: '#000000', fontWeight: 500 } },
-                { label: 'Disabled', style: { opacity: 0.5, cursor: 'not-allowed' } },
-              ].map(({ label, style }) => (
-                <div key={label} className={styles.tabStateItem}>
-                  <span className={styles.previewLabel}>{label}</span>
-                  <button className={styles.tabItemDemo} style={style}>Tab</button>
-                </div>
-              ))}
+              <div className={styles.tabStateItem}>
+                <span className={styles.previewLabel}>Default</span>
+                <button className={styles.tabItemDemo}>Tab</button>
+              </div>
+              <div className={styles.tabStateItem}>
+                <span className={styles.previewLabel}>Hover</span>
+                <button className={styles.tabItemDemo} style={{ borderColor: 'var(--border)' }}>Tab</button>
+              </div>
+              <div className={styles.tabStateItem}>
+                <span className={styles.previewLabel}>Active</span>
+                <button className={styles.tabItemDemo} style={{ borderColor: '#000000', fontWeight: 500 }}>Tab</button>
+              </div>
+              <div className={styles.tabStateItem}>
+                <span className={styles.previewLabel}>Disabled</span>
+                <button className={styles.tabItemDemo} style={{ opacity: 0.5, cursor: 'not-allowed' }}>Tab</button>
+              </div>
             </div>
           </div>
 
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>인터랙션 — Category Filter</div>
+          {/* Interactive — Category Filter */}
+          <div className={styles.previewFrame} style={{ background: '#FFFFFF' }}>
+            <div className={styles.previewLabel} style={{ marginBottom: 20 }}>인터랙션 — Category Filter</div>
             <Tab
+              value={tabCat}
+              onChange={setTabCat}
               items={[
                 { label: 'All', value: 'all' },
                 { label: 'AI Agent', value: 'ai-agent' },
@@ -685,13 +696,25 @@ export default function DesignSystemPage() {
                 { label: 'Engineering', value: 'engineering' },
                 { label: 'Security', value: 'security' },
               ]}
-              defaultValue="all"
             />
+            <div className={styles.tabPanel}>
+              {{
+                'all':         <><strong>All</strong> — 모든 콘텐츠 표시</>,
+                'ai-agent':    <><strong>AI Agent</strong> — AI 에이전트 관련 콘텐츠</>,
+                'insights':    <><strong>Insights</strong> — 인사이트 아티클</>,
+                'product':     <><strong>Product</strong> — 제품 업데이트</>,
+                'engineering': <><strong>Engineering</strong> — 엔지니어링 블로그</>,
+                'security':    <><strong>Security</strong> — 보안 &amp; 컴플라이언스</>,
+              }[tabCat] ?? null}
+            </div>
           </div>
 
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>인터랙션 — Feature Selector</div>
+          {/* Interactive — Feature Selector */}
+          <div className={styles.previewFrame} style={{ background: '#FFFFFF' }}>
+            <div className={styles.previewLabel} style={{ marginBottom: 20 }}>인터랙션 — Feature Selector</div>
             <Tab
+              value={tabFeat}
+              onChange={setTabFeat}
               items={[
                 { label: 'Agent Memory', value: 'memory' },
                 { label: 'Omnipresence', value: 'omni' },
@@ -699,8 +722,16 @@ export default function DesignSystemPage() {
                 { label: 'Voice AI', value: 'voice' },
                 { label: 'AI Copilot', value: 'copilot' },
               ]}
-              defaultValue="memory"
             />
+            <div className={styles.tabPanel}>
+              {{
+                'memory':  <><strong>Agent Memory</strong> — A living memory of each customer</>,
+                'omni':    <><strong>Omnipresence</strong> — Meet customers on every channel</>,
+                'trust':   <><strong>Trust OS</strong> — Responsible AI at enterprise scale</>,
+                'voice':   <><strong>Voice AI</strong> — Natural voice conversations</>,
+                'copilot': <><strong>AI Copilot</strong> — Empower your support agents</>,
+              }[tabFeat] ?? null}
+            </div>
           </div>
         </section>
 

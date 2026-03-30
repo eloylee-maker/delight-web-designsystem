@@ -460,6 +460,26 @@
   letter-spacing: 0.08em;
 }
 
+/* ---- Tab panel (content area below tab bar) ---- */
+.tabPanel {
+  padding: 24px;
+  background: var(--bg-subtle);
+  border-radius: 12px;
+  margin-top: 20px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: -0.02em;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.tabPanel strong {
+  font-weight: 500;
+  color: var(--text);
+}
+
 /* ---- Tab States demo ---- */
 .tabStates {
   display: flex;
