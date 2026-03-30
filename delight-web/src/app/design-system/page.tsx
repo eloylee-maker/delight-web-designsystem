@@ -108,7 +108,7 @@ const NAV = [
 export default function DesignSystemPage() {
   const [active, setActive] = useState('tokens');
   const [pgMain, setPgMain] = useState(1);
-  const [pgState, setPgState] = useState(1);
+  const [pgSmall, setPgSmall] = useState(1);
   const [tabCat, setTabCat] = useState('all');
   const [tabFeat, setTabFeat] = useState('memory');
 
@@ -739,26 +739,39 @@ export default function DesignSystemPage() {
         <section id="pagination" className={styles.section}>
           <div className={styles.sectionEyebrow}>Components</div>
           <h2 className={styles.sectionTitle}>Pagination</h2>
-          <p className={styles.sectionDesc}>32px 버튼 · border-radius 6px · 최대 5개 페이지 번호 노출</p>
+          <p className={styles.sectionDesc}>Navigator 32×32px (border 없음, 아이콘만) · Page 18px · Active: fw 500, Black, bg 없음 · Hover: bg #F7F5F0 · gap 12px / 6px</p>
 
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>인터랙션 — 10 Pages</div>
+          {/* Interactive: 10 pages */}
+          <div className={styles.previewFrame} style={{ background: '#FFFFFF' }}>
+            <div className={styles.pgFrameHeader}>
+              <div className={styles.previewLabel}>Page {pgMain} of 10</div>
+              <div className={styles.pgHint}>클릭으로 페이지 변경</div>
+            </div>
             <Pagination totalPages={10} currentPage={pgMain} onPageChange={setPgMain} />
           </div>
 
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>First Page</div>
-            <Pagination totalPages={10} currentPage={1} onPageChange={() => {}} />
+          {/* Interactive: 5 pages */}
+          <div className={styles.previewFrame} style={{ background: '#FFFFFF' }}>
+            <div className={styles.pgFrameHeader}>
+              <div className={styles.previewLabel}>Page {pgSmall} of 5</div>
+              <div className={styles.pgHint}>전체 5페이지</div>
+            </div>
+            <Pagination totalPages={5} currentPage={pgSmall} onPageChange={setPgSmall} />
           </div>
 
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>Last Page</div>
-            <Pagination totalPages={10} currentPage={10} onPageChange={() => {}} />
-          </div>
-
-          <div className={styles.previewFrame}>
-            <div className={styles.previewLabel}>인터랙션 — 20 Pages</div>
-            <Pagination totalPages={20} currentPage={pgState} onPageChange={setPgState} />
+          {/* States: First / Last */}
+          <div className={styles.previewFrame} style={{ background: '#FFFFFF' }}>
+            <div className={styles.previewLabel} style={{ marginBottom: 20 }}>States</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              <div>
+                <div className={styles.pgHint} style={{ marginBottom: 10 }}>Prev disabled — page 1</div>
+                <Pagination totalPages={10} currentPage={1} onPageChange={() => {}} />
+              </div>
+              <div>
+                <div className={styles.pgHint} style={{ marginBottom: 10 }}>Next disabled — last page</div>
+                <Pagination totalPages={10} currentPage={10} onPageChange={() => {}} />
+              </div>
+            </div>
           </div>
         </section>
 

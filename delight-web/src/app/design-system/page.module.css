@@ -460,6 +460,21 @@
   letter-spacing: 0.08em;
 }
 
+/* ---- Pagination frame header ---- */
+.pgFrameHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.pgHint {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: -0.02em;
+}
+
 /* ---- Tab panel (content area below tab bar) ---- */
 .tabPanel {
   padding: 24px;
