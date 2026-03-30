@@ -555,6 +555,279 @@
   color: var(--text);
 }
 
+/* ---- Form States Grid ---- */
+.formStatesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 720px;
+}
+
+.formStatesGrid5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.stateBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stateLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.formInputBase {
+  height: 40px;
+  width: 100%;
+  padding: 0 36px 0 16px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  appearance: none;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Select trigger (visual-only) */
+.selectTrigger {
+  height: 40px;
+  width: 100%;
+  padding: 0 12px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.selectDisabled {
+  background: var(--surface-2);
+  border-color: var(--border-light);
+  color: var(--text-dim);
+  cursor: not-allowed;
+}
+
+.selectError {
+  border-color: #FF5E69;
+}
+
+.formErrorMsg {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 12px;
+  color: #FF5E69;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Dropdown list */
+.dropWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dropList {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.dropListSearch { }
+
+.dropSearchHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-dim);
+}
+
+.dropSearchInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  width: 100%;
+}
+
+.dropItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.dropItem:hover { background: var(--bg-subtle); }
+
+.dropItemSelected {
+  background: var(--bg-subtle);
+  font-weight: 500;
+}
+
+.dropItemDisabled {
+  color: var(--text-dim);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dropRadio {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.dropRadioSelected {
+  border-color: #000;
+  background: radial-gradient(circle, #000 5px, transparent 5px);
+}
+
+.dropCheckbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropCheckboxChecked {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+/* Phone combo */
+.phoneComboWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phoneComboLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.phoneComboInput {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 40px;
+  background: var(--surface);
+}
+
+.phoneComboInputFocus { border-color: #000; }
+.phoneComboInputDisabled { background: var(--surface-2); border-color: var(--border-light); }
+.phoneComboInputError { border-color: #FF5E69; }
+
+.phoneComboPrefix {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  border-right: 1px solid var(--border);
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.phoneComboField {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 12px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* Textarea */
+.formTextarea {
+  width: 100%;
+  padding: 10px 16px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+  appearance: none;
+}
+
+.formTextarea::placeholder { color: var(--text-dim); }
+.formTextarea:focus { border-color: #000; }
+
+/* Selection controls (checkbox/radio group) */
+.selectionControls {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
 /* ---- CTA Banner Preview ---- */
 .ctaPreview {
   background: #18140F;

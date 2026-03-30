@@ -8,6 +8,78 @@ import Pagination from '@/components/Pagination';
 import { Input, Select, Checkbox, RadioGroup } from '@/components/Form';
 import { pcEn, pcKo, mobileEn } from '@/tokens/typography';
 
+/* ---- Phone Combo local demo component ---- */
+function PhoneCombo({
+  label, required, state = 'normal', errorMsg,
+}: {
+  label: string;
+  required?: boolean;
+  state?: 'normal' | 'focus' | 'disabled' | 'checking' | 'error';
+  errorMsg?: string;
+}) {
+  const wrapCls = [
+    styles.phoneComboInput,
+    state === 'focus'    ? styles.phoneComboInputFocus    : '',
+    state === 'disabled' ? styles.phoneComboInputDisabled : '',
+    state === 'error'    ? styles.phoneComboInputError    : '',
+    state === 'checking' ? styles.phoneComboInputFocus    : '',
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className={styles.phoneComboWrap}>
+      <label className={styles.phoneComboLabel}>
+        {label}{required && <span style={{ color: '#FF5E69' }}> *</span>}
+      </label>
+      <div className={wrapCls} style={{ position: 'relative' }}>
+        <div className={styles.phoneComboPrefix}>
+          <span>🇺🇸</span>
+          <span>+1</span>
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </div>
+        <input
+          className={styles.phoneComboField}
+          type="tel"
+          placeholder="(555) 000-0000"
+          disabled={state === 'disabled'}
+          readOnly
+          style={{ paddingRight: state === 'checking' ? 36 : undefined }}
+        />
+        {state === 'checking' && (
+          <span style={{ position: 'absolute', right: 12, display: 'flex', alignItems: 'center' }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="var(--text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </span>
+        )}
+      </div>
+      {state === 'error' && errorMsg && (
+        <span className={styles.formErrorMsg}>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#FF5E69"/><path d="M6 3.5v3M6 8h.01" stroke="#FF5E69" strokeWidth="1.2" strokeLinecap="round"/></svg>
+          {errorMsg}
+        </span>
+      )}
+    </div>
+  );
+}
+
+/* ---- Radio demo wrapper (adds defaultValue) ---- */
+function RadioDemoGroup() {
+  const [val, setVal] = useState('enterprise');
+  return (
+    <div>
+      <span className={styles.stateLabel} style={{ marginBottom: 12, display: 'block' }}>Radio</span>
+      <RadioGroup
+        name="plan-ds"
+        value={val}
+        onChange={setVal}
+        options={[
+          { value: 'enterprise', label: 'Enterprise plan' },
+          { value: 'startup',    label: 'Startup plan' },
+          { value: 'free',       label: 'Free plan' },
+        ]}
+      />
+    </div>
+  );
+}
+
 /* ---- Sidebar nav ---- */
 const NAV = [
   { group: 'Foundation', items: [
@@ -372,32 +444,210 @@ export default function DesignSystemPage() {
         {/* ===== FORMS ===== */}
         <section id="forms" className={styles.section}>
           <div className={styles.sectionEyebrow}>Components</div>
-          <h2 className={styles.sectionTitle}>Forms</h2>
-          <div className={styles.formDemo}>
-            <Input label="Full name" required placeholder="John Smith" />
-            <Input label="Work email" required type="email" placeholder="john@company.com" />
-            <Input label="Company" placeholder="Acme Corp" />
-            <Input label="Message" error="Please enter a valid message" defaultValue="invalid input" />
-            <Input label="Disabled" placeholder="Disabled field" disabled />
-            <Select
-              label="Company size"
-              placeholder="Select size"
-              options={[
-                { value: '1-10', label: '1–10' },
-                { value: '11-100', label: '11–100' },
-                { value: '100+', label: '100+' },
-              ]}
-            />
-            <Checkbox label="I agree to the terms of service" />
-            <RadioGroup
-              label="Plan"
-              name="plan-demo"
-              options={[
-                { value: 'starter', label: 'Starter' },
-                { value: 'pro', label: 'Pro' },
-                { value: 'enterprise', label: 'Enterprise' },
-              ]}
-            />
+          <h2 className={styles.sectionTitle}>Form Inputs</h2>
+          <p className={styles.sectionDesc}>인풋 높이 40px · border-radius 8px · Normal border #D9D6D2 · Focus/Active #000 · Error #FF5E69</p>
+
+          {/* ---- Text Input States ---- */}
+          <div className={styles.groupTitle}>Text Input</div>
+          <div className={styles.formStatesGrid}>
+            <Input label="Company name" placeholder="e.g. Acme Inc." />
+            <Input label="Email address" required placeholder="name@company.com" style={{ borderColor: '#000' }} />
+            <Input label="Email address" required type="email" defaultValue="sarah@acme.com" style={{ borderColor: '#000' }} />
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Checking</span>
+              <div className={styles.inputWrap}>
+                <input className={styles.formInputBase} type="email" defaultValue="sarah@acme.com" readOnly />
+                <span className={styles.inputIcon}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="var(--text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+            <Input label="Account ID" defaultValue="ACC-00123" disabled />
+            <Input label="Work email" required error="Please enter a valid email address" defaultValue="not-an-email" />
+          </div>
+
+          {/* ---- Select States ---- */}
+          <div className={styles.groupTitle} style={{ marginTop: 48 }}>Select</div>
+          <div className={styles.formStatesGrid}>
+            <Select label="Label" placeholder="Value name 1" options={[
+              { value: '1', label: 'Value name 1' }, { value: '2', label: 'Value name 2' },
+              { value: '3', label: 'Value name 3' }, { value: '4', label: 'Value name 4' },
+            ]} />
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Focus</span>
+              <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                <span>Value name 1</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+            </div>
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Typing</span>
+              <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                <span>Value name 1</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+            </div>
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Disabled</span>
+              <div className={`${styles.selectTrigger} ${styles.selectDisabled}`}>
+                <span>Value name 1</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+            </div>
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Checking</span>
+              <div className={styles.inputWrap}>
+                <div className={styles.selectTrigger} style={{ border: 'none', padding: 0, flex: 1 }}>
+                  <span>Value name 1</span>
+                </div>
+                <span className={styles.inputIcon}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5 6.5-7" stroke="var(--text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Alerts</span>
+              <div className={`${styles.selectTrigger} ${styles.selectError}`}>
+                <span>Value name 1</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+              <span className={styles.formErrorMsg}>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" stroke="#FF5E69"/><path d="M6 3.5v3M6 8h.01" stroke="#FF5E69" strokeWidth="1.2" strokeLinecap="round"/></svg>
+                Negative alerts message
+              </span>
+            </div>
+          </div>
+
+          {/* ---- Active Select Dropdown Variants ---- */}
+          <div className={styles.groupTitle} style={{ marginTop: 48 }}>Active (Open dropdown variants)</div>
+          <div className={styles.formStatesGrid5}>
+            {/* Basic list */}
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Basic list</span>
+              <div className={styles.dropWrap}>
+                <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                  <span>Value name 1</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <div className={styles.dropList}>
+                  {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4'].map((v, i) => (
+                    <div key={v} className={`${styles.dropItem} ${i === 0 ? styles.dropItemSelected : ''}`}>{v}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Radio list */}
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Radio list</span>
+              <div className={styles.dropWrap}>
+                <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                  <span>Value name 1</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <div className={styles.dropList}>
+                  {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4'].map((v, i) => (
+                    <div key={v} className={`${styles.dropItem} ${i === 0 ? styles.dropItemSelected : ''}`}>
+                      <span className={`${styles.dropRadio} ${i === 0 ? styles.dropRadioSelected : ''}`} />
+                      {v}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Checkbox list */}
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Checkbox list</span>
+              <div className={styles.dropWrap}>
+                <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                  <span>Value name 1</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <div className={styles.dropList}>
+                  {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4'].map((v, i) => (
+                    <div key={v} className={`${styles.dropItem} ${i === 0 ? styles.dropItemSelected : ''}`}>
+                      <span className={`${styles.dropCheckbox} ${i === 0 ? styles.dropCheckboxChecked : ''}`}>
+                        {i === 0 && <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                      </span>
+                      {v}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Disabled items */}
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Disabled items</span>
+              <div className={styles.dropWrap}>
+                <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                  <span>Value name 3</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <div className={styles.dropList}>
+                  {[
+                    { v: 'Value name 1', dis: true },
+                    { v: 'Value name 2', dis: true },
+                    { v: 'Value name 3', sel: true },
+                    { v: 'Value name 4', dis: true },
+                  ].map(({ v, dis, sel }) => (
+                    <div key={v} className={[styles.dropItem, sel ? styles.dropItemSelected : '', dis ? styles.dropItemDisabled : ''].filter(Boolean).join(' ')}>
+                      <span className={`${styles.dropCheckbox} ${sel ? styles.dropCheckboxChecked : ''}`}>
+                        {sel && <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                      </span>
+                      {v}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Search list */}
+            <div className={styles.stateBlock}>
+              <span className={styles.stateLabel}>Search list</span>
+              <div className={styles.dropWrap}>
+                <div className={styles.selectTrigger} style={{ borderColor: '#000' }}>
+                  <span>Value name 3</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <div className={`${styles.dropList} ${styles.dropListSearch}`}>
+                  <div className={styles.dropSearchHead}>
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/><path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    <input className={styles.dropSearchInput} type="text" placeholder="Search" readOnly />
+                  </div>
+                  {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4', 'Value name 5'].map((v, i) => (
+                    <div key={v} className={`${styles.dropItem} ${i === 2 ? styles.dropItemSelected : ''}`}>{v}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ---- Phone Combo ---- */}
+          <div className={styles.groupTitle} style={{ marginTop: 48 }}>Select + Text (Phone)</div>
+          <div className={styles.formStatesGrid} style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            <PhoneCombo label="Phone number" state="normal" />
+            <PhoneCombo label="Phone number" state="focus" />
+            <PhoneCombo label="Phone number" state="disabled" />
+            <PhoneCombo label="Phone number" state="checking" />
+            <PhoneCombo label="Phone number" required state="error" errorMsg="Negative alerts message" />
+          </div>
+
+          {/* ---- Textarea ---- */}
+          <div className={styles.groupTitle} style={{ marginTop: 48 }}>Textarea</div>
+          <div style={{ maxWidth: 480 }}>
+            <div className={styles.stateBlock}>
+              <textarea className={styles.formTextarea} placeholder="Tell us about your use case…" rows={4} />
+            </div>
+          </div>
+
+          {/* ---- Checkbox & Radio ---- */}
+          <div className={styles.groupTitle} style={{ marginTop: 48 }}>Selection Controls</div>
+          <div className={styles.selectionControls}>
+            <div>
+              <span className={styles.stateLabel} style={{ marginBottom: 12, display: 'block' }}>Checkbox</span>
+              <Checkbox label="I agree to the Terms of Service" defaultChecked />
+              <Checkbox label="Subscribe to product updates" />
+              <Checkbox label="Receive marketing emails" />
+            </div>
+            <RadioDemoGroup />
           </div>
         </section>
 
