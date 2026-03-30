@@ -590,6 +590,93 @@
   color: var(--text);
 }
 
+/* ---- Form field wrapper (inline static demos) ---- */
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* ---- Phone combo — new structure (flag | KR | ▾ | +82 | input) ---- */
+.formCombo {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.formComboFocus   { border-color: #000; }
+.formComboDisabled { background: var(--surface-2); border-color: var(--border-light); }
+.formComboError   { border-color: #FF5E69; }
+
+.formComboPrefix {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  flex-shrink: 0;
+  height: 100%;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.formComboDivider {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-light);
+  height: 100%;
+}
+
+.formComboField {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 12px;
+  font-family: 'Helvetica Now Text', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  height: 100%;
+  min-width: 0;
+}
+
+.formComboField::placeholder { color: var(--text-dim); }
+.formComboField:disabled { cursor: not-allowed; }
+
+.comboDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  z-index: 10;
+}
+
 /* ---- Form States Grid ---- */
 .formStatesGrid {
   display: grid;
