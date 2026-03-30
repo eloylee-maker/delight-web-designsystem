@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import styles from './page.module.css';
+import Button from '@/components/Button';
 import Tab from '@/components/Tab';
 import Pagination from '@/components/Pagination';
+import { Input, Select, Checkbox, RadioGroup } from '@/components/Form';
 import { pcEn, pcKo, mobileEn } from '@/tokens/typography';
 
 /* ---- Sidebar nav ---- */
@@ -327,35 +329,43 @@ export default function DesignSystemPage() {
           <div className={styles.sectionEyebrow}>Components</div>
           <h2 className={styles.sectionTitle}>Buttons</h2>
           <div className={styles.buttonGroups}>
-            {[
-              { label: 'Primary', btns: [
-                { cls: `${styles.btn} ${styles.btnPrimary} ${styles.btnLarge}`,  text: 'Large Button' },
-                { cls: `${styles.btn} ${styles.btnPrimary} ${styles.btnMedium}`, text: 'Medium Button' },
-                { cls: `${styles.btn} ${styles.btnPrimary} ${styles.btnSmall}`,  text: 'Small' },
-              ]},
-              { label: 'Secondary', btns: [
-                { cls: `${styles.btn} ${styles.btnSecondary} ${styles.btnLarge}`,  text: 'Large Button' },
-                { cls: `${styles.btn} ${styles.btnSecondary} ${styles.btnMedium}`, text: 'Medium Button' },
-                { cls: `${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`,  text: 'Small' },
-              ]},
-              { label: 'Tertiary', btns: [
-                { cls: `${styles.btn} ${styles.btnTertiary} ${styles.btnTertiaryLg}`, text: 'Learn more →' },
-                { cls: `${styles.btn} ${styles.btnTertiary} ${styles.btnTertiarySm}`, text: 'See all →' },
-              ]},
-              { label: 'Disabled', btns: [
-                { cls: `${styles.btn} ${styles.btnPrimary} ${styles.btnMedium}`,   text: 'Disabled', disabled: true as const },
-                { cls: `${styles.btn} ${styles.btnSecondary} ${styles.btnMedium}`, text: 'Disabled', disabled: true as const },
-              ]},
-            ].map(({ label, btns }) => (
-              <div key={label} className={styles.buttonGroup}>
-                <span className={styles.groupTitle}>{label}</span>
-                <div className={styles.buttonRow}>
-                  {btns.map((btn) => (
-                    <button key={btn.text} className={btn.cls} disabled={'disabled' in btn ? btn.disabled : false}>{btn.text}</button>
-                  ))}
-                </div>
+            <div className={styles.buttonGroup}>
+              <span className={styles.groupTitle}>Primary</span>
+              <div className={styles.buttonRow}>
+                <Button hierarchy="primary" size="large">Large Button</Button>
+                <Button hierarchy="primary" size="medium">Medium Button</Button>
+                <Button hierarchy="primary" size="small">Small</Button>
               </div>
-            ))}
+            </div>
+            <div className={styles.buttonGroup}>
+              <span className={styles.groupTitle}>Secondary</span>
+              <div className={styles.buttonRow}>
+                <Button hierarchy="secondary" size="large">Large Button</Button>
+                <Button hierarchy="secondary" size="medium">Medium Button</Button>
+                <Button hierarchy="secondary" size="small">Small</Button>
+              </div>
+            </div>
+            <div className={styles.buttonGroup}>
+              <span className={styles.groupTitle}>Tertiary</span>
+              <div className={styles.buttonRow}>
+                <Button hierarchy="tertiary" size="large">Learn more</Button>
+                <Button hierarchy="tertiary" size="small">See all</Button>
+              </div>
+            </div>
+            <div className={styles.buttonGroup}>
+              <span className={styles.groupTitle}>Disabled</span>
+              <div className={styles.buttonRow}>
+                <Button hierarchy="primary" size="medium" disabled>Disabled</Button>
+                <Button hierarchy="secondary" size="medium" disabled>Disabled</Button>
+              </div>
+            </div>
+            <div className={styles.buttonGroup}>
+              <span className={styles.groupTitle}>Loading</span>
+              <div className={styles.buttonRow}>
+                <Button hierarchy="primary" size="medium" loading>Loading</Button>
+                <Button hierarchy="secondary" size="medium" loading>Loading</Button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -364,40 +374,30 @@ export default function DesignSystemPage() {
           <div className={styles.sectionEyebrow}>Components</div>
           <h2 className={styles.sectionTitle}>Forms</h2>
           <div className={styles.formDemo}>
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>Full name <span className={styles.required}>*</span></label>
-              <input className={styles.formInput} type="text" placeholder="John Smith" />
-            </div>
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>Work email <span className={styles.required}>*</span></label>
-              <input className={`${styles.formInput} ${styles.formInputFocus}`} type="email" placeholder="john@company.com" />
-            </div>
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>Company</label>
-              <input className={styles.formInput} type="text" placeholder="Acme Corp" />
-            </div>
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>Message (Error state)</label>
-              <input className={`${styles.formInput} ${styles.formInputError}`} type="text" defaultValue="invalid input" />
-              <span className={styles.formError}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <circle cx="6" cy="6" r="5.5" stroke="#FF5E69"/>
-                  <path d="M6 3.5v3M6 8v.5" stroke="#FF5E69" strokeWidth="1.2" strokeLinecap="round"/>
-                </svg>
-                Please enter a valid message
-              </span>
-            </div>
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>Disabled</label>
-              <input className={styles.formInput} type="text" placeholder="Disabled field" disabled />
-            </div>
-            <div className={styles.formField}>
-              <label className={styles.formLabel}>Company size</label>
-              <select className={styles.formInput}>
-                <option value="">Select size</option>
-                <option>1–10</option><option>11–100</option><option>100+</option>
-              </select>
-            </div>
+            <Input label="Full name" required placeholder="John Smith" />
+            <Input label="Work email" required type="email" placeholder="john@company.com" />
+            <Input label="Company" placeholder="Acme Corp" />
+            <Input label="Message" error="Please enter a valid message" defaultValue="invalid input" />
+            <Input label="Disabled" placeholder="Disabled field" disabled />
+            <Select
+              label="Company size"
+              placeholder="Select size"
+              options={[
+                { value: '1-10', label: '1–10' },
+                { value: '11-100', label: '11–100' },
+                { value: '100+', label: '100+' },
+              ]}
+            />
+            <Checkbox label="I agree to the terms of service" />
+            <RadioGroup
+              label="Plan"
+              name="plan-demo"
+              options={[
+                { value: 'starter', label: 'Starter' },
+                { value: 'pro', label: 'Pro' },
+                { value: 'enterprise', label: 'Enterprise' },
+              ]}
+            />
           </div>
         </section>
 
