@@ -26,6 +26,11 @@ function PhoneCombo({
   ].filter(Boolean).join(' ');
 
   const showDropdown = state === 'active' || state === 'active-req';
+  const [comboQuery, setComboQuery] = useState('');
+  const [comboCtr, setComboCtr] = useState(COUNTRIES[0]);
+  const filteredCountries = COUNTRIES.filter(c =>
+    c.name.toLowerCase().includes(comboQuery.toLowerCase()) || c.code.toLowerCase().includes(comboQuery.toLowerCase())
+  );
 
   return (
     <div className={styles.phoneComboWrap}>
@@ -35,11 +40,11 @@ function PhoneCombo({
       <div style={{ position: 'relative' }}>
         <div className={comboCls}>
           <div className={styles.formComboPrefix}>
-            <span>🇰🇷</span>
-            <span style={{ fontSize: 13 }}>KR</span>
+            <span>{comboCtr.flag}</span>
+            <span style={{ fontSize: 13 }}>{comboCtr.code}</span>
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </div>
-          <span className={styles.formComboDivider}>+82</span>
+          <span className={styles.formComboDivider}>{comboCtr.dial}</span>
           <input
             className={styles.formComboField}
             type="tel"
@@ -49,7 +54,6 @@ function PhoneCombo({
               state === 'error' ? '010-000-0000' : undefined
             }
             disabled={state === 'disabled'}
-            readOnly
           />
           {state === 'checking' && (
             <span style={{ paddingRight: 12, display: 'flex', alignItems: 'center', color: 'var(--text-muted)', flexShrink: 0 }}>
@@ -61,18 +65,12 @@ function PhoneCombo({
           <div className={styles.comboDropdown}>
             <div className={styles.dropSearchHead}>
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/><path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-              <input className={styles.dropSearchInput} type="text" placeholder="Search" readOnly />
+              <input className={styles.dropSearchInput} type="text" placeholder="Search" value={comboQuery} onChange={e => setComboQuery(e.target.value)} />
             </div>
-            {[
-              { flag: '🇰🇷', name: 'South Korea', sel: true },
-              { flag: '🇺🇸', name: 'United States' },
-              { flag: '🇯🇵', name: 'Japan' },
-              { flag: '🇬🇧', name: 'United Kingdom' },
-              { flag: '🇩🇪', name: 'Germany' },
-              { flag: '🇫🇷', name: 'France' },
-            ].map(({ flag, name, sel }) => (
-              <div key={name} className={`${styles.dropItem} ${sel ? styles.dropItemSelected : ''}`}>
-                <span style={{ marginRight: 6 }}>{flag}</span>{name}
+            {filteredCountries.map(c => (
+              <div key={c.code} className={`${styles.dropItem} ${c.code === comboCtr.code ? styles.dropItemSelected : ''}`}
+                onClick={() => { setComboCtr(c); setComboQuery(''); }}>
+                <span style={{ marginRight: 6 }}>{c.flag}</span>{c.name}
               </div>
             ))}
           </div>
@@ -87,6 +85,95 @@ function PhoneCombo({
     </div>
   );
 }
+
+/* ---- Active dropdown interactive sub-components ---- */
+const DROP_VALUES = ['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4'];
+
+function CheckboxDropDemo() {
+  const [sel, setSel] = useState<string[]>(['Value name 1']);
+  const toggle = (v: string) => setSel(p => p.includes(v) ? p.filter(x => x !== v) : [...p, v]);
+  return (
+    <div className={styles.dropList}>
+      {DROP_VALUES.map(v => {
+        const checked = sel.includes(v);
+        return (
+          <div key={v} className={`${styles.dropItem} ${checked ? styles.dropItemSelected : ''}`} onClick={() => toggle(v)}>
+            <span className={`${styles.dropCheckbox} ${checked ? styles.dropCheckboxChecked : ''}`}>
+              {checked && <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+            </span>
+            {v}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function RadioDropDemo() {
+  const [sel, setSel] = useState('Value name 1');
+  return (
+    <div className={styles.dropList}>
+      {DROP_VALUES.map(v => (
+        <div key={v} className={`${styles.dropItem} ${v === sel ? styles.dropItemSelected : ''}`} onClick={() => setSel(v)}>
+          <span className={`${styles.dropRadio} ${v === sel ? styles.dropRadioSelected : ''}`} />
+          {v}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function DisabledDropDemo() {
+  const [sel, setSel] = useState('Value name 3');
+  const items = [
+    { v: 'Value name 1', dis: true },
+    { v: 'Value name 2', dis: true },
+    { v: 'Value name 3', dis: false },
+    { v: 'Value name 4', dis: true },
+  ];
+  return (
+    <div className={styles.dropList}>
+      {items.map(({ v, dis }) => (
+        <div key={v}
+          className={[styles.dropItem, v === sel ? styles.dropItemSelected : '', dis ? styles.dropItemDisabled : ''].filter(Boolean).join(' ')}
+          onClick={() => !dis && setSel(v)}>
+          <span className={`${styles.dropCheckbox} ${v === sel ? styles.dropCheckboxChecked : ''}`}>
+            {v === sel && <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+          </span>
+          {v}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const SEARCH_VALUES = ['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4', 'Value name 5'];
+
+function SearchDropDemo() {
+  const [query, setQuery] = useState('');
+  const [sel, setSel] = useState('Value name 3');
+  const filtered = SEARCH_VALUES.filter(v => v.toLowerCase().includes(query.toLowerCase()));
+  return (
+    <div className={`${styles.dropList} ${styles.dropListSearch}`}>
+      <div className={styles.dropSearchHead}>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/><path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+        <input className={styles.dropSearchInput} type="text" placeholder="Search" value={query} onChange={e => setQuery(e.target.value)} />
+      </div>
+      {filtered.map(v => (
+        <div key={v} className={`${styles.dropItem} ${v === sel ? styles.dropItemSelected : ''}`} onClick={() => setSel(v)}>{v}</div>
+      ))}
+    </div>
+  );
+}
+
+const COUNTRIES = [
+  { flag: '🇰🇷', name: 'South Korea', code: 'KR', dial: '+82' },
+  { flag: '🇺🇸', name: 'United States', code: 'US', dial: '+1' },
+  { flag: '🇯🇵', name: 'Japan', code: 'JP', dial: '+81' },
+  { flag: '🇬🇧', name: 'United Kingdom', code: 'GB', dial: '+44' },
+  { flag: '🇩🇪', name: 'Germany', code: 'DE', dial: '+49' },
+  { flag: '🇫🇷', name: 'France', code: 'FR', dial: '+33' },
+];
 
 /* ---- Radio demo wrapper (adds defaultValue) ---- */
 function RadioDemoGroup() {
@@ -611,14 +698,7 @@ export default function DesignSystemPage() {
                     <span>Value name 1</span>
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
-                  <div className={styles.dropList}>
-                    {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4'].map((v, i) => (
-                      <div key={v} className={`${styles.dropItem} ${i === 0 ? styles.dropItemSelected : ''}`}>
-                        <span className={`${styles.dropRadio} ${i === 0 ? styles.dropRadioSelected : ''}`} />
-                        {v}
-                      </div>
-                    ))}
-                  </div>
+                  <RadioDropDemo />
                 </div>
               </div>
             </div>
@@ -632,16 +712,7 @@ export default function DesignSystemPage() {
                     <span>Value name 1</span>
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
-                  <div className={styles.dropList}>
-                    {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4'].map((v, i) => (
-                      <div key={v} className={`${styles.dropItem} ${i === 0 ? styles.dropItemSelected : ''}`}>
-                        <span className={`${styles.dropCheckbox} ${i === 0 ? styles.dropCheckboxChecked : ''}`}>
-                          {i === 0 && <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                        </span>
-                        {v}
-                      </div>
-                    ))}
-                  </div>
+                  <CheckboxDropDemo />
                 </div>
               </div>
             </div>
@@ -655,21 +726,7 @@ export default function DesignSystemPage() {
                     <span>Value name 1</span>
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
-                  <div className={styles.dropList}>
-                    {[
-                      { v: 'Value name 1', dis: true },
-                      { v: 'Value name 2', dis: true },
-                      { v: 'Value name 3', sel: true },
-                      { v: 'Value name 4', dis: true },
-                    ].map(({ v, dis, sel }) => (
-                      <div key={v} className={[styles.dropItem, sel ? styles.dropItemSelected : '', dis ? styles.dropItemDisabled : ''].filter(Boolean).join(' ')}>
-                        <span className={`${styles.dropCheckbox} ${sel ? styles.dropCheckboxChecked : ''}`}>
-                          {sel && <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                        </span>
-                        {v}
-                      </div>
-                    ))}
-                  </div>
+                  <DisabledDropDemo />
                 </div>
               </div>
             </div>
@@ -683,15 +740,7 @@ export default function DesignSystemPage() {
                     <span>Value name 3</span>
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ transform: 'rotate(180deg)' }}><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
-                  <div className={`${styles.dropList} ${styles.dropListSearch}`}>
-                    <div className={styles.dropSearchHead}>
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/><path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-                      <input className={styles.dropSearchInput} type="text" placeholder="Search" readOnly />
-                    </div>
-                    {['Value name 1', 'Value name 2', 'Value name 3', 'Value name 4', 'Value name 5'].map((v, i) => (
-                      <div key={v} className={`${styles.dropItem} ${i === 2 ? styles.dropItemSelected : ''}`}>{v}</div>
-                    ))}
-                  </div>
+                  <SearchDropDemo />
                 </div>
               </div>
             </div>
