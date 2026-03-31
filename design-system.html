@@ -803,7 +803,8 @@
     }
 
     /* ---- Checkbox & Radio ---- */
-    .checkbox-wrap { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+    .checkbox-wrap { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+    .checkbox-input { position: absolute; opacity: 0; width: 0; height: 0; }
     .checkbox-box {
       width: 20px; height: 20px;
       border: 1.5px solid var(--border);
@@ -813,14 +814,18 @@
       display: flex; align-items: center; justify-content: center;
       margin-top: 1px; transition: background 0.15s, border-color 0.15s;
     }
-    /* Default: faint gray checkmark (SVG) */
-    .checkbox-box { color: var(--disabled); }
-    .checkbox-box svg { display: block; flex-shrink: 0; }
-    /* Selected: black fill + white checkmark */
-    .checkbox-box.checked { background: #000000; border-color: #000000; color: #FFFFFF; }
-    .checkbox-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+    .checkbox-input:checked + .checkbox-box { background: #000000; border-color: #000000; }
+    .checkbox-input:checked + .checkbox-box::after {
+      content: ''; display: block;
+      width: 5px; height: 9px;
+      border: 2px solid #FFFFFF;
+      border-top: none; border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+    }
+    .checkbox-text { font-family: 'Helvetica Now Text', sans-serif; font-size: 14px; font-weight: 400; color: var(--text); letter-spacing: -0.02em; line-height: 1.5; }
 
-    .radio-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .radio-wrap { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .radio-input { position: absolute; opacity: 0; width: 0; height: 0; }
     .radio-box {
       width: 20px; height: 20px;
       border: 1.5px solid var(--border);
@@ -828,17 +833,14 @@
       background: var(--surface);
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s, border-color 0.15s;
+      transition: border-color 0.15s;
     }
-    /* Default: faint gray center dot */
-    .radio-box::after {
+    .radio-input:checked + .radio-box { border-color: #000000; border-width: 2px; }
+    .radio-input:checked + .radio-box::after {
       content: ''; display: block;
-      width: 6px; height: 6px;
-      border-radius: 50%; background: var(--disabled);
+      width: 10px; height: 10px;
+      border-radius: 50%; background: #000000;
     }
-    /* Selected: black fill + white center dot */
-    .radio-box.checked { background: #000000; border-color: #000000; }
-    .radio-box.checked::after { background: #FFFFFF; }
 
     /* ============================================================
        TAB
@@ -913,26 +915,26 @@
       gap: 12px;
     }
 
-    /* Navigator: border/bg 없음 — 순수 아이콘 (Figma 확인) */
     .page-nav {
       width: 32px; height: 32px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted); /* #66625e — active state */
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       padding: 0;
-      transition: color 0.12s;
+      transition: border-color 0.12s, background 0.12s;
       flex-shrink: 0;
     }
-    .page-nav:hover:not(:disabled) { color: var(--text); }
-    .page-nav:disabled { color: var(--disabled); /* #c4c0b9 */ cursor: default; }
+    .page-nav:hover:not(:disabled) { border-color: var(--text); background: var(--bg-subtle); }
+    .page-nav:disabled { color: var(--text-dim); border-color: var(--border-light); cursor: not-allowed; }
 
     .page-nums { display: flex; align-items: center; gap: 6px; }
 
     .page-num {
       width: 32px; height: 32px;
-      border-radius: 8px; /* Figma: r=8 */
+      border-radius: 6px;
       border: none;
       background: transparent;
       font-family: 'Helvetica Now Text', sans-serif;
@@ -945,10 +947,8 @@
       transition: background 0.12s, color 0.12s;
       flex-shrink: 0;
     }
-    /* Hover: bg만 추가, Active default는 bg 없음 (Figma 확인) */
-    .page-num:hover { background: var(--bg-subtle); /* #f7f5f0 */ }
-    .page-num.active { font-weight: 500; color: var(--text); background: transparent; }
-    .page-num.active:hover { background: var(--bg-subtle); }
+    .page-num:hover:not(.active) { background: var(--bg-subtle); color: var(--text); }
+    .page-num.active { font-weight: 500; color: var(--text); background: var(--bg-subtle); }
 
     .page-ellipsis {
       width: 32px; height: 32px;
@@ -2354,31 +2354,37 @@
         <div style="display:flex;gap:48px;flex-wrap:wrap;">
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div class="state-label">Checkbox</div>
-            <label class="checkbox-wrap" onclick="toggleCheckbox(this)">
-              <div class="checkbox-box checked"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <label class="checkbox-wrap">
+              <input type="checkbox" class="checkbox-input" checked>
+              <span class="checkbox-box"></span>
               <span class="checkbox-text">I agree to the Terms of Service</span>
             </label>
-            <label class="checkbox-wrap" onclick="toggleCheckbox(this)">
-              <div class="checkbox-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <label class="checkbox-wrap">
+              <input type="checkbox" class="checkbox-input">
+              <span class="checkbox-box"></span>
               <span class="checkbox-text">Subscribe to product updates</span>
             </label>
-            <label class="checkbox-wrap" onclick="toggleCheckbox(this)">
-              <div class="checkbox-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L4.5 7.5L10.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <label class="checkbox-wrap">
+              <input type="checkbox" class="checkbox-input">
+              <span class="checkbox-box"></span>
               <span class="checkbox-text">Receive marketing emails</span>
             </label>
           </div>
-          <div style="display:flex;flex-direction:column;gap:12px;" data-radio-group="plan-group">
+          <div style="display:flex;flex-direction:column;gap:12px;">
             <div class="state-label">Radio</div>
-            <label class="radio-wrap" onclick="selectRadio(this, 'plan-group')">
-              <div class="radio-box checked"></div>
+            <label class="radio-wrap">
+              <input type="radio" class="radio-input" name="plan-group" value="enterprise" checked>
+              <span class="radio-box"></span>
               <span class="checkbox-text">Enterprise plan</span>
             </label>
-            <label class="radio-wrap" onclick="selectRadio(this, 'plan-group')">
-              <div class="radio-box"></div>
+            <label class="radio-wrap">
+              <input type="radio" class="radio-input" name="plan-group" value="startup">
+              <span class="radio-box"></span>
               <span class="checkbox-text">Startup plan</span>
             </label>
-            <label class="radio-wrap" onclick="selectRadio(this, 'plan-group')">
-              <div class="radio-box"></div>
+            <label class="radio-wrap">
+              <input type="radio" class="radio-input" name="plan-group" value="free">
+              <span class="radio-box"></span>
               <span class="checkbox-text">Free plan</span>
             </label>
           </div>
@@ -2746,23 +2752,6 @@
       if (!drop) return;
       drop.querySelectorAll('.form-select-item').forEach(i => i.classList.remove('selected'));
       item.classList.add('selected');
-    }
-
-    /* ---- Checkbox toggle ---- */
-    function toggleCheckbox(label) {
-      const box = label.querySelector('.checkbox-box');
-      if (!box) return;
-      box.classList.toggle('checked');
-    }
-
-    /* ---- Radio single-select (group 내 하나만 선택) ---- */
-    function selectRadio(label, group) {
-      // 같은 group의 모든 radio-wrap 찾기 (공통 부모 기준)
-      const parent = label.closest('[data-radio-group="' + group + '"]')
-                  || label.parentElement;
-      parent.querySelectorAll('.radio-box').forEach(box => box.classList.remove('checked'));
-      const box = label.querySelector('.radio-box');
-      if (box) box.classList.add('checked');
     }
 
     function toggleSelect(id) {
