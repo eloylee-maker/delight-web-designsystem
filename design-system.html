@@ -924,11 +924,14 @@
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       padding: 0;
-      transition: border-color 0.12s, background 0.12s;
+      outline: none;
       flex-shrink: 0;
+      transition: border-color 0.12s ease, background 0.12s ease;
     }
     .page-nav:hover:not(:disabled) { border-color: var(--text); background: var(--bg-subtle); }
-    .page-nav:disabled { color: var(--text-dim); border-color: var(--border-light); cursor: not-allowed; }
+    .page-nav:active:not(:disabled) { background: var(--border-light); border-color: var(--text); }
+    .page-nav:disabled { color: var(--text-dim); border-color: var(--border-light); cursor: not-allowed; opacity: 0.6; }
+    .page-nav:focus { outline: none; }
 
     .page-nums { display: flex; align-items: center; gap: 6px; }
 
@@ -944,11 +947,14 @@
       letter-spacing: -0.02em;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      transition: background 0.12s, color 0.12s;
+      outline: none;
       flex-shrink: 0;
+      transition: background 0.12s ease, color 0.12s ease;
     }
     .page-num:hover:not(.active) { background: var(--bg-subtle); color: var(--text); }
+    .page-num:active:not(.active) { background: var(--border-light); color: var(--text); }
     .page-num.active { font-weight: 500; color: var(--text); background: var(--bg-subtle); }
+    .page-num:focus { outline: none; }
 
     .page-ellipsis {
       width: 32px; height: 32px;
