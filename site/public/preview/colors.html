@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><title>Color tokens</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body{margin:0;padding:40px;background:#FFF;font-family:'Helvetica Now Text',sans-serif;color:var(--text);letter-spacing:-.02em}
+  h1{font-family:'Serrif',serif;font-weight:500;font-size:28px;margin:0 0 4px}
+  .sub{font-size:14px;color:var(--text-muted);margin:0 0 36px;max-width:680px;line-height:1.55}
+  .grp{margin-bottom:36px}
+  .grp-h{
+    display:flex;align-items:baseline;gap:12px;
+    font-size:11px;font-weight:500;color:var(--text);text-transform:uppercase;letter-spacing:.08em;
+    margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  }
+  .grp-h .grp-sub{
+    font-size:12px;font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:-.02em;
+  }
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .row.row-6{grid-template-columns:repeat(6,1fr)}
+
+  /* Uniform chip — every swatch is identical structure: square chip, name, hex, usage */
+  .sw{
+    display:flex;flex-direction:column;
+    border:1px solid var(--border);border-radius:12px;
+    background:#FFF;overflow:hidden;
+  }
+  .sw-c{
+    height:96px;width:100%;display:block;border-bottom:1px solid var(--border);
+  }
+  .sw-i{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .sw-name{font-size:13px;font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.3}
+  .sw-hex{
+    font-size:11px;color:var(--text-muted);
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:0;
+    text-transform:uppercase;
+  }
+  .sw-use{
+    font-size:12px;color:var(--text);letter-spacing:-.02em;line-height:1.4;
+    margin-top:auto;padding-top:6px;border-top:1px dashed var(--border);
+  }
+
+  /* Special chips that need a hairline so #FFFFFF is visible */
+  .sw[data-pale="1"] .sw-c{box-shadow:inset 0 0 0 1px var(--border)}
+</style></head><body>
+<h1>Color tokens</h1>
+<p class="sub">Delight Warm theme — pure-white backgrounds, warm grays for product chrome, black for CTAs, lime as the single accent. Cool grays are reserved for Sendbird-side surfaces. Each swatch lists its primary use so engineers and designers reach for the same token.</p>
+
+<div class="grp">
+  <div class="grp-h">Backgrounds &amp; Surfaces <span class="grp-sub">page chrome, cards, dark frames, accent fills</span></div>
+  <div class="row">
+    <div class="sw" data-pale="1"><span class="sw-c" style="background:#FFFFFF"></span><div class="sw-i"><div class="sw-name">--bg</div><div class="sw-hex">#FFFFFF</div><div class="sw-use">Page background. The default canvas for every web surface.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#F7F5F0"></span><div class="sw-i"><div class="sw-name">--bg-subtle</div><div class="sw-hex">#F7F5F0</div><div class="sw-use">Card fills, hover states, GNB logo switcher, code blocks.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#18140F"></span><div class="sw-i"><div class="sw-name">--cta-dark</div><div class="sw-hex">#18140F</div><div class="sw-use">Dark sections, footer, hero panels, on-dark text uses #FFF.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#F2FF66"></span><div class="sw-i"><div class="sw-name">--lime</div><div class="sw-hex">#F2FF66</div><div class="sw-use">Brand accent fill — feature spotlights, hero badges, the dot.</div></div></div>
+  </div>
+</div>
+
+<div class="grp">
+  <div class="grp-h">Warm Gray scale <span class="grp-sub">delight.ai — text, borders, disabled states</span></div>
+  <div class="row row-6">
+    <div class="sw"><span class="sw-c" style="background:#F7F5F0"></span><div class="sw-i"><div class="sw-name">WGray100</div><div class="sw-hex">#F7F5F0</div><div class="sw-use">Subtle background fills (= --bg-subtle).</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#E5E3DF"></span><div class="sw-i"><div class="sw-name">WGray150</div><div class="sw-hex">#E5E3DF</div><div class="sw-use">Default border (--border). Hairlines on cards, inputs, GNB.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#D9D6D2"></span><div class="sw-i"><div class="sw-name">WGray200</div><div class="sw-hex">#D9D6D2</div><div class="sw-use">Stronger border (--border-light). Disabled button fills.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#C4C0B9"></span><div class="sw-i"><div class="sw-name">WGray250</div><div class="sw-hex">#C4C0B9</div><div class="sw-use">Disabled link / tertiary text, paginator disabled arrow.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#A8A39B"></span><div class="sw-i"><div class="sw-name">WGray300</div><div class="sw-hex">#A8A39B</div><div class="sw-use">Disabled secondary button copy, placeholder iconography.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#8C867E"></span><div class="sw-i"><div class="sw-name">WGray350</div><div class="sw-hex">#8C867E</div><div class="sw-use">Tertiary text — captions, helper copy, metadata.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#736E68"></span><div class="sw-i"><div class="sw-name">WGray400</div><div class="sw-hex">#736E68</div><div class="sw-use">Muted text (--text-muted). Section descriptions, sub-labels.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#54504B"></span><div class="sw-i"><div class="sw-name">WGray600</div><div class="sw-hex">#54504B</div><div class="sw-use">Dim text (--text-dim). De-emphasised body copy, footer links.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#3B3530"></span><div class="sw-i"><div class="sw-name">WGray800</div><div class="sw-hex">#3B3530</div><div class="sw-use">Heavy headings on warm backgrounds (rare — usually use Black).</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#292016"></span><div class="sw-i"><div class="sw-name">WGray900</div><div class="sw-hex">#292016</div><div class="sw-use">Dark surface — alternate to --cta-dark for warmer panels.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#000000"></span><div class="sw-i"><div class="sw-name">Black</div><div class="sw-hex">#000000</div><div class="sw-use">Default text (--text), primary CTA fill, focus border.</div></div></div>
+  </div>
+</div>
+
+<div class="grp">
+  <div class="grp-h">Cool Gray scale <span class="grp-sub">Sendbird-side surfaces only — not for delight.ai pages</span></div>
+  <div class="row row-6">
+    <div class="sw"><span class="sw-c" style="background:#F2F3F7"></span><div class="sw-i"><div class="sw-name">CGray100</div><div class="sw-hex">#F2F3F7</div><div class="sw-use">Sendbird page background, doc sidebars.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#E3E5EF"></span><div class="sw-i"><div class="sw-name">CGray150</div><div class="sw-hex">#E3E5EF</div><div class="sw-use">Sendbird borders and dividers.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#D3D6E3"></span><div class="sw-i"><div class="sw-name">CGray200</div><div class="sw-hex">#D3D6E3</div><div class="sw-use">Default radio/checkbox border, Sendbird disabled states.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#9194A8"></span><div class="sw-i"><div class="sw-name">CGray300</div><div class="sw-hex">#9194A8</div><div class="sw-use">Sendbird tertiary text and icons.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#555869"></span><div class="sw-i"><div class="sw-name">CGray500</div><div class="sw-hex">#555869</div><div class="sw-use">Sendbird body text in mid-emphasis blocks.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#0E1017"></span><div class="sw-i"><div class="sw-name">CGray900</div><div class="sw-hex">#0E1017</div><div class="sw-use">Sendbird headlines and the Sendbird mark fill.</div></div></div>
+  </div>
+</div>
+
+<div class="grp">
+  <div class="grp-h">Brand accents <span class="grp-sub">use sparingly — one accent per layout</span></div>
+  <div class="row">
+    <div class="sw"><span class="sw-c" style="background:#F2FF66"></span><div class="sw-i"><div class="sw-name">Delight Lime</div><div class="sw-hex">#F2FF66</div><div class="sw-use">Primary brand accent. Spotlight surfaces, the dot in the mark, hero badges.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#7B39FE"></span><div class="sw-i"><div class="sw-name">Sendbird Purple</div><div class="sw-hex">#7B39FE</div><div class="sw-use">Sendbird-side accent only. Never use on a delight.ai page.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#D1F778"></span><div class="sw-i"><div class="sw-name">Sendbird Lime</div><div class="sw-hex">#D1F778</div><div class="sw-use">Secondary Sendbird accent for paired-product moments.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#000000"></span><div class="sw-i"><div class="sw-name">Black on Lime</div><div class="sw-hex">#000000</div><div class="sw-use">Accent pairing — type and iconography on lime fills.</div></div></div>
+  </div>
+</div>
+
+<div class="grp">
+  <div class="grp-h">Semantic <span class="grp-sub">errors, info, success — paired 500 + 100 fills</span></div>
+  <div class="row row-6">
+    <div class="sw"><span class="sw-c" style="background:#FF5E69"></span><div class="sw-i"><div class="sw-name">Red500</div><div class="sw-hex">#FF5E69</div><div class="sw-use">Error border + icon. Destructive button fill.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#FFE3E5"></span><div class="sw-i"><div class="sw-name">Red100</div><div class="sw-hex">#FFE3E5</div><div class="sw-use">Error toast / banner background.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#27A6F7"></span><div class="sw-i"><div class="sw-name">Blue500</div><div class="sw-hex">#27A6F7</div><div class="sw-use">Info border + icon. Inline link emphasis (rare).</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#D8F0FF"></span><div class="sw-i"><div class="sw-name">Blue100</div><div class="sw-hex">#D8F0FF</div><div class="sw-use">Info toast / banner background.</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#25BD85"></span><div class="sw-i"><div class="sw-name">Green500</div><div class="sw-hex">#25BD85</div><div class="sw-use">Success border + icon. Status badges (live, healthy).</div></div></div>
+    <div class="sw"><span class="sw-c" style="background:#D0F3E6"></span><div class="sw-i"><div class="sw-name">Green100</div><div class="sw-hex">#D0F3E6</div><div class="sw-use">Success toast / banner background.</div></div></div>
+  </div>
+</div>
+</body></html>

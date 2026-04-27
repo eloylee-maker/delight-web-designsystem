@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Landing patterns — delight.ai DS</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../ui_kits/web/components.css">
+<style>
+  body { background:#FFFFFF; }
+  .doc-section { width: min(calc(100% - 32px), 1200px); margin: 60px auto; }
+  .doc-eyebrow { font-family:'Helvetica Now Text'; font-size:13px; font-weight:500; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .doc-h2 { font-family:'Serrif'; font-weight:500; font-size:38px; color:var(--text); letter-spacing:-0.02em; margin-bottom: 16px; }
+  .doc-p { font-family:'Helvetica Now Text'; font-size:16px; line-height:1.6; color:var(--text-muted); max-width:720px; }
+  .pattern-card { border:1px solid var(--border); border-radius:16px; overflow:hidden; margin: 32px 0; }
+  .pattern-label { padding: 14px 20px; background: var(--bg-subtle); border-bottom: 1px solid var(--border); font-family:'Helvetica Now Text'; font-size:13px; font-weight:500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .pattern-body { padding: 0; }
+  .pattern-body .hero,
+  .pattern-body .cta-banner { padding: 64px 0; }
+  .rhythm-stack > section { padding: 60px 0; }
+  .rhythm-stack .rh-inner { width: min(calc(100% - 32px), 960px); margin: 0 auto; }
+  .rhythm-stack h3 { font-family:'Serrif'; font-weight:500; font-size:28px; margin-bottom:8px; }
+  .rhythm-stack p { font-family:'Helvetica Now Text'; font-size:16px; line-height:1.6; color: var(--text-muted); }
+  .rhythm-stack .bg-dark p { color: rgba(255,255,255,0.7); }
+  .rhythm-stack .bg-dark h3 { color:#FFFFFF; }
+</style>
+</head>
+<body>
+
+<div class="doc-section">
+  <div class="doc-eyebrow">Patterns</div>
+  <h1 class="doc-h2">Landing patterns</h1>
+  <p class="doc-p">
+    Hero, FAQ, CTA banner, and the section background rhythm. These four blocks build most delight.ai marketing pages.
+  </p>
+</div>
+
+<!-- Hero -->
+<div class="doc-section">
+  <div class="pattern-card">
+    <div class="pattern-label">Hero — 2-column 1fr 1fr</div>
+    <div class="pattern-body">
+      <section class="hero bg-white">
+        <div class="hero-container">
+          <div class="hero-grid">
+            <div class="hero-left">
+              <span class="hero-eyebrow">Trust OS 2.0</span>
+              <h1 class="hero-title">The trust os for ai agents.</h1>
+              <p class="hero-body">Govern, observe, and ship AI agents your customers can rely on. One platform. Every channel.</p>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-large" href="#">
+                  <span class="btn-label">Talk to sales</span>
+                  <span class="btn-arrow">→</span>
+                </a>
+                <a class="btn btn-tertiary btn-large" href="#">
+                  <span class="btn-label">Read the docs</span>
+                  <span class="btn-arrow">→</span>
+                </a>
+              </div>
+            </div>
+            <div class="hero-right">[ Hero visual placeholder — 480px tall ]</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="doc-section">
+  <div class="pattern-card">
+    <div class="pattern-label">FAQ accordion — lime toggle when open</div>
+    <div class="pattern-body" style="padding: 64px 32px;">
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-q" type="button">
+            What is delight.ai?
+            <span class="faq-icon">
+              <span class="icon-plus"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="icon-minus"><svg viewBox="0 0 14 14" fill="none"><path d="M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            </span>
+          </button>
+          <div class="faq-a">delight.ai is the trust operating system for AI agents — a platform that combines voice, chat, and email agents with the governance, observability, and identity layer needed to ship them in production.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            How is delight.ai related to Sendbird?
+            <span class="faq-icon">
+              <span class="icon-plus"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="icon-minus"><svg viewBox="0 0 14 14" fill="none"><path d="M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            </span>
+          </button>
+          <div class="faq-a">delight.ai is a Sendbird brand. Sendbird's communications infrastructure powers the underlying messaging, voice, and identity primitives.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            Can I bring my own LLM?
+            <span class="faq-icon">
+              <span class="icon-plus"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              <span class="icon-minus"><svg viewBox="0 0 14 14" fill="none"><path d="M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            </span>
+          </button>
+          <div class="faq-a">Yes. delight.ai is model-agnostic — bring OpenAI, Anthropic, your fine-tune, or any provider you've vendor-approved.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA banner -->
+<div class="doc-section">
+  <div class="pattern-card">
+    <div class="pattern-label">CTA banner — dark bg, lime button (the only place lime CTA is allowed)</div>
+    <div class="pattern-body">
+      <section class="cta-banner">
+        <div class="cta-banner-container">
+          <h2 class="cta-banner-title">Ready to ship agents your customers trust?</h2>
+          <p class="cta-banner-body">Talk to our team about Trust OS 2.0 and how delight.ai fits your stack.</p>
+          <div class="cta-banner-actions">
+            <a class="btn btn-lime btn-large" href="#">
+              <span class="btn-label">Talk to sales</span>
+              <span class="btn-arrow">→</span>
+            </a>
+            <a class="btn btn-tertiary btn-large" href="#" style="color:#FFFFFF;">
+              <span class="btn-label">Get the playbook</span>
+              <span class="btn-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Section rhythm -->
+<div class="doc-section">
+  <div class="pattern-card">
+    <div class="pattern-label">Section background rhythm — alternate white ↔ subtle, occasional dark</div>
+    <div class="pattern-body rhythm-stack">
+      <section class="bg-white"><div class="rh-inner"><h3>Section A — bg-white</h3><p>Default surface. Most content sits here.</p></div></section>
+      <section class="bg-subtle"><div class="rh-inner"><h3>Section B — bg-subtle</h3><p>Used to break up content. Always paired with a white section before/after.</p></div></section>
+      <section class="bg-white"><div class="rh-inner"><h3>Section C — bg-white</h3><p>Continue rhythm.</p></div></section>
+      <section class="bg-dark"><div class="rh-inner"><h3>Section D — bg-dark (CTA)</h3><p>Used once per page, at or near the bottom, to host the lime CTA.</p></div></section>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    q.parentElement.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>
