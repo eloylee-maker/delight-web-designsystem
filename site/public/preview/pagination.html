@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Pagination</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
+  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
+  .sub { font-size:14px; color:var(--text-muted); margin:0 0 28px; max-width:760px; line-height:1.5; }
+  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:28px 0 12px; }
+  .frame { padding:24px; background:var(--bg-subtle,#F7F5F0); border-radius:12px; }
+
+  .pag { display:flex; align-items:center; gap:12px; }
+  .nav { width:32px; height:32px; border-radius:6px; border:1px solid #E0DAD2; background:#FFF; color:var(--text); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:.12s; }
+  .nav:hover:not([disabled]) { border-color:var(--text); background:var(--bg-subtle,#F7F5F0); }
+  .nav[disabled] { color:#9E9890; border-color:#EAE6DF; cursor:not-allowed; }
+
+  .nums { display:flex; align-items:center; gap:6px; }
+  .pg { width:32px; height:32px; border-radius:6px; border:none; background:transparent; font-family:'Helvetica Now Text',sans-serif; font-size:18px; color:#8C867E; letter-spacing:-.02em; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:.12s; }
+  .pg:hover:not(.on) { background:var(--bg-subtle,#F7F5F0); color:var(--text); }
+  .pg.on { font-weight:500; color:var(--text); background:#FFF; border:1px solid var(--border); }
+  .ell { width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center; color:#9E9890; }
+
+  .meta { font-size:13px; color:var(--text-muted); margin-top:14px; }
+
+  .spec { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+  .spec th, .spec td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); }
+  .spec th { font-weight:500; color:var(--text-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
+  .spec code { font-family: ui-monospace, monospace; font-size:12px; color:var(--text-muted); background:var(--bg-subtle,#F7F5F0); padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<h1>Pagination</h1>
+<p class="sub">32 × 32px squares with 6px corners. The active page is filled white inside the tinted band; ellipses appear when there are more than 7 pages.</p>
+
+<div class="grp-h">Default · 12 pages</div>
+<div class="frame">
+  <nav class="pag" aria-label="Pagination">
+    <button class="nav" aria-label="Prev">‹</button>
+    <div class="nums">
+      <button class="pg">1</button>
+      <span class="ell">…</span>
+      <button class="pg">3</button>
+      <button class="pg">4</button>
+      <button class="pg on" aria-current="page">5</button>
+      <button class="pg">6</button>
+      <button class="pg">7</button>
+      <span class="ell">…</span>
+      <button class="pg">12</button>
+    </div>
+    <button class="nav" aria-label="Next">›</button>
+  </nav>
+  <p class="meta">Showing 41 – 50 of 117 results</p>
+</div>
+
+<div class="grp-h">First page</div>
+<div class="frame">
+  <nav class="pag">
+    <button class="nav" disabled>‹</button>
+    <div class="nums">
+      <button class="pg on">1</button>
+      <button class="pg">2</button>
+      <button class="pg">3</button>
+      <button class="pg">4</button>
+      <button class="pg">5</button>
+      <span class="ell">…</span>
+      <button class="pg">12</button>
+    </div>
+    <button class="nav">›</button>
+  </nav>
+</div>
+
+<div class="grp-h">Last page</div>
+<div class="frame">
+  <nav class="pag">
+    <button class="nav">‹</button>
+    <div class="nums">
+      <button class="pg">1</button>
+      <span class="ell">…</span>
+      <button class="pg">8</button>
+      <button class="pg">9</button>
+      <button class="pg">10</button>
+      <button class="pg">11</button>
+      <button class="pg on">12</button>
+    </div>
+    <button class="nav" disabled>›</button>
+  </nav>
+</div>
+
+<div class="grp-h">Short list · ≤ 7 pages</div>
+<div class="frame">
+  <nav class="pag">
+    <button class="nav">‹</button>
+    <div class="nums">
+      <button class="pg">1</button>
+      <button class="pg">2</button>
+      <button class="pg on">3</button>
+      <button class="pg">4</button>
+      <button class="pg">5</button>
+    </div>
+    <button class="nav">›</button>
+  </nav>
+</div>
+
+<div class="grp-h">Spec</div>
+<table class="spec">
+  <thead><tr><th>Token</th><th>Value</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Cell size</td><td><code>32 × 32px</code></td><td>Page button, navigator, ellipsis</td></tr>
+    <tr><td>Radius</td><td><code>6px</code></td><td>--r-sm</td></tr>
+    <tr><td>Gap</td><td><code>12px</code></td><td>nav ↔ numerals; <code>6px</code> between numerals</td></tr>
+    <tr><td>Active</td><td><code>color: text; weight 500</code></td><td>Background = page (white) inside tinted band</td></tr>
+    <tr><td>Inactive</td><td><code>#8C867E</code></td><td>Hover lightens background</td></tr>
+    <tr><td>Disabled nav</td><td><code>border #EAE6DF</code></td><td>Used at first/last page</td></tr>
+  </tbody>
+</table>
+
+</body></html>

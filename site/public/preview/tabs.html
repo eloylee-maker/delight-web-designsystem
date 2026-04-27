@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Tabs</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
+  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
+  .sub { font-size:14px; color:var(--text-muted); margin:0 0 28px; max-width:760px; line-height:1.5; }
+  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:28px 0 12px; }
+  .row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:20px; background:var(--bg-subtle,#F7F5F0); border-radius:12px; }
+
+  .tab { height:36px; padding:0 16px; border-radius:999px; border:1px solid transparent; background:#FFF; color:var(--text); font-size:20px; letter-spacing:-.02em; cursor:pointer; display:inline-flex; align-items:center; line-height:1; transition:border-color .15s; }
+  .tab:hover:not(.active):not([disabled]) { border-color:#D9D6D2; }
+  .tab.active { border-color:#000; font-weight:500; }
+  .tab[disabled] { opacity:.5; cursor:not-allowed; }
+
+  .panel { margin-top:14px; padding:24px; background:#FFF; border:1px solid var(--border); border-radius:12px; min-height:120px; font-size:14px; color:var(--text-muted); }
+
+  .spec { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+  .spec th, .spec td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); }
+  .spec th { font-weight:500; color:var(--text-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
+  .spec code { font-family: ui-monospace, monospace; font-size:12px; color:var(--text-muted); background:var(--bg-subtle,#F7F5F0); padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<h1>Tabs</h1>
+<p class="sub">Pill-shaped chips. Active state is a 1px black hairline; hover is a soft gray border. Use for switching between peer views — never as primary navigation.</p>
+
+<div class="grp-h">Default</div>
+<div class="row" id="demo">
+  <button class="tab active" data-v="overview">Overview</button>
+  <button class="tab" data-v="features">Features</button>
+  <button class="tab" data-v="pricing">Pricing</button>
+  <button class="tab" data-v="faq">FAQ</button>
+</div>
+<div class="panel" id="panel">Overview content goes here.</div>
+
+<div class="grp-h">States</div>
+<div class="row">
+  <button class="tab">Default</button>
+  <button class="tab" style="border-color:#D9D6D2">Hover</button>
+  <button class="tab active">Active</button>
+  <button class="tab" disabled>Disabled</button>
+</div>
+
+<div class="grp-h">Long list</div>
+<div class="row">
+  <button class="tab active">All</button>
+  <button class="tab">Retail</button>
+  <button class="tab">Healthcare</button>
+  <button class="tab">Travel & hospitality</button>
+  <button class="tab">Financial services</button>
+  <button class="tab">Telecommunications</button>
+  <button class="tab">On-demand</button>
+</div>
+
+<div class="grp-h">Spec</div>
+<table class="spec">
+  <thead><tr><th>Token</th><th>Value</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Height</td><td><code>36px</code></td><td>Compact, fits inside section bands</td></tr>
+    <tr><td>Padding</td><td><code>0 16px</code></td><td></td></tr>
+    <tr><td>Radius</td><td><code>999px</code></td><td>Full pill</td></tr>
+    <tr><td>Active border</td><td><code>1px #000000</code></td><td>Plus weight 500</td></tr>
+    <tr><td>Hover border</td><td><code>1px #D9D6D2</code></td><td>Inactive only</td></tr>
+    <tr><td>Font size</td><td><code>20px</code></td><td>Helvetica Now Text · -0.02em</td></tr>
+  </tbody>
+</table>
+
+<script>
+  const PANELS = {
+    overview: 'Overview content goes here.',
+    features: 'Features content goes here.',
+    pricing:  'Pricing content goes here.',
+    faq:      'FAQ content goes here.',
+  };
+  const demo = document.getElementById('demo');
+  const panel = document.getElementById('panel');
+  demo.addEventListener('click', (e) => {
+    const t = e.target.closest('.tab'); if (!t || !t.dataset.v) return;
+    demo.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    panel.textContent = PANELS[t.dataset.v];
+  });
+</script>
+
+</body></html>

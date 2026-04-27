@@ -29,6 +29,10 @@ export function PageContent({
   if (key === 'design-system/guidelines') return <GuidelinesPage preview={preview} />;
   if (key === 'components/gnb') return <ComponentDoc preview="gnb.html" anatomy={GnbAnatomy} />;
   if (key === 'components/footer') return <ComponentDoc preview="footer.html" anatomy={FooterAnatomy} />;
+  if (key === 'components/buttons') return <ComponentDoc preview="buttons.html" anatomy={ButtonsAnatomy} />;
+  if (key === 'components/tabs') return <ComponentDoc preview="tabs.html" anatomy={TabsAnatomy} />;
+  if (key === 'components/form') return <ComponentDoc preview="form.html" anatomy={FormAnatomy} />;
+  if (key === 'components/pagination') return <ComponentDoc preview="pagination.html" anatomy={PaginationAnatomy} />;
   if (key === 'components/popup') return <ComponentDoc preview="popup.html" anatomy={PopupAnatomy} />;
   if (key === 'resources/downloads') return <DownloadsPage />;
   if (key === 'resources/github') return <GitHubPage />;
@@ -248,10 +252,10 @@ function ComponentsIndex() {
   const items = [
     { slug: 'gnb',        title: 'GNB',         status: 'live',  desc: 'Fixed top bar, mega-menu, language popover.' },
     { slug: 'footer',     title: 'Footer',      status: 'live',  desc: 'Brand col + 4 link cols, bg-subtle band.' },
-    { slug: 'buttons',    title: 'Buttons',     status: 'shell', desc: 'Primary black, secondary outline, tertiary link.' },
-    { slug: 'tabs',       title: 'Tabs',        status: 'shell', desc: 'Pill-shaped chips with 1px active border.' },
-    { slug: 'form',       title: 'Form',        status: 'shell', desc: 'Inputs, textarea, select, validation states.' },
-    { slug: 'pagination', title: 'Pagination',  status: 'shell', desc: '32px squares with active chip and ellipses.' },
+    { slug: 'buttons',    title: 'Buttons',     status: 'live',  desc: 'Primary black, secondary outline, tertiary link.' },
+    { slug: 'tabs',       title: 'Tabs',        status: 'live',  desc: 'Pill-shaped chips with 1px active border.' },
+    { slug: 'form',       title: 'Form',        status: 'live',  desc: 'Inputs, textarea, select, validation states.' },
+    { slug: 'pagination', title: 'Pagination',  status: 'live',  desc: '32px squares with active chip and ellipses.' },
     { slug: 'popup',      title: 'Popup',       status: 'live',  desc: 'Modals and announcement bars.' },
   ];
   return (
@@ -329,6 +333,45 @@ const PopupAnatomy = (
     <li><strong>Modal</strong>: 12px radius, white surface, 1px hairline border, drop-shadow <code>--shadow-1</code>.</li>
     <li><strong>Announcement bar</strong>: dark background, white text, single dismiss action.</li>
     <li><strong>Backdrop</strong>: <code>rgba(40,32,22,0.40)</code> with 2px blur.</li>
+  </ul>
+);
+
+const ButtonsAnatomy = (
+  <ul>
+    <li><strong>Primary</strong>: 44px tall, <code>#18140F</code> bg, white text, full-pill radius. Use once per page.</li>
+    <li><strong>Secondary</strong>: white bg, 1px black border. Pairs left of Primary in CTA stacks.</li>
+    <li><strong>Tertiary</strong>: link-style with 4px underline offset. For inline calls-to-action.</li>
+    <li><strong>Lime</strong>: <code>#F2FF66</code> bg — reserved for the dark CTA banner. Never on body sections.</li>
+    <li><strong>Sizes</strong>: 30 / 44 / 52px. Default is 44; 30 fits inside the GNB.</li>
+  </ul>
+);
+
+const TabsAnatomy = (
+  <ul>
+    <li><strong>Shape</strong>: 36px pill, transparent border by default, 1px black when active.</li>
+    <li><strong>Type</strong>: 20px Helvetica Now Text, weight 400 → 500 on active.</li>
+    <li><strong>Hover</strong>: 1px <code>#D9D6D2</code> hairline. Suppressed on the active item.</li>
+    <li><strong>Use</strong>: switching peer views inside a section. Not for primary navigation.</li>
+  </ul>
+);
+
+const FormAnatomy = (
+  <ul>
+    <li><strong>Inputs</strong>: 40px tall, 8px radius, 1px <code>#E0DAD2</code> border, white surface.</li>
+    <li><strong>Focus</strong>: border darkens to <code>#000000</code>. No outer glow or shadow.</li>
+    <li><strong>Errors</strong>: coral <code>#FF5E69</code> for required asterisk, error border, and helper text.</li>
+    <li><strong>Labels</strong>: 13px, sit 6px above the field. Required marked with a coral asterisk.</li>
+    <li><strong>Composites</strong>: PhoneInput pairs a country select + tel input inside one 8px-radius shell with a 1px divider.</li>
+  </ul>
+);
+
+const PaginationAnatomy = (
+  <ul>
+    <li><strong>Cells</strong>: 32 × 32px squares with 6px corners.</li>
+    <li><strong>Active</strong>: weight 500, full <code>--text</code> color, white fill against the tinted band.</li>
+    <li><strong>Inactive</strong>: <code>#8C867E</code> text, transparent background; hover paints <code>--bg-subtle</code>.</li>
+    <li><strong>Navigators</strong>: 32px chevron buttons disable at first/last page.</li>
+    <li><strong>Ellipses</strong>: appear when total &gt; 7 pages, with one sibling on each side of current.</li>
   </ul>
 );
 
