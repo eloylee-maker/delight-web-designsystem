@@ -13,12 +13,12 @@ export default function HomePage() {
         Use it whenever you build a delight.ai marketing, landing, or product surface.
       </p>
 
-      {SECTIONS.map((section) => (
-        <section key={section.slug}>
-          <h2 className="section-eyebrow">{section.title}</h2>
-          <p className="section-title" style={{ fontSize: 28, marginBottom: 6 }}>
+      {SECTIONS.map((section, i) => (
+        <section key={section.slug} className="home-section">
+          <p className="section-eyebrow">Section {String(i + 1).padStart(2, '0')}</p>
+          <h2 className="section-title">
             <Link href={`/${section.slug}`}>{section.title}</Link>
-          </p>
+          </h2>
           <p className="section-desc">{section.blurb}</p>
           <div className="card-grid">
             {section.pages.slice(0, 6).map((page) => (
