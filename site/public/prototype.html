@@ -780,72 +780,56 @@
 /* ============================================================
    IA — mirror of site/lib/ia.ts SECTIONS
    ============================================================ */
-/* IA — mirrors site/lib/ia.ts SECTIONS exactly */
+/* IA — mirrors claude.ai/design prototype (3 sections) */
 const SECTIONS = [
   {
-    slug: 'get-started',
-    title: 'Get started',
-    blurb: 'How DWDS fits together, who it is for, and how to use it inside your team.',
+    slug: ‘foundations’,
+    title: ‘Foundations’,
+    blurb: ‘Brand-side decisions — voice, marks, imagery — that the implementable system is built on.’,
     pages: [
-      { slug: 'overview',     title: 'Overview',          blurb: 'What DWDS is, the brand context, and the Delight Warm theme.',  status: 'live',  thumbTone: 'subtle', thumbGraphic: 'overview' },
-      { slug: 'principles',   title: 'Design principles', blurb: 'The five tenets that guide every visual decision.',             status: 'shell', thumbTone: 'white' },
-      { slug: 'changelog',    title: 'Changelog',         blurb: 'Versioned updates to tokens, components, and patterns.',        status: 'live',  thumbTone: 'lime',   thumbGraphic: 'changelog' },
-      { slug: 'contributing', title: 'Contributing',      blurb: 'How to propose tokens, components, and patterns.',              status: 'shell', thumbTone: 'subtle' },
+      { slug: ‘brand-principles’, title: ‘Brand Principles’, blurb: ‘The four tenets that guide every visual decision.’,                                                   status: ‘live’,  preview: ‘design-principles.html’ },
+      { slug: ‘key-visual’,       title: ‘Key visual’,       blurb: ‘The Key Visual communicates the identity and emotion of the Delight brand in the most intuitive way.’, status: ‘live’,  preview: ‘key-visual.html’ },
+      { slug: ‘logo’,             title: ‘Logo’,             blurb: ‘delight.ai and Sendbird logos, sizing, switcher pill.’,                                                status: ‘live’,  preview: ‘brand-marks.html’ },
+      { slug: ‘photos’,           title: ‘Photos’,           blurb: ‘Subject treatment, framing, and color guidance.’,                                                      status: ‘shell’ },
+      { slug: ‘visual-direction’, title: ‘Visual Direction’, blurb: ‘Overall art direction, mood, and editorial style.’,                                                    status: ‘shell’ },
+      { slug: ‘voice-and-tone’,   title: ‘Voice & Tone’,     blurb: ‘Plainspoken, confident, slightly literary.’,                                                           status: ‘shell’ },
     ],
   },
   {
-    slug: 'foundations',
-    title: 'Foundations',
-    blurb: 'The fundamental decisions — color, type, layout, and tone — that the rest of the system is built on.',
+    slug: ‘tokens’,
+    title: ‘Tokens’,
+    blurb: ‘The atomic, implementable layer — color, type, spacing, layout, iconography, shadow.’,
     pages: [
-      { slug: 'color',          title: 'Color',           blurb: 'Delight Warm palette, semantic tokens, and accent rules.',      status: 'live',  preview: 'colors.html',        thumbTone: 'subtle', thumbGraphic: 'color' },
-      { slug: 'typography',     title: 'Typography',      blurb: 'Serrif display, Helvetica Now Text body, Pretendard for KR.',   status: 'live',  preview: 'typography.html',    thumbTone: 'white',  thumbGraphic: 'type' },
-      { slug: 'spacing',        title: 'Spacing & radii', blurb: '4px base scale, container offsets, corner radii.',              status: 'live',  preview: 'spacing.html',       thumbTone: 'subtle', thumbGraphic: 'spacing' },
-      { slug: 'layout',         title: 'Layout & grid',   blurb: '1920 canvas, 1552 max width, 184 PC offsets, 16-col grid.',     status: 'live',  preview: 'layout.html',        thumbTone: 'white',  thumbGraphic: 'grid' },
-      { slug: 'iconography',    title: 'Iconography',     blurb: 'Hand-drawn icons used in GNB, buttons, and FAQ.',               status: 'shell', thumbTone: 'subtle' },
-      { slug: 'brand-marks',    title: 'Brand marks',     blurb: 'delight.ai and Sendbird logos, sizing, switcher pill.',         status: 'live',  preview: 'brand-marks.html',   thumbTone: 'dark',   thumbGraphic: 'logo' },
-      { slug: 'key-visual',     title: 'Key visual',      blurb: 'Hero illustrations and brand imagery.',                          status: 'live',  preview: 'key-visual.html',    thumbTone: 'lime',   thumbGraphic: 'kv' },
-      { slug: 'voice-and-tone', title: 'Voice & tone',    blurb: 'Plainspoken, confident, slightly literary.',                    status: 'shell', thumbTone: 'white' },
-      { slug: 'photography',    title: 'Photography',     blurb: 'Subject treatment, framing, and color guidance.',               status: 'shell', thumbTone: 'subtle' },
-      { slug: 'illustration',   title: 'Illustration',    blurb: 'Spot illustrations and editorial drawings.',                    status: 'shell', thumbTone: 'white' },
-      { slug: 'motion',         title: 'Motion',          blurb: 'Easing, durations, and choreography.',                          status: 'shell', thumbTone: 'subtle' },
-      { slug: 'accessibility',  title: 'Accessibility',   blurb: 'Contrast, focus, keyboard, and screen-reader practices.',       status: 'shell', thumbTone: 'lime' },
+      { slug: ‘color’,       title: ‘Color’,       blurb: ‘Delight Warm palette, semantic tokens, and accent rules.’,    status: ‘live’,  preview: ‘colors.html’ },
+      { slug: ‘grid’,        title: ‘Grid’,        blurb: ‘16-col PC / 4-col mobile grid with 16px gutters.’,            status: ‘live’,  preview: ‘grid.html’ },
+      { slug: ‘iconography’, title: ‘Iconography’, blurb: ‘Hand-drawn icons used in GNB, buttons, and FAQ.’,             status: ‘shell’ },
+      { slug: ‘layout’,      title: ‘Layout’,      blurb: ‘1920 canvas, 1552 max width, 184 PC offsets, page patterns.’, status: ‘live’,  preview: ‘layout.html’ },
+      { slug: ‘shadow’,      title: ‘Shadow’,      blurb: ‘Elevation tokens for popups, modals, and cards.’,             status: ‘shell’ },
+      { slug: ‘spacing’,     title: ‘Spacing’,     blurb: ‘4px base scale, container offsets, corner radii.’,            status: ‘live’,  preview: ‘spacing.html’ },
+      { slug: ‘typography’,  title: ‘Typography’,  blurb: ‘Serrif display, Helvetica Now Text body, Pretendard for KR.’, status: ‘live’,  preview: ‘typography.html’ },
     ],
   },
   {
-    slug: 'design-system',
-    title: 'Design system',
-    blurb: 'Tokens, components, and patterns — the implementable layer.',
+    slug: ‘components’,
+    title: ‘Components’,
+    blurb: ‘Each component with anatomy, states, and a live preview.’,
     pages: [
-      { slug: 'tokens',     title: 'Tokens',     blurb: 'CSS custom properties and naming conventions.',              status: 'shell', thumbTone: 'subtle' },
-      { slug: 'components', title: 'Components', blurb: 'GNB, footer, buttons, tabs, forms, pagination, popups.',     status: 'live',  thumbTone: 'white',  thumbGraphic: 'components' },
-      { slug: 'patterns',   title: 'Patterns',   blurb: 'Hero, feature stack, stat band, CTA banner, FAQ.',           status: 'live',  preview: 'landing-patterns.html', thumbTone: 'subtle', thumbGraphic: 'patterns' },
-      { slug: 'guidelines', title: 'Guidelines', blurb: "Do’s and don’ts, fidelity checks.",                status: 'live',  preview: 'dos-and-donts.html',    thumbTone: 'lime',   thumbGraphic: 'rules' },
-      { slug: 'processes',  title: 'Processes',  blurb: 'Review, contribution, and release workflow.',                status: 'shell', thumbTone: 'dark' },
-    ],
-  },
-  {
-    slug: 'components',
-    title: 'Components',
-    blurb: 'Each component with anatomy, states, and a live preview.',
-    pages: [
-      { slug: 'gnb',        title: 'GNB',        blurb: 'Fixed top bar, mega-menu, language popover.',               status: 'live',  preview: 'gnb.html',        thumbTone: 'white',  thumbGraphic: 'gnb' },
-      { slug: 'footer',     title: 'Footer',     blurb: 'Brand col + 4 link cols, bg-subtle band.',                  status: 'live',  preview: 'footer.html',     thumbTone: 'subtle', thumbGraphic: 'footer' },
-      { slug: 'buttons',    title: 'Buttons',    blurb: 'Primary black, secondary outline, tertiary link.',           status: 'live',  preview: 'buttons.html',    thumbTone: 'dark',   thumbGraphic: 'buttons' },
-      { slug: 'tabs',       title: 'Tabs',       blurb: 'Pill-shaped chips with 1px active border.',                  status: 'live',  preview: 'tabs.html',       thumbTone: 'white',  thumbGraphic: 'tabs' },
-      { slug: 'form',       title: 'Form',       blurb: 'Inputs, textarea, select, validation states.',               status: 'live',  preview: 'form.html',       thumbTone: 'subtle', thumbGraphic: 'form' },
-      { slug: 'pagination', title: 'Pagination', blurb: '32px squares with active chip and ellipses.',                status: 'live',  preview: 'pagination.html', thumbTone: 'white',  thumbGraphic: 'pagination' },
-      { slug: 'popup',      title: 'Popup',      blurb: 'Modals and announcement bars.',                              status: 'live',  preview: 'popup.html',      thumbTone: 'lime',   thumbGraphic: 'popup' },
-    ],
-  },
-  {
-    slug: 'resources',
-    title: 'Resources',
-    blurb: 'Downloads, links, and tools to help you build with DWDS.',
-    pages: [
-      { slug: 'downloads', title: 'Downloads', blurb: 'Fonts, logos, and asset packs.',        status: 'live',  thumbTone: 'subtle', thumbGraphic: 'download' },
-      { slug: 'figma',     title: 'Figma',     blurb: 'Component library and starter files.', status: 'shell', thumbTone: 'white' },
-      { slug: 'github',    title: 'GitHub',    blurb: 'Source repository and releases.',       status: 'live',  thumbTone: 'dark',   thumbGraphic: 'github' },
+      { slug: ‘accordion’,    title: ‘Accordion’,    blurb: ‘Collapsible content panels with FAQ icon pattern.’,           status: ‘shell’ },
+      { slug: ‘alert’,        title: ‘Alert’,        blurb: ‘Inline messages for success, warning, error.’,                status: ‘shell’ },
+      { slug: ‘breadcrumb’,   title: ‘Breadcrumb’,   blurb: ‘Hierarchical navigation links above a page title.’,           status: ‘shell’ },
+      { slug: ‘button’,       title: ‘Button’,       blurb: ‘Primary black, secondary outline, tertiary link.’,            status: ‘live’,  preview: ‘buttons.html’ },
+      { slug: ‘card’,         title: ‘Card’,         blurb: ‘Surface containers with title, body, and optional thumb.’,    status: ‘shell’ },
+      { slug: ‘carousel’,     title: ‘Carousel’,     blurb: ‘Horizontally-scrolling slide groups with controls.’,          status: ‘shell’ },
+      { slug: ‘filter’,       title: ‘Filter’,       blurb: ‘Chip filters and dropdown filters for lists.’,                status: ‘shell’ },
+      { slug: ‘form’,         title: ‘Form’,         blurb: ‘Inputs, textarea, select, validation states.’,                status: ‘live’,  preview: ‘form.html’ },
+      { slug: ‘gnb-footer’,   title: ‘GNB/Footer’,   blurb: ‘Fixed top bar, mega-menu, footer brand & link cols.’,         status: ‘live’,  preview: ‘gnb.html’ },
+      { slug: ‘input’,        title: ‘Input’,        blurb: ‘Text inputs, search, password, with focus and error states.’, status: ‘shell’ },
+      { slug: ‘pagination’,   title: ‘Pagination’,   blurb: ‘32px squares with active chip and ellipses.’,                 status: ‘live’,  preview: ‘pagination.html’ },
+      { slug: ‘popup-modal’,  title: ‘Popup/Modal’,  blurb: ‘Modals and announcement bars.’,                               status: ‘live’,  preview: ‘popup.html’ },
+      { slug: ‘progress-bar’, title: ‘Progress Bar’, blurb: ‘Linear progress indicators for steps and loading.’,           status: ‘shell’ },
+      { slug: ‘table’,        title: ‘Table’,        blurb: ‘Data tables with header, rows, and hover.’,                   status: ‘shell’ },
+      { slug: ‘tabs’,         title: ‘Tabs’,         blurb: ‘Pill-shaped chips with 1px active border.’,                   status: ‘live’,  preview: ‘tabs.html’ },
+      { slug: ‘video’,        title: ‘Video’,        blurb: ‘Embedded video with poster, controls, and aspect ratio.’,     status: ‘shell’ },
     ],
   },
 ];
@@ -985,7 +969,7 @@ function renderSectionIndex(section) {
 
 /* Page-specific content blocks (anatomy text) */
 const ANATOMY = {
-  'components/gnb': `
+  'components/gnb-footer': `
     <ul>
       <li><strong>GNB height</strong>: 72px. <code>position: fixed</code> with a 72px spacer beneath.</li>
       <li><strong>GNB background</strong>: white at scroll-top, white-blur with hairline border once scrolled.</li>
@@ -996,7 +980,7 @@ const ANATOMY = {
       <li><strong>Footer link columns</strong>: 4 × 240px, 64px gap, organized into two visual groups.</li>
       <li><strong>Footer bottom bar</strong>: 3 regions — language picker, legal links, © Sendbird, Inc.</li>
     </ul>`,
-  'components/buttons': `
+  'components/button': `
     <ul>
       <li><strong>Hover interaction</strong>: label slides 10px left + arrow (→) fades in from right (0.3s ease). Tertiary keeps label in place; arrow appears inline.</li>
       <li><strong>Primary</strong>: 42px (medium), <code>#000000</code> bg, white text, 8px radius. Use once per page.</li>
@@ -1513,12 +1497,8 @@ function renderInlineGithub() {
    If `withPreview: true`, the preview iframe is appended below as supporting material.
    If `withPreview: false` (default), inline replaces the iframe entirely. */
 const INLINE_PAGES = {
+  'foundations/brand-principles': { render: renderInlineBrandPrinciples, withPreview: false },
   'foundations/key-visual':       { render: renderInlineKeyVisual,       withPreview: false },
-  'get-started/overview':         { render: renderInlineOverview,        withPreview: false },
-  'get-started/changelog':        { render: renderInlineChangelog,       withPreview: false },
-  'design-system/components':     { render: renderInlineDsComponents,    withPreview: false },
-  'resources/downloads':          { render: renderInlineDownloads,       withPreview: false },
-  'resources/github':             { render: renderInlineGithub,          withPreview: false },
 };
 
 function renderPage(section, page) {
@@ -1553,7 +1533,7 @@ function renderPage(section, page) {
   // Shell pages
   if (page.status === 'shell') {
     // Special override: Iconography links out to lucide v0 instead of "coming soon"
-    if (key === 'foundations/iconography') {
+    if (key === 'tokens/iconography') {
       body = `
         <div class="prose">
           <p>DWDS uses the <strong>Lucide</strong> icon set as its source-of-truth for UI iconography. Browse, search, and copy SVGs from the official library — they paste straight into our components and inherit <code>currentColor</code>.</p>
@@ -1590,7 +1570,7 @@ function renderPage(section, page) {
     }
   }
   // Color page — token tables in eBay-Playbook style
-  else if (key === 'foundations/color') {
+  else if (key === 'tokens/color') {
     body = `
       ${COLOR_GROUPS.map(g => `
         <h2 class="token-group-title">
