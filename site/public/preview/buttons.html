@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
+  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
+  .sub { font-size:14px; color:var(--text-muted); margin:0 0 28px; max-width:760px; line-height:1.5; }
+  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:28px 0 12px; }
+  .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:18px 20px; background:var(--bg-subtle,#F7F5F0); border-radius:12px; }
+  .row.dark { background:#18140F; }
+
+  /* Buttons */
+  .btn { font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; cursor:pointer; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; gap:6px; transition:background .15s, border-color .15s, color .15s; }
+  .btn-primary  { height:44px; padding:0 22px; background:#18140F; color:#FFF; border:none; font-size:16px; font-weight:500; }
+  .btn-primary:hover { background:#000; }
+  .btn-secondary{ height:44px; padding:0 22px; background:#FFF; color:#18140F; border:1px solid #18140F; font-size:16px; font-weight:500; }
+  .btn-secondary:hover { background:var(--bg-subtle,#F7F5F0); }
+  .btn-tertiary { height:44px; padding:0 8px; background:transparent; color:#18140F; border:none; font-size:16px; font-weight:500; text-decoration:underline; text-underline-offset:4px; border-radius:0; }
+  .btn-lime { height:44px; padding:0 22px; background:#F2FF66; color:#18140F; border:none; font-size:16px; font-weight:500; }
+  .btn-sm { height:30px; padding:0 14px; font-size:14px; }
+  .btn-lg { height:52px; padding:0 28px; font-size:18px; }
+  .btn[disabled] { opacity:.4; cursor:not-allowed; }
+
+  /* Pair example */
+  .pair { display:flex; gap:8px; }
+
+  /* Spec table */
+  .spec { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+  .spec th, .spec td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); }
+  .spec th { font-weight:500; color:var(--text-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
+  .spec code { font-family: ui-monospace, monospace; font-size:12px; color:var(--text-muted); background:var(--bg-subtle,#F7F5F0); padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<h1>Buttons</h1>
+<p class="sub">Primary actions are pure black with white text. Secondary buttons are outlined; tertiary are link-style. The lime button is reserved for the dark CTA banner.</p>
+
+<div class="grp-h">Variants</div>
+<div class="row">
+  <button class="btn btn-primary">Contact sales</button>
+  <button class="btn btn-secondary">Learn more</button>
+  <button class="btn btn-tertiary">See changelog →</button>
+</div>
+
+<div class="grp-h">Sizes</div>
+<div class="row">
+  <button class="btn btn-primary btn-sm">Small · 30</button>
+  <button class="btn btn-primary">Default · 44</button>
+  <button class="btn btn-primary btn-lg">Large · 52</button>
+</div>
+
+<div class="grp-h">CTA pair · Secondary → Primary</div>
+<div class="row">
+  <div class="pair">
+    <button class="btn btn-secondary">Talk to sales</button>
+    <button class="btn btn-primary">Try it free</button>
+  </div>
+</div>
+
+<div class="grp-h">Lime · CTA banner only</div>
+<div class="row dark">
+  <button class="btn btn-lime">Get a demo</button>
+</div>
+
+<div class="grp-h">States</div>
+<div class="row">
+  <button class="btn btn-primary">Default</button>
+  <button class="btn btn-primary" style="background:#000">Hover</button>
+  <button class="btn btn-primary" disabled>Disabled</button>
+</div>
+
+<div class="grp-h">Spec</div>
+<table class="spec">
+  <thead><tr><th>Variant</th><th>Height</th><th>Padding</th><th>Background</th><th>Text</th></tr></thead>
+  <tbody>
+    <tr><td>Primary</td><td>44px</td><td>0 22px</td><td><code>#18140F</code></td><td><code>#FFFFFF</code></td></tr>
+    <tr><td>Secondary</td><td>44px</td><td>0 22px</td><td><code>#FFFFFF</code></td><td><code>#18140F</code> · 1px border</td></tr>
+    <tr><td>Tertiary</td><td>44px</td><td>0 8px</td><td>transparent</td><td><code>#18140F</code> · underline</td></tr>
+    <tr><td>Lime (banner)</td><td>44px</td><td>0 22px</td><td><code>#F2FF66</code></td><td><code>#18140F</code></td></tr>
+  </tbody>
+</table>
+
+</body></html>

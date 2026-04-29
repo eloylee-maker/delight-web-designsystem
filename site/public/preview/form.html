@@ -1,0 +1,173 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Form</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
+  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
+  .sub { font-size:14px; color:var(--text-muted); margin:0 0 28px; max-width:760px; line-height:1.5; }
+  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:28px 0 12px; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; padding:24px; background:var(--bg-subtle,#F7F5F0); border-radius:12px; }
+  .full { grid-column: 1 / -1; }
+
+  .field { display:flex; flex-direction:column; gap:6px; }
+  label { font-size:13px; color:var(--text); }
+  .req { color:#FF5E69; }
+
+  input[type=text], input[type=email], input[type=tel], textarea, select {
+    width:100%; height:40px; padding:0 16px;
+    font-family:'Helvetica Now Text',sans-serif; font-size:14px; letter-spacing:-.02em;
+    background:#FFF; border:1px solid #E0DAD2; border-radius:8px; outline:none; color:var(--text);
+    transition:border-color .15s;
+  }
+  textarea { height:auto; min-height:96px; padding:10px 16px; resize:vertical; line-height:1.5; }
+  select { padding-right:36px; cursor:pointer; appearance:none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1l5 5 5-5' stroke='%236B6258' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position: right 14px center;
+  }
+  input::placeholder, textarea::placeholder { color:#9E9890; }
+  input:focus, textarea:focus, select:focus { border-color:#000; }
+  .err input, .err textarea, .err select { border-color:#FF5E69; }
+  .err-msg { display:flex; align-items:center; gap:4px; font-size:12px; color:#FF5E69; }
+  .help { font-size:12px; color:var(--text-dim); }
+
+  /* Phone combo */
+  .combo { display:flex; align-items:stretch; border:1px solid #E0DAD2; border-radius:8px; overflow:hidden; background:#FFF; }
+  .combo:focus-within { border-color:#000; }
+  .combo select { border:none; height:40px; width:auto; padding:0 28px 0 12px; background-color:transparent; }
+  .combo .div { width:1px; background:#E0DAD2; }
+  .combo input { border:none; height:40px; }
+
+  /* Checkbox / radio */
+  .opt { display:flex; align-items:center; gap:8px; cursor:pointer; }
+  .opt input { position:absolute; opacity:0; }
+  .box { width:20px; height:20px; border:1.5px solid #E0DAD2; background:#FFF; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; transition:.15s; }
+  .opt input[type=radio] + .box { border-radius:50%; }
+  .opt input:checked + .box { background:#000; border-color:#000; }
+  .opt input[type=radio]:checked + .box { background:#FFF; border-width:2px; }
+  .opt input[type=radio]:checked + .box::after { content:''; width:10px; height:10px; border-radius:50%; background:#000; }
+  .opt input[type=checkbox]:checked + .box::after { content:''; width:5px; height:9px; border:2px solid #FFF; border-top:none; border-left:none; transform:rotate(45deg) translateY(-1px); }
+  .opt-text { font-size:14px; }
+
+  /* Submit row */
+  .actions { display:flex; gap:8px; justify-content:flex-end; padding-top:8px; }
+  .btn { font-family:'Helvetica Now Text',sans-serif; height:44px; padding:0 22px; border-radius:999px; font-size:16px; font-weight:500; letter-spacing:-.02em; cursor:pointer; }
+  .btn-primary { background:#18140F; color:#FFF; border:none; }
+  .btn-secondary { background:#FFF; color:#18140F; border:1px solid #18140F; }
+</style>
+</head>
+<body>
+
+<h1>Form</h1>
+<p class="sub">8px-radius inputs with hairline borders. Black focus ring (no shadow). Required fields marked with a coral asterisk; errors use coral-red <code>#FF5E69</code>.</p>
+
+<div class="grp-h">Default form</div>
+<form class="grid" onsubmit="return false">
+  <div class="field">
+    <label>First name <span class="req">*</span></label>
+    <input type="text" placeholder="Jane" />
+  </div>
+  <div class="field">
+    <label>Last name <span class="req">*</span></label>
+    <input type="text" placeholder="Doe" />
+  </div>
+
+  <div class="field">
+    <label>Work email <span class="req">*</span></label>
+    <input type="email" placeholder="jane@company.com" />
+  </div>
+  <div class="field">
+    <label>Phone</label>
+    <div class="combo">
+      <select><option>+1 US</option><option>+44 UK</option><option>+82 KR</option><option>+81 JP</option></select>
+      <div class="div"></div>
+      <input type="tel" placeholder="Phone number" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Company size</label>
+    <select>
+      <option>Select…</option>
+      <option>1–50</option>
+      <option>51–200</option>
+      <option>201–1,000</option>
+      <option>1,001+</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Industry</label>
+    <select>
+      <option>Select…</option>
+      <option>Retail</option>
+      <option>Travel & hospitality</option>
+      <option>Healthcare</option>
+      <option>On-demand</option>
+    </select>
+  </div>
+
+  <div class="field full">
+    <label>What are you trying to solve?</label>
+    <textarea placeholder="Tell us a little about your use case…"></textarea>
+  </div>
+
+  <div class="field full">
+    <label class="opt">
+      <input type="checkbox" checked /><span class="box"></span>
+      <span class="opt-text">I agree to the privacy policy</span>
+    </label>
+  </div>
+
+  <div class="actions full">
+    <button class="btn btn-secondary" type="button">Cancel</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </div>
+</form>
+
+<div class="grp-h">States</div>
+<div class="grid">
+  <div class="field">
+    <label>Default</label>
+    <input type="text" placeholder="Placeholder" />
+  </div>
+  <div class="field">
+    <label>Filled</label>
+    <input type="text" value="Acme Corp" />
+  </div>
+  <div class="field">
+    <label>Focus</label>
+    <input type="text" value="Focused" style="border-color:#000" />
+  </div>
+  <div class="field err">
+    <label>Error <span class="req">*</span></label>
+    <input type="text" value="" />
+    <span class="err-msg">⚠ This field is required</span>
+  </div>
+  <div class="field">
+    <label>Disabled</label>
+    <input type="text" value="Disabled" disabled style="background:#F0EDE6;color:#9E9890" />
+  </div>
+  <div class="field">
+    <label>With help text</label>
+    <input type="text" placeholder="Optional" />
+    <span class="help">We'll only use this to verify your account.</span>
+  </div>
+</div>
+
+<div class="grp-h">Choices</div>
+<div class="grid">
+  <div class="field">
+    <label>Checkboxes</label>
+    <label class="opt"><input type="checkbox" checked /><span class="box"></span><span class="opt-text">Email me product updates</span></label>
+    <label class="opt"><input type="checkbox" /><span class="box"></span><span class="opt-text">Subscribe to newsletter</span></label>
+  </div>
+  <div class="field">
+    <label>Radios</label>
+    <label class="opt"><input type="radio" name="r" checked /><span class="box"></span><span class="opt-text">Self-hosted</span></label>
+    <label class="opt"><input type="radio" name="r" /><span class="box"></span><span class="opt-text">Cloud</span></label>
+    <label class="opt"><input type="radio" name="r" /><span class="box"></span><span class="opt-text">Hybrid</span></label>
+  </div>
+</div>
+
+</body></html>

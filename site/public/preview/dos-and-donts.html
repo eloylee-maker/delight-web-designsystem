@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Do's & Don'ts — delight.ai DS</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../ui_kits/web/components.css">
+<style>
+  body { background:#FFFFFF; padding: 60px 0; }
+  .wrap { width: min(calc(100% - 32px), 1080px); margin: 0 auto; }
+  .eyebrow { font-family:'Helvetica Now Text'; font-size:13px; font-weight:500; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+  .h1 { font-family:'Serrif'; font-weight:500; font-size:48px; color:var(--text); letter-spacing:-0.02em; margin-bottom:16px; }
+  .lede { font-family:'Helvetica Now Text'; font-size:18px; line-height:1.6; color:var(--text-muted); max-width:720px; margin-bottom:48px; }
+  .rule {
+    display: grid; grid-template-columns: 56px 1fr; gap: 16px;
+    padding: 24px 0; border-top: 1px solid var(--border);
+    align-items: start;
+  }
+  .rule:last-child { border-bottom: 1px solid var(--border); }
+  .badge {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Serrif'; font-weight:500; font-size:18px;
+    background: var(--bg-subtle); color: var(--text);
+  }
+  .rule-title { font-family:'Helvetica Now Text'; font-weight:500; font-size:18px; color:var(--text); letter-spacing:-0.02em; margin-bottom:6px; }
+  .rule-body { font-family:'Helvetica Now Text'; font-size:15px; line-height:1.6; color: var(--text-muted); }
+  .rule-body code { background: rgba(0,0,0,0.05); padding: 1px 5px; border-radius: 3px; font-family:'SF Mono',Menlo,monospace; font-size:13px; color: var(--text); }
+  .pillrow { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .do, .dont {
+    font-family:'Helvetica Now Text'; font-size:13px; font-weight:500;
+    padding: 4px 10px; border-radius: 999px; display: inline-flex; gap: 6px;
+  }
+  .do { background: rgba(37, 189, 133, 0.12); color: #1a8e60; }
+  .dont { background: rgba(255, 94, 105, 0.12); color: #c04550; }
+
+  .swatch { display:inline-block; width:14px; height:14px; border-radius: 4px; vertical-align: -2px; border: 1px solid rgba(0,0,0,0.1); margin-right:4px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Foundations</div>
+  <h1 class="h1">Do's & Don'ts</h1>
+  <p class="lede">
+    The non-negotiable rules of the delight.ai design system. Every page must pass these before shipping.
+    Audited automatically by the <code>design-fidelity-check</code> skill.
+  </p>
+
+  <div class="rule">
+    <div class="badge">1</div>
+    <div>
+      <div class="rule-title">Background is always pure white</div>
+      <div class="rule-body">delight.ai pages use <code>#FFFFFF</code> as the page background. Never gradient, never tinted. Use <code>--bg-subtle</code> only for section breaks, footer, and small surfaces.</div>
+      <div class="pillrow">
+        <span class="do">DO <span class="swatch" style="background:#FFFFFF"></span> #FFFFFF body</span>
+        <span class="dont">DON'T tinted/gradient hero bg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">2</div>
+    <div>
+      <div class="rule-title">Never use Sendbird Purple on delight.ai</div>
+      <div class="rule-body"><code>#7B39FE</code> is a Sendbird-only accent. delight.ai's accent is Lime <code>#F2FF66</code>, used sparingly.</div>
+      <div class="pillrow">
+        <span class="do">DO <span class="swatch" style="background:#F2FF66"></span> Lime accent (sparingly)</span>
+        <span class="dont">DON'T <span class="swatch" style="background:#7B39FE"></span> Sendbird Purple</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">3</div>
+    <div>
+      <div class="rule-title">Lime is for the CTA banner only</div>
+      <div class="rule-body">The lime button (<code>.btn-lime</code>) lives only inside <code>.cta-banner</code> on dark background. Body CTAs are black (<code>.btn-primary</code>).</div>
+      <div class="pillrow">
+        <span class="do">DO black CTA in body</span>
+        <span class="do">DO lime CTA on dark banner</span>
+        <span class="dont">DON'T lime CTA on white</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">4</div>
+    <div>
+      <div class="rule-title">GNB is position: fixed + spacer</div>
+      <div class="rule-body">Always use <code>.gnb-wrap</code> with <code>position: fixed</code>, followed immediately by <code>.gnb-spacer</code> (height 72px). Sticky causes layout shift on scroll.</div>
+      <div class="pillrow">
+        <span class="do">DO fixed wrap + spacer</span>
+        <span class="dont">DON'T position: sticky</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">5</div>
+    <div>
+      <div class="rule-title">Footer is bg-subtle, not white</div>
+      <div class="rule-body">Footer background is <code>var(--bg-subtle)</code> (#F7F5F0). The brand column is 284px wide with 116px right margin; link grid is <code>repeat(4, 240px) gap 64px</code>.</div>
+      <div class="pillrow">
+        <span class="do">DO <span class="swatch" style="background:#F7F5F0"></span> bg-subtle footer</span>
+        <span class="dont">DON'T white footer</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">6</div>
+    <div>
+      <div class="rule-title">All type carries letter-spacing: -0.02em</div>
+      <div class="rule-body">Every text class in this system bakes in <code>-0.02em</code> tracking. Don't override.</div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">7</div>
+    <div>
+      <div class="rule-title">EN uses Serrif + Helvetica Now Text. KO uses Pretendard.</div>
+      <div class="rule-body">Headlines: Serrif (EN) / Pretendard 600 (KO). Body: Helvetica Now Text (EN) / Pretendard 400 (KO). Gellix is for badge labels only.</div>
+      <div class="pillrow">
+        <span class="dont">DON'T use Inter, Roboto, system-ui</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">8</div>
+    <div>
+      <div class="rule-title">Max content width 1552px</div>
+      <div class="rule-body">Use the container pattern: <code>width: min(calc(100% - 32px), var(--max-w))</code>. Default offset 184px on PC, 16px on mobile.</div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="badge">9</div>
+    <div>
+      <div class="rule-title">No emoji, no marketing fluff, no invented colors</div>
+      <div class="rule-body">Voice is confident, declarative, lowercase-comfortable. Avoid emojis (unless brand-explicit) and "powered by AI" filler. Never invent a color outside the token set — extend tokens instead.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

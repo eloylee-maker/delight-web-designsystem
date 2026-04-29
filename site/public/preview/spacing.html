@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><title>Spacing &amp; Effects</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body{margin:0;padding:40px;background:#FFF;color:var(--text);font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.02em}
+  h1{font-family:'Serrif',serif;font-weight:500;font-size:28px;margin:0 0 4px}
+  .sub{font-size:14px;color:var(--text-muted);margin:0 0 32px}
+  .grp-h{font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin:24px 0 12px}
+  .scale{display:flex;align-items:flex-end;gap:8px;padding:24px;border:1px solid var(--border);border-radius:12px;background:#FFF}
+  .step{display:flex;flex-direction:column;align-items:center;gap:8px;font-variant-numeric:tabular-nums}
+  .bar{background:#000;width:32px;border-radius:2px}
+  .step-l{font-size:11px;color:var(--text-dim)}
+  .radii{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .rad-card{border:1px solid var(--border);padding:24px 16px;background:#FFF;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .rad-shape{width:60px;height:60px;background:#F7F5F0;border:1px solid var(--border)}
+  .rad-l{font-size:12px;color:var(--text-muted)}
+  .shadows{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .shadow-box{padding:32px;background:#FFF;border-radius:12px;text-align:center;font-size:13px;color:var(--text)}
+  .shadow-1{box-shadow:0 4px 14px 3px rgba(33,33,33,0.10)}
+  .shadow-blur{
+    background:rgba(255,255,255,0.72);backdrop-filter:blur(20px);box-shadow:0 4px 14px 3px rgba(33,33,33,0.10);
+  }
+  .blur-stage{
+    padding:48px 24px;border-radius:14px;
+    background:linear-gradient(135deg,#F2FF66 0%,#F7F5F0 100%);
+  }
+</style></head><body>
+<h1>Spacing &amp; effects</h1>
+<p class="sub">A 4/8 grid, restrained radii, and exactly one shadow recipe.</p>
+
+<div class="grp-h">Spacing scale (px)</div>
+<div class="scale">
+  <div class="step"><span class="bar" style="height:4px"></span><span class="step-l">4</span></div>
+  <div class="step"><span class="bar" style="height:8px"></span><span class="step-l">8</span></div>
+  <div class="step"><span class="bar" style="height:12px"></span><span class="step-l">12</span></div>
+  <div class="step"><span class="bar" style="height:16px"></span><span class="step-l">16</span></div>
+  <div class="step"><span class="bar" style="height:24px"></span><span class="step-l">24</span></div>
+  <div class="step"><span class="bar" style="height:32px"></span><span class="step-l">32</span></div>
+  <div class="step"><span class="bar" style="height:48px"></span><span class="step-l">48</span></div>
+  <div class="step"><span class="bar" style="height:64px"></span><span class="step-l">64</span></div>
+  <div class="step"><span class="bar" style="height:96px"></span><span class="step-l">96</span></div>
+  <div class="step"><span class="bar" style="height:128px"></span><span class="step-l">128</span></div>
+</div>
+
+<div class="grp-h">Border radius</div>
+<div class="radii">
+  <div class="rad-card"><div class="rad-shape" style="border-radius:6px"></div><div class="rad-l">6 — sm controls</div></div>
+  <div class="rad-card"><div class="rad-shape" style="border-radius:8px"></div><div class="rad-l">8 — buttons / inputs</div></div>
+  <div class="rad-card"><div class="rad-shape" style="border-radius:12px"></div><div class="rad-l">12 — popovers</div></div>
+  <div class="rad-card"><div class="rad-shape" style="border-radius:16px"></div><div class="rad-l">16 — panels</div></div>
+  <div class="rad-card"><div class="rad-shape" style="border-radius:999px"></div><div class="rad-l">pill — chips</div></div>
+</div>
+
+<div class="grp-h">Shadows &amp; backdrop blur</div>
+<div class="shadows">
+  <div class="shadow-box shadow-1">Drop shadow 01<br><span style="color:var(--text-dim);font-size:12px">0 4px 14px 3px rgba(33,33,33,.10)</span></div>
+  <div class="blur-stage">
+    <div class="shadow-box shadow-blur">Background blur<br><span style="color:var(--text-dim);font-size:12px">blur(20px) + drop shadow 01</span></div>
+  </div>
+</div>
+</body></html>

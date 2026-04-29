@@ -1,0 +1,365 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Layout — Header &amp; Body</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
+  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
+  .sub { font-size:14px; color:var(--text-muted); margin:0 0 32px; max-width:780px; line-height:152%; }
+  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:32px 0 12px; }
+  .card { border:1px solid var(--border); border-radius:12px; background:#FFF; padding:24px; }
+  .stack > * + * { margin-top:12px; }
+  .pill { display:inline-flex; align-items:center; padding:2px 12px; border:1px solid #000; background:#FFF; font-size:13px; font-weight:500; color:#000; }
+  .pill-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+
+  /* ── Anatomy diagram (Header + Body + Footer wireframe) ── */
+  .anatomy {
+    background: #FBFBF8;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+  }
+  .a-region {
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    border: 1px solid transparent;
+  }
+  .a-tag {
+    position: absolute; top: 8px; left: 12px;
+    font-size: 11px; font-weight:500; color: #000; background: #FFF;
+    border: 1px solid #000; padding: 1px 8px;
+  }
+  .a-header { background: rgba(242,255,102,0.20); min-height: 220px; padding-top:36px; display:grid; grid-template-columns: 1.1fr 1fr; gap:16px; }
+  .a-body   { background: rgba(242,255,102,0.12); min-height: 260px; padding-top:36px; }
+  .a-footer { background: var(--bg-subtle); min-height: 64px; }
+  .a-cell {
+    background: rgba(255,255,255,0.6);
+    border: 1px dashed var(--border-light);
+    border-radius: 6px;
+    padding: 14px;
+    color: var(--text-muted);
+    font-size: 12px;
+    min-height: 110px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .a-h-title { font-family:'Serrif',serif; font-size:22px; line-height:1.1; color:var(--text); letter-spacing:-.02em; max-width:280px; }
+  .a-cta { display:inline-block; background:#000; color:#FFF; font-size:11px; padding:6px 12px; border-radius:6px; margin-top:8px; }
+  .a-mock { background: rgba(0,0,0,0.05); border: 1px dashed var(--border-light); border-radius: 8px; height: 140px; display:flex; align-items:center; justify-content:center; color:var(--text-dim); font-size:11px; margin-top:8px; }
+
+  /* ── Use case grid ── */
+  .uc { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  .uc-card { border:1px solid var(--border); border-radius:10px; background:#FFF; padding:14px; }
+  .uc-label { font-size:12px; color:var(--text-2); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .uc-glyph { width:14px; height:14px; border:1px solid var(--text-2); border-radius:2px; display:inline-block; }
+  .uc-frame { background:#FBFBF8; border:1px solid var(--border-light); border-radius:8px; padding:14px; min-height:160px; }
+
+  .lay-2c-1 { display:grid; grid-template-columns: 1.2fr 1fr; gap:12px; }
+  .lay-1c-img { display:grid; grid-template-rows: auto 1fr; gap:10px; }
+  .lay-text-only { text-align:center; padding:18px 8px; }
+  .lay-2-2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  .lay-1-2 { display:grid; grid-template-columns: 1fr 2fr; gap:12px; }
+  .lay-row-cards { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-top:10px; }
+  .lay-img { background: #E8E5DD; border:1px dashed var(--border-light); border-radius:6px; min-height: 84px; }
+  .lay-mini-card { background:#FFF; border:1px solid var(--border); border-radius:6px; padding:8px; font-size:10px; color:var(--text-muted); }
+  .lay-h { font-family:'Serrif',serif; font-size:16px; line-height:1.15; color:var(--text); letter-spacing:-.02em; }
+  .lay-h.center { text-align:center; }
+  .lay-cta-mini { display:inline-block; background:#000; color:#FFF; font-size:9px; padding:3px 7px; border-radius:4px; margin-top:6px; }
+  .lay-bullet { display:flex; gap:8px; align-items:flex-start; padding:6px 0; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted); }
+  .lay-bullet:first-child { border-top:none; }
+  .lay-bullet-num { font-family:'Helvetica Now Text',sans-serif; font-weight:500; color:var(--text); width:14px; flex-shrink:0; }
+
+  /* ── Principles grid (do/don't) ── */
+  .ps { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px; }
+  .ps-card { border:1px solid var(--border); border-radius:10px; background:#FFF; padding:14px; position:relative; }
+  .ps-stage { background:#FBFBF8; border:1px solid var(--border-light); border-radius:6px; height:90px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; padding:10px; }
+  .ps-mark { position:absolute; top:10px; right:10px; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:13px; font-weight:600; }
+  .ps-good { background: #25BD85; }
+  .ps-bad  { background: #FF5E69; }
+  .ps-text { font-size:12px; color:var(--text-muted); line-height:1.45; }
+
+  /* ── Body text spec ── */
+  .spec { display:grid; grid-template-columns: 220px 1fr; gap:16px; padding:14px 0; border-top:1px solid var(--border); }
+  .spec:first-of-type { border-top:none; }
+  .spec-key { font-size:13px; font-weight:500; color:var(--text); }
+  .spec-val { font-size:13px; color:var(--text-muted); line-height:1.5; }
+</style>
+</head><body>
+
+<h1>Layout</h1>
+<p class="sub">Page-level structure for marketing surfaces. The page is composed of three regions — Header, Body, Footer — assembled from a fixed catalogue of column patterns. Variations outside this set require design review.</p>
+
+<!-- ====================== ANATOMY ====================== -->
+<div class="grp-h">Anatomy</div>
+<div class="card stack">
+  <div class="anatomy">
+    <div class="a-region a-header">
+      <span class="a-tag">Header*</span>
+      <div class="a-cell">
+        <div>
+          <div class="a-h-title">Meet delight.ai, your branded AI concierge</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.5;">Turn every customer interaction into a meaningful moment of recognition, loyalty, and long-term growth.</div>
+        </div>
+        <span class="a-cta">Request demo</span>
+      </div>
+      <div class="a-cell" style="background: rgba(242,255,102,0.25);">
+        <div style="font-size:11px;color:var(--text-2);font-weight:500;">Key visual*</div>
+        <div class="a-mock" style="margin:0;">image / mockup / image + mockup</div>
+      </div>
+    </div>
+    <div class="a-region a-body">
+      <span class="a-tag">Body</span>
+      <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap:14px; height:100%;">
+        <div class="a-cell">
+          <div style="font-family:'Serrif',serif;font-size:18px;color:var(--text);line-height:1.2;">Align every interaction with business outcomes</div>
+          <div style="font-size:11px;color:var(--text-muted);">Detailed information, examples, and structured explanations.</div>
+        </div>
+        <div class="a-cell" style="display:grid;grid-template-rows:1fr 1fr 1fr;gap:6px;justify-content:initial;">
+          <div style="background:rgba(255,255,255,0.7);border-radius:4px;padding:6px;font-size:10px;color:var(--text-muted);">01 · Capability</div>
+          <div style="background:rgba(255,255,255,0.7);border-radius:4px;padding:6px;font-size:10px;color:var(--text-muted);">02 · Capability</div>
+          <div style="background:rgba(255,255,255,0.7);border-radius:4px;padding:6px;font-size:10px;color:var(--text-muted);">03 · Capability</div>
+        </div>
+      </div>
+    </div>
+    <div class="a-region a-footer">
+      <span class="a-tag" style="position:relative;top:0;left:0;">Footer</span>
+    </div>
+  </div>
+
+  <div style="padding:14px 4px 0;">
+    <div style="font-size:13px; font-weight:500; color:var(--text); margin-bottom:8px;">Header — single global section, top of page</div>
+    <p class="spec-val" style="padding:0;border:none;">Communicates the page's identity, key message, and primary CTA at first glance. <strong style="color:var(--text);font-weight:500;">A page must not contain multiple headers.</strong></p>
+  </div>
+  <div style="padding:14px 4px 0;border-top:1px solid var(--border);">
+    <div style="font-size:13px; font-weight:500; color:var(--text); margin-bottom:8px;">Body — supporting region</div>
+    <p class="spec-val" style="padding:0;border:none;">Expands the Header through detailed information, structured explanations, and examples. Body text stays 2–3 lines and never exceeds a 6-column width. Must not repeat the core message of the Header.</p>
+  </div>
+</div>
+
+<!-- ====================== HEADER USE CASES ====================== -->
+<div class="grp-h">Header — Allowed combinations</div>
+<div class="uc">
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (2 col) + Image (1 col)</div>
+    <div class="uc-frame">
+      <div class="lay-2c-1">
+        <div>
+          <div class="lay-h">Meet delight.ai, your branded AI concierge</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:6px;line-height:1.4;">Turn every customer interaction into a meaningful moment of recognition.</div>
+          <span class="lay-cta-mini">Request demo</span>
+        </div>
+        <div class="lay-img"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (1 col) + Image (1 col)</div>
+    <div class="uc-frame">
+      <div style="text-align:center;">
+        <div class="lay-h center">The Financial Services AI Agent Built for Trust</div>
+        <span class="lay-cta-mini">Request demo</span>
+      </div>
+      <div class="lay-img" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Only Text (1 col)</div>
+    <div class="uc-frame lay-text-only">
+      <div class="lay-h center">Trust OS: The foundation of accountable AI</div>
+      <span class="lay-cta-mini">Request demo</span>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (2 col) + Image (2 col)</div>
+    <div class="uc-frame">
+      <div class="lay-2-2">
+        <div>
+          <div class="lay-h">The 5 reasons to choose delight.ai</div>
+          <div class="stack" style="margin-top:8px;">
+            <div class="lay-bullet"><span class="lay-bullet-num">01</span><span>Omnipresent AI</span></div>
+            <div class="lay-bullet"><span class="lay-bullet-num">02</span><span>Unified platform</span></div>
+            <div class="lay-bullet"><span class="lay-bullet-num">03</span><span>Proactive support</span></div>
+            <div class="lay-bullet"><span class="lay-bullet-num">04</span><span>Enterprise-grade trust</span></div>
+            <div class="lay-bullet"><span class="lay-bullet-num">05</span><span>Best-in-class performance</span></div>
+          </div>
+        </div>
+        <div class="lay-img"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====================== BODY USE CASES ====================== -->
+<div class="grp-h">Body — Allowed combinations</div>
+<div class="uc">
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (2 col) + Image (1 col) + Caption (3 col)</div>
+    <div class="uc-frame">
+      <div class="lay-2c-1">
+        <div>
+          <div class="lay-h">Align every interaction with business outcomes</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:6px;line-height:1.4;">Body expands the message with structured detail.</div>
+        </div>
+        <div class="lay-img"></div>
+      </div>
+      <div class="lay-row-cards">
+        <div class="lay-mini-card"><div style="font-weight:500;color:var(--text);">01</div>Memory built-in</div>
+        <div class="lay-mini-card"><div style="font-weight:500;color:var(--text);">02</div>Outcome-tracked</div>
+        <div class="lay-mini-card"><div style="font-weight:500;color:var(--text);">03</div>Auto-evaluated</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (2 col) + Image (2 col)</div>
+    <div class="uc-frame">
+      <div class="lay-2-2">
+        <div>
+          <div class="lay-h">Know who customers are, and what they need next</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:6px;line-height:1.4;">Customer profile, intent, history.</div>
+        </div>
+        <div class="lay-img"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (1 col) + Contents (2 col)</div>
+    <div class="uc-frame">
+      <div class="lay-text-only" style="padding:6px 0 8px;">
+        <div class="lay-h center">AMP runs on enterprise-grade infrastructure</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="lay-mini-card" style="min-height:54px;">Enterprise-grade scalability</div>
+        <div class="lay-mini-card" style="min-height:54px;">Trusted security &amp; compliance</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (1 col) + Contents (2 col) — resources</div>
+    <div class="uc-frame">
+      <div class="lay-1-2">
+        <div class="lay-img" style="min-height:120px;"></div>
+        <div class="stack">
+          <div class="lay-mini-card">How to build an AI agent</div>
+          <div class="lay-mini-card">Introducing Trust OS</div>
+          <div class="lay-mini-card">The complete guide to AI agents</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (2 col) + Contents (2 col) — FAQ</div>
+    <div class="uc-frame">
+      <div class="lay-1-2">
+        <div>
+          <div class="lay-h">Agent Memory Platform FAQs</div>
+        </div>
+        <div class="stack">
+          <div class="lay-mini-card" style="display:flex;justify-content:space-between;">What does AMP solve? <span>+</span></div>
+          <div class="lay-mini-card" style="display:flex;justify-content:space-between;">How is AMP deployed? <span>+</span></div>
+          <div class="lay-mini-card" style="display:flex;justify-content:space-between;">Pricing tiers? <span>+</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uc-card">
+    <div class="uc-label"><span class="uc-glyph"></span> Text (2 col) + Contents (2 col) — pillars</div>
+    <div class="uc-frame">
+      <div class="lay-text-only" style="padding:6px 0 8px;">
+        <div class="lay-h center">AMP is the intelligence layer behind every delight.ai experience</div>
+      </div>
+      <div class="lay-row-cards" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="lay-mini-card" style="min-height:62px;"><div style="color:var(--text);font-weight:500;">For-You</div>Conversations</div>
+        <div class="lay-mini-card" style="min-height:62px;"><div style="color:var(--text);font-weight:500;">Omni</div>presence</div>
+        <div class="lay-mini-card" style="min-height:62px;"><div style="color:var(--text);font-weight:500;">Trust OS</div>Accountable</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====================== USAGE PRINCIPLES ====================== -->
+<div class="grp-h">Usage principles</div>
+<div class="ps">
+
+  <div class="ps-card">
+    <span class="ps-mark ps-good">✓</span>
+    <div class="ps-stage" style="flex-direction:column;align-items:flex-start;gap:4px;">
+      <div style="background:#FFF;border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:10px;color:var(--text-muted);">eyebrow</div>
+      <div style="font-family:'Serrif',serif;font-size:13px;color:var(--text);">Headline</div>
+      <div style="background:#000;color:#FFF;font-size:10px;padding:3px 8px;border-radius:4px;">CTA</div>
+    </div>
+    <div class="ps-text">Each layout module is structured by the intent of the message — designed to define and articulate what to deliver via use case and structure.</div>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-mark ps-good">✓</span>
+    <div class="ps-stage" style="flex-direction:column;align-items:stretch;gap:4px;">
+      <div style="background:#F7F5F0;border-radius:4px;height:14px;"></div>
+      <div style="background:#F7F5F0;border-radius:4px;height:14px;width:75%;"></div>
+      <div style="background:#F7F5F0;border-radius:4px;height:14px;width:60%;"></div>
+    </div>
+    <div class="ps-text">Layouts should be distributed across the page to maintain visual rhythm and hierarchy, avoiding repetitive use of the same layout.</div>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-mark ps-good">✓</span>
+    <div class="ps-stage">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;">
+        <div style="background:#000;border-radius:3px;height:20px;"></div>
+        <div style="background:#F7F5F0;border:1px solid var(--border);border-radius:3px;height:20px;"></div>
+      </div>
+    </div>
+    <div class="ps-text">Text, image columns and buttons must be used in their defined structure and placement.</div>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-mark ps-bad">✕</span>
+    <div class="ps-stage" style="gap:6px;">
+      <div style="background:#000;color:#FFF;font-size:10px;padding:4px 8px;border-radius:4px;">CTA option 1</div>
+      <div style="background:#000;color:#FFF;font-size:10px;padding:4px 8px;border-radius:4px;">CTA option 2</div>
+      <div style="background:#000;color:#FFF;font-size:10px;padding:4px 8px;border-radius:4px;">CTA option 3</div>
+    </div>
+    <div class="ps-text">A page must contain only one primary CTA. Secondary CTAs are not allowed.</div>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-mark ps-bad">✕</span>
+    <div class="ps-stage">
+      <div style="display:grid;grid-template-columns: 0.4fr 1.6fr; gap:6px; width:100%;">
+        <div style="background:#E8E5DD;border-radius:3px;"></div>
+        <div style="background:#F7F5F0;border-radius:3px;"></div>
+      </div>
+    </div>
+    <div class="ps-text">Image aspect ratios, spacing, and alignment must not be overridden.</div>
+  </div>
+
+  <div class="ps-card">
+    <span class="ps-mark ps-bad">✕</span>
+    <div class="ps-stage">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;width:100%;">
+        <div style="background:#F7F5F0;border:1px dashed var(--border-light);border-radius:3px;height:30px;"></div>
+        <div style="background:#F7F5F0;border:1px dashed var(--border-light);border-radius:3px;height:30px;"></div>
+        <div style="background:#F7F5F0;border:1px dashed var(--border-light);border-radius:3px;height:30px;"></div>
+      </div>
+    </div>
+    <div class="ps-text">Any usage or variation not defined in this guide requires design review.</div>
+  </div>
+
+</div>
+
+</body></html>
