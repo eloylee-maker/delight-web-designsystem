@@ -4,25 +4,69 @@
 <title>Popup</title>
 <link rel="stylesheet" href="../colors_and_type.css"/>
 <style>
-  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
-  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
-  .sub { font-size:14px; color:var(--text-muted); margin:0 0 32px; max-width:820px; line-height:152%; }
-  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:32px 0 12px; }
-  .uc { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-  .uc-card { border:1px solid var(--border); border-radius:12px; background:#FFF; padding:14px; }
-  .uc-label { font-size:12px; color:var(--text-2); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-  .uc-glyph { width:14px; height:14px; border:1px solid var(--text-2); border-radius:2px; display:inline-block; }
+  body { margin:0; padding:0; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
 
-  /* Page-level scrim mock */
+  /* ── Group title (eBay-Playbook style) ── */
+  .grp-title{
+    font-family:'Helvetica Now Text',sans-serif;
+    font-size:24px;font-weight:600;color:var(--text);
+    letter-spacing:-.02em;
+    margin:48px 0 14px;padding-bottom:14px;
+    border-bottom:1px solid var(--border);
+  }
+  .grp-title:first-child{margin-top:0}
+  .grp-title .grp-sub{
+    font-size:14px;font-weight:400;color:var(--text-muted);
+    letter-spacing:-.01em;margin-left:10px;
+  }
+
+  /* ── Flat table (gray header bar + hairline rows) ── */
+  .spec-table{
+    width:100%;border-collapse:collapse;
+    font-family:'Helvetica Now Text',sans-serif;font-size:14px;
+    letter-spacing:-.01em;margin:0 0 36px;
+  }
+  .spec-table thead th{
+    background:var(--bg-subtle);
+    font-weight:500;color:var(--text);font-size:13px;
+    text-align:left;padding:14px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  .spec-table tbody th,
+  .spec-table tbody td{
+    text-align:left;padding:18px 16px;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;color:var(--text);
+    font-weight:400;
+  }
+  .spec-table tbody th{
+    width:200px;font-weight:500;color:var(--text);
+  }
+  .spec-table .desc{color:var(--text-muted);line-height:1.6}
+  .anchor { background: rgba(242,255,102,0.35); padding:1px 4px; border-radius:3px; color:var(--text); font-weight:500; }
+
+  /* ── Use-case grid (no card chrome — flat under hairline) ── */
+  .uc-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;margin:0 0 36px;
+  }
+  .uc-item{display:flex;flex-direction:column;gap:10px}
+  .uc-label{
+    font-size:13px;font-weight:500;color:var(--text);letter-spacing:-.01em;
+  }
+  .uc-sub{
+    font-size:12px;color:var(--text-muted);letter-spacing:-.01em;line-height:1.5;
+  }
+
+  /* Page-level scrim mock — preserved (this IS the visual content) */
   .scrim {
     position:relative;
-    background: #BFBDB7; /* dimmed page */
+    background: #BFBDB7;
     border-radius:8px;
     overflow:hidden;
     min-height: 360px;
     padding: 14px 18px 18px;
   }
-  .scrim-mo { min-height: 460px; padding: 12px; }
+  .scrim-mo { min-height: 460px; padding: 12px; display:flex; align-items:flex-start; justify-content:center; padding-top:30px;}
   .scrim::before {
     content:""; position:absolute; inset:0;
     background:
@@ -55,10 +99,7 @@
   .modal-lg { width: 280px; }
   .modal-row1 { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
   .modal-title { font-family:'Serrif',serif; font-weight:500; font-size:14px; color:var(--text); letter-spacing:-.02em; }
-  .modal-close {
-    width:14px; height:14px; display:inline-flex; align-items:center; justify-content:center;
-    color:#000; font-size:12px; line-height:1;
-  }
+  .modal-close { width:14px; height:14px; display:inline-flex; align-items:center; justify-content:center; color:#000; font-size:12px; line-height:1; }
   .modal-field { margin-bottom:8px; }
   .modal-field label { display:block; font-size:9px; color:var(--text-2); margin-bottom:3px; }
   .modal-field label::after { content:" *"; color:#FF5E69; }
@@ -69,11 +110,7 @@
     font-size:9px; color:var(--text-disabled);
   }
   .modal-input.phone { display:flex; gap:0; padding:0; }
-  .modal-input.phone .flag {
-    background: var(--bg-subtle);
-    padding: 0 8px; display:flex; align-items:center; gap:3px; font-size:9px; color:var(--text);
-    border-right:1px solid var(--border);
-  }
+  .modal-input.phone .flag { background: var(--bg-subtle); padding: 0 8px; display:flex; align-items:center; gap:3px; font-size:9px; color:var(--text); border-right:1px solid var(--border); }
   .modal-input.phone .num { padding: 0 8px; flex:1; display:flex; align-items:center; }
   .modal-consent { display:flex; gap:6px; align-items:flex-start; margin: 8px 0 10px; }
   .consent-box { width:11px; height:11px; background:#000; border-radius:2px; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:8px; }
@@ -84,54 +121,41 @@
   .btn-mock.sec { background:#FFF; color:#000; border:1px solid #000; }
   .btn-mock.pri { background:#000; color:#FFF; }
 
-  /* Toast */
-  .toast {
-    position:absolute; bottom:14px; left:50%; transform: translateX(-50%);
-    background:#18140F; color:#FFF;
-    border-radius:6px; padding:8px 14px; font-size:10px;
-    z-index:5;
-  }
+  .toast { position:absolute; bottom:14px; left:50%; transform: translateX(-50%); background:#18140F; color:#FFF; border-radius:6px; padding:8px 14px; font-size:10px; z-index:5; }
 
-  /* Mobile frame */
-  .scrim-mo { display:flex; align-items:flex-start; justify-content:center; padding-top:30px; }
-  .mo-modal {
-    background:#FFF; border-radius:14px; width: 88%;
-    padding: 16px 14px 14px;
-    box-shadow: 0 4px 14px 3px rgba(33,33,33,0.12);
-  }
+  .mo-modal { background:#FFF; border-radius:14px; width: 88%; padding: 16px 14px 14px; box-shadow: 0 4px 14px 3px rgba(33,33,33,0.12); }
 
-  /* Spec table */
-  .spec { display:grid; grid-template-columns: 220px 1fr; gap:16px; padding:12px 0; border-top:1px solid var(--border); font-size:13px; }
-  .spec:first-of-type { border-top:none; }
-  .spec-key { color:var(--text); font-weight:500; }
-  .spec-val { color:var(--text-muted); line-height:1.5; }
-  .anchor { background: rgba(242,255,102,0.35); padding:1px 4px; border-radius:3px; color:var(--text); font-weight:500; }
-
+  /* When-to-use prose block */
+  .when-block{font-size:14px;color:var(--text-muted);line-height:1.7;letter-spacing:-.01em;margin-bottom:36px}
+  .when-block p{margin:0 0 12px}
+  .when-block strong{color:var(--text);font-weight:500}
 </style>
 </head><body>
 
-<h1>Popup</h1>
-<p class="sub">Captures attention and prompts a single, well-defined action — registration, confirmation, or critical notice. Because popups appear above page content and interrupt flow, they're used sparingly. Layout, content composition, and allowed sizes below; anything outside this set requires design review.</p>
+<!-- ============ Specs ============ -->
+<h2 class="grp-title">Specs<span class="grp-sub">surface, dimensions, and behavior</span></h2>
+<table class="spec-table">
+  <thead>
+    <tr><th style="width:200px">Title</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><th>Default size</th><td><span class="anchor">572 px</span> wide · <span class="anchor">min-height 480</span> · <span class="anchor">max-height 680</span></td></tr>
+    <tr><th>Surface</th><td class="desc">White (#FFFFFF), radius <span class="anchor">12 px</span>, drop shadow 01 (<code>0 4px 14px 3px rgba(33,33,33,0.10)</code>). Centered over a dimmed page scrim.</td></tr>
+    <tr><th>Title</th><td class="desc">Serrif Medium 20 / 1.28, color WGray900. Close icon (✕) top-right, 20×20 hit target.</td></tr>
+    <tr><th>Form fields</th><td class="desc">Required marker is the red asterisk (<span style="color:#FF5E69;">*</span>). Inputs are 1 px <code>--border</code>, radius 8 px, placeholder text in <code>--text-disabled</code>.</td></tr>
+    <tr><th>Actions</th><td class="desc">Two-up footer — <strong>Close</strong> (Secondary, left) → <strong>Submit</strong> (Primary, right). Always Secondary → Primary.</td></tr>
+    <tr><th>Confirmation</th><td class="desc">After Submit, the popup dismisses and a <strong>toast</strong> confirms — dark <code>#18140F</code> pill, bottom-center, auto-dismiss.</td></tr>
+    <tr><th>Mobile</th><td class="desc">Same modal pattern, 88% viewport width, padding scales down. Actions remain Close → Submit.</td></tr>
+  </tbody>
+</table>
 
-<!-- Spec -->
-<div class="grp-h">Specs</div>
-<div style="border:1px solid var(--border); border-radius:12px; padding: 18px 22px; background:#FFF;">
-  <div class="spec"><div class="spec-key">Default size</div><div class="spec-val"><span class="anchor">572 px</span> wide · <span class="anchor">min-height 480</span> · <span class="anchor">max-height 680</span></div></div>
-  <div class="spec"><div class="spec-key">Surface</div><div class="spec-val">White (#FFFFFF), radius <span class="anchor">12 px</span>, drop shadow 01 (<code>0 4px 14px 3px rgba(33,33,33,0.10)</code>). Centered over a dimmed page scrim.</div></div>
-  <div class="spec"><div class="spec-key">Title</div><div class="spec-val">Serrif Medium 20 / 1.28, color WGray900. Close icon (✕) top-right, 20×20 hit target.</div></div>
-  <div class="spec"><div class="spec-key">Form fields</div><div class="spec-val">Required marker is the red asterisk (<span style="color:#FF5E69;">*</span>). Inputs are 1 px <code>--border</code>, radius 8 px, placeholder text in <code>--text-disabled</code>.</div></div>
-  <div class="spec"><div class="spec-key">Actions</div><div class="spec-val">Two-up footer — <strong style="color:var(--text);font-weight:500;">Close</strong> (Secondary, left) → <strong style="color:var(--text);font-weight:500;">Submit</strong> (Primary, right). Always Secondary → Primary.</div></div>
-  <div class="spec"><div class="spec-key">Confirmation</div><div class="spec-val">After Submit, the popup dismisses and a <strong style="color:var(--text);font-weight:500;">toast</strong> confirms — dark <code>#18140F</code> pill, bottom-center, auto-dismiss.</div></div>
-  <div class="spec"><div class="spec-key">Mobile</div><div class="spec-val">Same modal pattern, 88% viewport width, padding scales down. Actions remain Close → Submit.</div></div>
-</div>
+<!-- ============ Use cases ============ -->
+<h2 class="grp-title">Use cases<span class="grp-sub">allowed sizes and contexts</span></h2>
+<div class="uc-grid">
 
-<!-- Use cases -->
-<div class="grp-h">Use case</div>
-<div class="uc">
-
-  <!-- 572 / min-h 480 -->
-  <div class="uc-card">
-    <div class="uc-label"><span class="uc-glyph"></span> Small (572 × min-h 480) — short form</div>
+  <div class="uc-item">
+    <div class="uc-label">Small (572 × min-h 480) — short form</div>
+    <div class="uc-sub">First/Last name + email. Use for registrations and quick consent flows.</div>
     <div class="scrim">
       <div class="scrim-page">
         <div class="scrim-gnb">
@@ -142,30 +166,20 @@
         <div class="scrim-h">Meet delight.ai, your branded AI concierge</div>
         <span class="scrim-cta">Request demo</span>
       </div>
-
       <div class="modal">
-        <div class="modal-row1">
-          <div class="modal-title">Register for the Event</div>
-          <div class="modal-close">✕</div>
-        </div>
+        <div class="modal-row1"><div class="modal-title">Register for the Event</div><div class="modal-close">✕</div></div>
         <div class="modal-field"><label>First Name</label><div class="modal-input">Place holder</div></div>
         <div class="modal-field"><label>Last Name</label><div class="modal-input">Place holder</div></div>
         <div class="modal-field"><label>Work email</label><div class="modal-input">Place holder</div></div>
-        <div class="modal-consent">
-          <div class="consent-box">✓</div>
-          <div class="consent-text">By submitting, I agree to <strong>Terms of Service</strong> and <strong>Privacy Policy</strong>.</div>
-        </div>
-        <div class="modal-actions">
-          <div class="btn-mock sec">Close</div>
-          <div class="btn-mock pri">Submit</div>
-        </div>
+        <div class="modal-consent"><div class="consent-box">✓</div><div class="consent-text">By submitting, I agree to <strong>Terms of Service</strong> and <strong>Privacy Policy</strong>.</div></div>
+        <div class="modal-actions"><div class="btn-mock sec">Close</div><div class="btn-mock pri">Submit</div></div>
       </div>
     </div>
   </div>
 
-  <!-- 572 / max-h 680 -->
-  <div class="uc-card">
-    <div class="uc-label"><span class="uc-glyph"></span> Small (572 × max-h 680) — extended form</div>
+  <div class="uc-item">
+    <div class="uc-label">Small (572 × max-h 680) — extended form</div>
+    <div class="uc-sub">Adds phone + role. Same surface, taller content.</div>
     <div class="scrim">
       <div class="scrim-page">
         <div class="scrim-gnb">
@@ -176,34 +190,22 @@
         <div class="scrim-h">Meet delight.ai, your branded AI concierge</div>
         <span class="scrim-cta">Request demo</span>
       </div>
-
       <div class="modal modal-lg">
-        <div class="modal-row1">
-          <div class="modal-title">Register for the Event</div>
-          <div class="modal-close">✕</div>
-        </div>
+        <div class="modal-row1"><div class="modal-title">Register for the Event</div><div class="modal-close">✕</div></div>
         <div class="modal-field"><label>First Name</label><div class="modal-input">Place holder</div></div>
         <div class="modal-field"><label>Last Name</label><div class="modal-input">Place holder</div></div>
         <div class="modal-field"><label>Work email</label><div class="modal-input">Place holder</div></div>
-        <div class="modal-field"><label>Phone number</label>
-          <div class="modal-input phone"><div class="flag">🇰🇷 KR · +82</div><div class="num" style="color:var(--text-disabled);">Place holder</div></div>
-        </div>
+        <div class="modal-field"><label>Phone number</label><div class="modal-input phone"><div class="flag">🇰🇷 KR · +82</div><div class="num" style="color:var(--text-disabled);">Place holder</div></div></div>
         <div class="modal-field"><label>Your role</label><div class="modal-input">Place holder</div></div>
-        <div class="modal-consent">
-          <div class="consent-box">✓</div>
-          <div class="consent-text">By submitting the form, I agree to Sendbird's <strong>Terms of Service</strong> and <strong>Privacy Policy</strong> and consent to receive marketing information.</div>
-        </div>
-        <div class="modal-actions">
-          <div class="btn-mock sec">Close</div>
-          <div class="btn-mock pri">Submit</div>
-        </div>
+        <div class="modal-consent"><div class="consent-box">✓</div><div class="consent-text">By submitting the form, I agree to Sendbird's <strong>Terms of Service</strong> and <strong>Privacy Policy</strong> and consent to receive marketing information.</div></div>
+        <div class="modal-actions"><div class="btn-mock sec">Close</div><div class="btn-mock pri">Submit</div></div>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="uc-card">
-    <div class="uc-label"><span class="uc-glyph"></span> Toast — confirmation after Submit</div>
+  <div class="uc-item">
+    <div class="uc-label">Toast — confirmation after Submit</div>
+    <div class="uc-sub">Dark pill at bottom-center confirms success and auto-dismisses.</div>
     <div class="scrim" style="background:#FFF;">
       <div class="scrim-page" style="opacity:1;">
         <div class="scrim-gnb">
@@ -213,52 +215,40 @@
         </div>
         <div class="scrim-h" style="max-width:70%;">Meet delight.ai, your branded AI concierge</div>
         <span class="scrim-cta">Request demo</span>
-
         <div style="margin-top:24px; background:var(--bg-subtle); border-radius:8px; padding:14px; max-width:280px; align-self:center;">
           <div style="font-size:10px;color:var(--text);margin-bottom:6px;">Today</div>
           <div style="background:#FFF;border-radius:8px;padding:8px;font-size:9px;color:var(--text-muted);line-height:1.4;">Looking up event registration… You're all set! See you there.</div>
           <div style="background:var(--lime);border-radius:999px;padding:3px 8px;font-size:9px;color:#000;display:inline-block;margin-top:6px;">✓ Memory added</div>
         </div>
       </div>
-
       <div class="toast">✓ Your appointment has been registered.</div>
     </div>
   </div>
 
-  <!-- Mobile -->
-  <div class="uc-card">
-    <div class="uc-label"><span class="uc-glyph"></span> Mobile — full-width modal</div>
+  <div class="uc-item">
+    <div class="uc-label">Mobile — full-width modal</div>
+    <div class="uc-sub">88 % viewport width; same Close → Submit footer.</div>
     <div class="scrim scrim-mo">
       <div class="mo-modal">
-        <div class="modal-row1">
-          <div class="modal-title">Register for the Event</div>
-          <div class="modal-close">✕</div>
-        </div>
+        <div class="modal-row1"><div class="modal-title">Register for the Event</div><div class="modal-close">✕</div></div>
         <div class="modal-field"><label>First Name</label><div class="modal-input">Place holder</div></div>
         <div class="modal-field"><label>Last Name</label><div class="modal-input">Place holder</div></div>
         <div class="modal-field"><label>Work email</label><div class="modal-input">Place holder</div></div>
-        <div class="modal-field"><label>Phone number</label>
-          <div class="modal-input phone"><div class="flag">🇰🇷 KR · +82</div><div class="num" style="color:var(--text-disabled);">Place holder</div></div>
-        </div>
+        <div class="modal-field"><label>Phone number</label><div class="modal-input phone"><div class="flag">🇰🇷 KR · +82</div><div class="num" style="color:var(--text-disabled);">Place holder</div></div></div>
         <div class="modal-field"><label>Your role</label><div class="modal-input">Place holder</div></div>
-        <div class="modal-consent">
-          <div class="consent-box">✓</div>
-          <div class="consent-text">By submitting, I agree to <strong>Terms of Service</strong> and <strong>Privacy Policy</strong>.</div>
-        </div>
-        <div class="modal-actions">
-          <div class="btn-mock sec">Close</div>
-          <div class="btn-mock pri">Submit</div>
-        </div>
+        <div class="modal-consent"><div class="consent-box">✓</div><div class="consent-text">By submitting, I agree to <strong>Terms of Service</strong> and <strong>Privacy Policy</strong>.</div></div>
+        <div class="modal-actions"><div class="btn-mock sec">Close</div><div class="btn-mock pri">Submit</div></div>
       </div>
     </div>
   </div>
 
 </div>
 
-<div class="grp-h">When to use</div>
-<div style="border:1px solid var(--border); border-radius:12px; padding: 18px 22px; background:#FFF; font-size:13px; color:var(--text-muted); line-height:1.6;">
-  <p style="margin:0 0 10px;"><strong style="color:var(--text);font-weight:500;">Use a popup</strong> to capture attention for a single, well-defined action — event registration, gated content, critical confirmation, or a focused form that interrupts the page intentionally.</p>
-  <p style="margin:0;"><strong style="color:var(--text);font-weight:500;">Don't use a popup</strong> for general navigation, ambient promotion, or anything that can live inline on the page. Keep messaging clear and concise — the key information and primary CTA must be understood at a glance.</p>
+<!-- ============ When to use ============ -->
+<h2 class="grp-title">When to use</h2>
+<div class="when-block">
+  <p><strong>Use a popup</strong> to capture attention for a single, well-defined action — event registration, gated content, critical confirmation, or a focused form that interrupts the page intentionally.</p>
+  <p><strong>Don't use a popup</strong> for general navigation, ambient promotion, or anything that can live inline on the page. Keep messaging clear and concise — the key information and primary CTA must be understood at a glance.</p>
 </div>
 
 </body></html>

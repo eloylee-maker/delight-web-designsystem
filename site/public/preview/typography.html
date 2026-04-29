@@ -1,41 +1,243 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><title>Typography</title>
 <link rel="stylesheet" href="../colors_and_type.css"/>
 <style>
-  body{margin:0;padding:40px;background:#FFF;color:var(--text)}
-  h1.h{font-family:'Serrif',serif;font-weight:500;font-size:28px;margin:0 0 4px;letter-spacing:-.02em}
-  .sub{font-family:'Helvetica Now Text',sans-serif;font-size:14px;color:var(--text-muted);letter-spacing:-.02em;margin:0 0 32px}
-  .row{display:grid;grid-template-columns:120px 80px 1fr;gap:20px;align-items:baseline;padding:14px 0;border-top:1px solid var(--border)}
-  .row:first-of-type{border-top:none}
-  .lab{font-family:'Helvetica Now Text',sans-serif;font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em}
-  .meta{font-family:'Helvetica Now Text',sans-serif;font-size:11px;color:var(--text-dim);font-variant-numeric:tabular-nums}
-  .grp-h{font-family:'Helvetica Now Text',sans-serif;font-size:11px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin:32px 0 8px}
-  .grp-h:first-of-type{margin-top:24px}
+  :root{
+    --serrif: 'Serrif','Iowan Old Style','Charter','Times New Roman',Georgia,serif;
+    --sans:   'Helvetica Now Text','Helvetica Neue',Helvetica,Arial,sans-serif;
+    --kr:     'Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  }
+  html,body{margin:0;padding:0;background:#FFF;color:var(--text)}
+  body{
+    padding:40px 44px;
+    font-family:var(--sans);
+    letter-spacing:-.02em;
+    overflow: visible;
+  }
+  h1.h{
+    font-family:var(--serrif);font-weight:500;
+    font-size:28px;line-height:1.2;letter-spacing:-.02em;
+    margin:0 0 4px;
+  }
+  .sub{
+    font-size:14px;color:var(--text-muted);
+    letter-spacing:-.02em;line-height:1.55;
+    margin:0 0 28px;max-width:720px;
+  }
+
+  /* ===== Group heading ===== */
+  .grp-h{
+    font-family:var(--sans);font-size:11px;font-weight:500;
+    color:var(--text);text-transform:uppercase;letter-spacing:.08em;
+    margin:36px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  }
+  .grp-h .grp-sub{
+    font-weight:400;color:var(--text-muted);text-transform:none;
+    letter-spacing:-.02em;margin-left:8px;
+  }
+
+  /* ===== PC | Mobile two-column shell ===== */
+  .split{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:0;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#FFF;
+    overflow:hidden;
+  }
+  .col{ padding:14px 18px 18px; min-width:0; }
+  .col + .col{ border-left:1px solid var(--border); }
+  .col-h{
+    display:flex;align-items:center;gap:8px;
+    font-family:var(--sans);font-size:11px;font-weight:500;
+    color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;
+    padding:6px 0 12px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:8px;
+  }
+  .col-h::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;background:var(--text);
+    opacity:.85;
+  }
+  .col[data-device="mobile"] .col-h::before{ opacity:.35; }
+
+  /* ===== Row inside a column ===== */
+  .row{
+    display:grid;
+    grid-template-columns: auto 1fr;
+    column-gap:14px;
+    row-gap:6px;
+    align-items:start;
+    padding:14px 0;
+    border-bottom:1px dashed var(--border);
+  }
+  .row:last-child{ border-bottom:none; }
+
+  /* ===== The "flag" — solid black chip ===== */
+  .flag{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:22px;padding:0 8px;
+    background:var(--text);color:#FFF;
+    font-family:var(--sans);font-size:10px;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;
+    border-radius:4px;
+    flex-shrink:0;
+    line-height:1;
+  }
+  .flag--ghost{
+    background:transparent;color:var(--text);
+    border:1px solid var(--border-light);
+    font-weight:500;
+  }
+  .meta{
+    grid-column:1 / -1;
+    margin-top:-2px;
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;
+    font-size:11px;color:var(--text-dim);
+    font-variant-numeric:tabular-nums;letter-spacing:0;
+  }
+  .sample{ min-width:0; word-wrap:break-word; }
+
+  /* ---- Display: Serrif ---- PC ---- */
+  .pc-h1{ font-family:var(--serrif); font-weight:500; font-size:72px; line-height:108%; letter-spacing:-.02em; }
+  .pc-h2{ font-family:var(--serrif); font-weight:500; font-size:54px; line-height:114%; letter-spacing:-.02em; }
+  .pc-h3{ font-family:var(--serrif); font-weight:500; font-size:38px; line-height:120%; letter-spacing:-.02em; }
+  .pc-h4{ font-family:var(--serrif); font-weight:500; font-size:28px; line-height:132%; letter-spacing:-.02em; }
+  .pc-h5{ font-family:var(--serrif); font-weight:500; font-size:22px; line-height:144%; letter-spacing:-.02em; }
+  /* ---- Display: Serrif ---- Mobile ---- */
+  .mb-h1{ font-family:var(--serrif); font-weight:500; font-size:44px; line-height:114%; letter-spacing:-.02em; }
+  .mb-h2{ font-family:var(--serrif); font-weight:500; font-size:34px; line-height:120%; letter-spacing:-.02em; }
+  .mb-h3{ font-family:var(--serrif); font-weight:500; font-size:26px; line-height:128%; letter-spacing:-.02em; }
+  .mb-h4{ font-family:var(--serrif); font-weight:500; font-size:22px; line-height:136%; letter-spacing:-.02em; }
+  .mb-h5{ font-family:var(--serrif); font-weight:500; font-size:18px; line-height:144%; letter-spacing:-.02em; }
+
+  /* ---- Sans display: Helvetica Now Text ---- PC ---- */
+  .pc-sh2{ font-family:var(--sans); font-weight:500; font-size:38px; line-height:120%; letter-spacing:-.02em; }
+  .pc-sh3{ font-family:var(--sans); font-weight:500; font-size:28px; line-height:132%; letter-spacing:-.02em; }
+  .pc-sh4{ font-family:var(--sans); font-weight:500; font-size:22px; line-height:140%; letter-spacing:-.02em; }
+  /* ---- Sans display: Helvetica Now Text ---- Mobile ---- */
+  .mb-sh2{ font-family:var(--sans); font-weight:500; font-size:28px; line-height:128%; letter-spacing:-.02em; }
+  .mb-sh3{ font-family:var(--sans); font-weight:500; font-size:22px; line-height:136%; letter-spacing:-.02em; }
+  .mb-sh4{ font-family:var(--sans); font-weight:500; font-size:18px; line-height:144%; letter-spacing:-.02em; }
+
+  /* ---- Body ---- PC ---- */
+  .pc-b1{ font-family:var(--sans); font-weight:400; font-size:20px; line-height:136%; letter-spacing:-.02em; }
+  .pc-b2{ font-family:var(--sans); font-weight:400; font-size:18px; line-height:138%; letter-spacing:-.02em; }
+  .pc-b3{ font-family:var(--sans); font-weight:400; font-size:16px; line-height:140%; letter-spacing:-.02em; }
+  /* ---- Body ---- Mobile ---- */
+  .mb-b1{ font-family:var(--sans); font-weight:400; font-size:17px; line-height:140%; letter-spacing:-.02em; }
+  .mb-b2{ font-family:var(--sans); font-weight:400; font-size:15px; line-height:144%; letter-spacing:-.02em; }
+  .mb-b3{ font-family:var(--sans); font-weight:400; font-size:14px; line-height:148%; letter-spacing:-.02em; }
+
+  /* ---- Caption (shared scale, mobile bumps min size) ---- */
+  .pc-c1{ font-family:var(--sans); font-weight:400; font-size:14px; line-height:136%; letter-spacing:-.01em; }
+  .pc-c2{ font-family:var(--sans); font-weight:400; font-size:13px; line-height:138%; letter-spacing:-.01em; }
+  .pc-c3{ font-family:var(--sans); font-weight:400; font-size:12px; line-height:140%; letter-spacing:0; }
+  .mb-c1{ font-family:var(--sans); font-weight:400; font-size:13px; line-height:140%; letter-spacing:-.01em; }
+  .mb-c2{ font-family:var(--sans); font-weight:400; font-size:12px; line-height:144%; letter-spacing:-.01em; }
+  .mb-c3{ font-family:var(--sans); font-weight:400; font-size:11px; line-height:148%; letter-spacing:0; }
+
+  /* ---- Korean: Pretendard ---- PC ---- */
+  .pc-kh1{ font-family:var(--kr); font-weight:600; font-size:66px; line-height:126%; letter-spacing:-.02em; }
+  .pc-kh2{ font-family:var(--kr); font-weight:600; font-size:34px; line-height:132%; letter-spacing:-.02em; }
+  .pc-kb3{ font-family:var(--kr); font-weight:400; font-size:16px; line-height:156%; letter-spacing:-.01em; }
+  /* ---- Korean: Pretendard ---- Mobile ---- */
+  .mb-kh1{ font-family:var(--kr); font-weight:600; font-size:40px; line-height:130%; letter-spacing:-.02em; }
+  .mb-kh2{ font-family:var(--kr); font-weight:600; font-size:26px; line-height:138%; letter-spacing:-.02em; }
+  .mb-kb3{ font-family:var(--kr); font-weight:400; font-size:14px; line-height:160%; letter-spacing:-.01em; }
 </style></head><body>
+
 <h1 class="h">Typography</h1>
-<p class="sub">Serrif (display, H1–H4) + Helvetica Now Text (body, UI). Pretendard for Korean. Tracking is always −2%.</p>
+<p class="sub">Serrif (display, H1–H5) + Helvetica Now Text (body, UI, sans display). Pretendard for Korean. Tracking is always −2%. The system is published in two parallel scales — <strong>PC</strong> for ≥1024px and <strong>Mobile</strong> for &lt;768px. Each row labels the role with a flag and shows the exact size / line-height applied to the sample.</p>
 
-<div class="grp-h">Display — Serrif (PC English)</div>
-<div class="row"><div class="lab">H1</div><div class="meta">72 / 108%</div><div class="t-h1">Quiet authority is the brand.</div></div>
-<div class="row"><div class="lab">H2</div><div class="meta">38 / 120%</div><div class="t-h2">Build an AI concierge that finishes what it starts.</div></div>
-<div class="row"><div class="lab">H3</div><div class="meta">28 / 132%</div><div class="t-h3">A living memory of each customer, not just a chat log.</div></div>
-<div class="row"><div class="lab">H4</div><div class="meta">22 / 144%</div><div class="t-h4">Trust, observability, and human-in-the-loop, by default.</div></div>
+<!-- ============== Display ============== -->
+<div class="grp-h">Display — Serrif <span class="grp-sub">PC English / Mobile English</span></div>
+<div class="split">
+  <div class="col" data-device="pc">
+    <div class="col-h">PC · ≥1024px</div>
+    <div class="row"><span class="flag">H1</span><span class="sample pc-h1">Quiet authority.</span><span class="meta">72 / 108%</span></div>
+    <div class="row"><span class="flag">H2</span><span class="sample pc-h2">Concierge that finishes what it starts.</span><span class="meta">54 / 114%</span></div>
+    <div class="row"><span class="flag">H3</span><span class="sample pc-h3">A living memory of each customer.</span><span class="meta">38 / 120%</span></div>
+    <div class="row"><span class="flag">H4</span><span class="sample pc-h4">Trust, observability, human-in-the-loop.</span><span class="meta">28 / 132%</span></div>
+    <div class="row"><span class="flag">H5</span><span class="sample pc-h5">For regulated industries, by default.</span><span class="meta">22 / 144%</span></div>
+  </div>
+  <div class="col" data-device="mobile">
+    <div class="col-h">Mobile · &lt;768px</div>
+    <div class="row"><span class="flag">H1</span><span class="sample mb-h1">Quiet authority.</span><span class="meta">44 / 114%</span></div>
+    <div class="row"><span class="flag">H2</span><span class="sample mb-h2">Concierge that finishes what it starts.</span><span class="meta">34 / 120%</span></div>
+    <div class="row"><span class="flag">H3</span><span class="sample mb-h3">A living memory of each customer.</span><span class="meta">26 / 128%</span></div>
+    <div class="row"><span class="flag">H4</span><span class="sample mb-h4">Trust, observability, human-in-the-loop.</span><span class="meta">22 / 136%</span></div>
+    <div class="row"><span class="flag">H5</span><span class="sample mb-h5">For regulated industries, by default.</span><span class="meta">18 / 144%</span></div>
+  </div>
+</div>
 
-<div class="grp-h">Sans display — Helvetica Now Text (used for product UI heads)</div>
-<div class="row"><div class="lab">H2 sans</div><div class="meta">38 / 120%</div><div class="t-h2-sans">Voice, omnichannel, and your brand voice — together.</div></div>
-<div class="row"><div class="lab">H3 sans</div><div class="meta">28 / 132%</div><div class="t-h3-sans">Watchtower QA flags every edge case.</div></div>
+<!-- ============== Sans display ============== -->
+<div class="grp-h">Sans display — Helvetica Now Text <span class="grp-sub">used for product UI heads</span></div>
+<div class="split">
+  <div class="col" data-device="pc">
+    <div class="col-h">PC · ≥1024px</div>
+    <div class="row"><span class="flag flag--ghost">H2 SANS</span><span class="sample pc-sh2">Voice, omnichannel, and your brand voice — together.</span><span class="meta">38 / 120%</span></div>
+    <div class="row"><span class="flag flag--ghost">H3 SANS</span><span class="sample pc-sh3">Watchtower QA flags every edge case.</span><span class="meta">28 / 132%</span></div>
+    <div class="row"><span class="flag flag--ghost">H4 SANS</span><span class="sample pc-sh4">Audit logs, retention, policy guardrails.</span><span class="meta">22 / 140%</span></div>
+  </div>
+  <div class="col" data-device="mobile">
+    <div class="col-h">Mobile · &lt;768px</div>
+    <div class="row"><span class="flag flag--ghost">H2 SANS</span><span class="sample mb-sh2">Voice, omnichannel, and your brand voice — together.</span><span class="meta">28 / 128%</span></div>
+    <div class="row"><span class="flag flag--ghost">H3 SANS</span><span class="sample mb-sh3">Watchtower QA flags every edge case.</span><span class="meta">22 / 136%</span></div>
+    <div class="row"><span class="flag flag--ghost">H4 SANS</span><span class="sample mb-sh4">Audit logs, retention, policy guardrails.</span><span class="meta">18 / 144%</span></div>
+  </div>
+</div>
 
-<div class="grp-h">Body</div>
-<div class="row"><div class="lab">B1</div><div class="meta">20 / 136%</div><div class="t-b1">Make every interaction feel personal — not generic. Memory carries across channels and across years, so the third call doesn't start from zero.</div></div>
-<div class="row"><div class="lab">B2</div><div class="meta">18 / 138%</div><div class="t-b2">Built for regulated industries: banking, healthcare, insurance, telecom. Audit logs, retention controls, and policy guardrails ship with the platform.</div></div>
-<div class="row"><div class="lab">B3</div><div class="meta">16 / 140%</div><div class="t-b3">delight.ai is Sendbird's enterprise AI customer-experience platform. It powers concierges that resolve, not just respond — keeping humans in the loop where it matters.</div></div>
+<!-- ============== Body ============== -->
+<div class="grp-h">Body — Helvetica Now Text</div>
+<div class="split">
+  <div class="col" data-device="pc">
+    <div class="col-h">PC · ≥1024px</div>
+    <div class="row"><span class="flag">B1</span><span class="sample pc-b1">Make every interaction feel personal — not generic. Memory carries across channels and across years, so the third call doesn't start from zero.</span><span class="meta">20 / 136%</span></div>
+    <div class="row"><span class="flag">B2</span><span class="sample pc-b2">Built for regulated industries: banking, healthcare, insurance, telecom. Audit logs, retention controls, and policy guardrails ship with the platform.</span><span class="meta">18 / 138%</span></div>
+    <div class="row"><span class="flag">B3</span><span class="sample pc-b3">delight.ai is Sendbird's enterprise AI customer-experience platform. It powers concierges that resolve, not just respond — keeping humans in the loop where it matters.</span><span class="meta">16 / 140%</span></div>
+  </div>
+  <div class="col" data-device="mobile">
+    <div class="col-h">Mobile · &lt;768px</div>
+    <div class="row"><span class="flag">B1</span><span class="sample mb-b1">Make every interaction feel personal — not generic. Memory carries across channels and across years.</span><span class="meta">17 / 140%</span></div>
+    <div class="row"><span class="flag">B2</span><span class="sample mb-b2">Built for regulated industries: banking, healthcare, insurance, telecom. Audit logs and policy guardrails ship with the platform.</span><span class="meta">15 / 144%</span></div>
+    <div class="row"><span class="flag">B3</span><span class="sample mb-b3">delight.ai is Sendbird's enterprise AI customer-experience platform. It powers concierges that resolve, not just respond.</span><span class="meta">14 / 148%</span></div>
+  </div>
+</div>
 
-<div class="grp-h">Caption</div>
-<div class="row"><div class="lab">C1</div><div class="meta">14 / 136%</div><div class="t-c1">Used for form labels, menu eyebrows, and metadata.</div></div>
-<div class="row"><div class="lab">C2</div><div class="meta">13 / 138%</div><div class="t-c2">Used for legal lines, image credits, and footnotes.</div></div>
-<div class="row"><div class="lab">C3</div><div class="meta">12 / 140%</div><div class="t-c3">Used for chip text and very dense table cells.</div></div>
+<!-- ============== Caption ============== -->
+<div class="grp-h">Caption — Helvetica Now Text</div>
+<div class="split">
+  <div class="col" data-device="pc">
+    <div class="col-h">PC · ≥1024px</div>
+    <div class="row"><span class="flag flag--ghost">C1</span><span class="sample pc-c1">Used for form labels, menu eyebrows, and metadata.</span><span class="meta">14 / 136%</span></div>
+    <div class="row"><span class="flag flag--ghost">C2</span><span class="sample pc-c2">Used for legal lines, image credits, and footnotes.</span><span class="meta">13 / 138%</span></div>
+    <div class="row"><span class="flag flag--ghost">C3</span><span class="sample pc-c3">Used for chip text and very dense table cells.</span><span class="meta">12 / 140%</span></div>
+  </div>
+  <div class="col" data-device="mobile">
+    <div class="col-h">Mobile · &lt;768px</div>
+    <div class="row"><span class="flag flag--ghost">C1</span><span class="sample mb-c1">Used for form labels, menu eyebrows, and metadata.</span><span class="meta">13 / 140%</span></div>
+    <div class="row"><span class="flag flag--ghost">C2</span><span class="sample mb-c2">Used for legal lines, image credits, and footnotes.</span><span class="meta">12 / 144%</span></div>
+    <div class="row"><span class="flag flag--ghost">C3</span><span class="sample mb-c3">Used for chip text and very dense table cells.</span><span class="meta">11 / 148%</span></div>
+  </div>
+</div>
 
-<div class="grp-h">Korean — Pretendard</div>
-<div class="row"><div class="lab">H1 KO</div><div class="meta">66 / 126%</div><div class="t-h1-ko">고요한 브랜드의 힘.</div></div>
-<div class="row"><div class="lab">H2 KO</div><div class="meta">34 / 132%</div><div class="t-h2-ko">기업을 위한 AI 컨시어지를 시작합니다.</div></div>
-<div class="row"><div class="lab">B3 KO</div><div class="meta">16 / 156%</div><div class="t-b3-ko">고객 한 사람, 한 사람의 맥락을 기억하는 AI를 만듭니다. 모든 대화가 처음이 아닙니다.</div></div>
+<!-- ============== Korean ============== -->
+<div class="grp-h">Korean — Pretendard <span class="grp-sub">Bold for headings, Regular for body</span></div>
+<div class="split">
+  <div class="col" data-device="pc">
+    <div class="col-h">PC · ≥1024px</div>
+    <div class="row"><span class="flag">H1 KO</span><span class="sample pc-kh1">고요한 브랜드의 힘.</span><span class="meta">66 / 126%</span></div>
+    <div class="row"><span class="flag">H2 KO</span><span class="sample pc-kh2">기업을 위한 AI 컨시어지를 시작합니다.</span><span class="meta">34 / 132%</span></div>
+    <div class="row"><span class="flag">B3 KO</span><span class="sample pc-kb3">고객 한 사람, 한 사람의 맥락을 기억하는 AI를 만듭니다. 모든 대화가 처음이 아닙니다.</span><span class="meta">16 / 156%</span></div>
+  </div>
+  <div class="col" data-device="mobile">
+    <div class="col-h">Mobile · &lt;768px</div>
+    <div class="row"><span class="flag">H1 KO</span><span class="sample mb-kh1">고요한 브랜드의 힘.</span><span class="meta">40 / 130%</span></div>
+    <div class="row"><span class="flag">H2 KO</span><span class="sample mb-kh2">기업을 위한 AI 컨시어지.</span><span class="meta">26 / 138%</span></div>
+    <div class="row"><span class="flag">B3 KO</span><span class="sample mb-kb3">고객 한 사람의 맥락을 기억하는 AI를 만듭니다.</span><span class="meta">14 / 160%</span></div>
+  </div>
+</div>
+
 </body></html>

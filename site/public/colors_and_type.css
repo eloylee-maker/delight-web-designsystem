@@ -1,0 +1,113 @@
+/* ============================================================
+   colors_and_type.css — DWDS root tokens, @font-face, type utilities
+   Used by every /preview/*.html and the Next.js site shell.
+   ============================================================ */
+
+/* ── @font-face — local OTFs in /fonts/ ── */
+@font-face { font-family: 'Serrif'; src: url('/fonts/Serrif-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Serrif'; src: url('/fonts/Serrif-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Serrif'; src: url('/fonts/Serrif-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+
+@font-face { font-family: 'Helvetica Now Text'; src: url('/fonts/HelveticaNowText.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Helvetica Now Text'; src: url('/fonts/HelveticaNowTextMedium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Helvetica Now Text'; src: url('/fonts/HelveticaNowTextBold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gellix'; src: url('/fonts/Gellix-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* Pretendard (KR) via CDN */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+/* ── Tokens ── */
+:root {
+  /* Surfaces */
+  --bg:           #FFFFFF;
+  --bg-subtle:    #F7F5F0;   /* WGray100 — bg1 */
+  --surface:      #FFFFFF;
+  --surface-2:    #F7F5F0;
+  --border:       #D9D6D2;   /* WGray200 — bg3, line2 */
+  --border-light: #E5E3DF;   /* WGray150 — bg2, line1 */
+
+  /* Text */
+  --text:         #292016;   /* WGray900 — H1 */
+  --text-muted:   #66625E;   /* WGray500 — B1, fn icon */
+  --text-dim:     #8C867E;   /* WGray350 — C1 */
+  --disabled:     #C4C0B9;   /* WGray250 */
+
+  /* Accent */
+  --lime:         #F2FF66;
+  --lime-border:  #D9E64D;
+  --cta-dark:     #18140F;
+
+  /* Secondary */
+  --red-500:      #FF5E69;
+  --red-100:      #FFE3E5;
+  --blue-500:     #27A6F7;
+  --blue-100:     #D8F0FF;
+  --green-500:    #25BD85;
+  --green-100:    #D0F3E6;
+
+  /* Layout */
+  --max-w:        1552px;
+  --gutter:       16px;
+  --offset-pc:    184px;
+  --offset-mb:    16px;
+
+  /* Radii */
+  --r-sm:    6px;
+  --r-md:    8px;
+  --r-lg:    12px;
+  --r-xl:    16px;
+  --r-pill:  999px;
+
+  /* Effects */
+  --shadow-1: 4px 14px 24px 3px rgba(33,33,33,0.10);
+}
+
+/* ── Reset-ish base ── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Helvetica Now Text', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+em { font-style: normal; }   /* never italic — DWDS rule */
+
+/* ── Type utilities — PC EN ── */
+.t-h1     { font-family: 'Serrif', serif;            font-weight: 500; font-size: 72px; line-height: 1.08; letter-spacing: -0.02em; }
+.t-h2     { font-family: 'Serrif', serif;            font-weight: 500; font-size: 38px; line-height: 1.20; letter-spacing: -0.02em; }
+.t-h3     { font-family: 'Serrif', serif;            font-weight: 500; font-size: 28px; line-height: 1.32; letter-spacing: -0.02em; }
+.t-h4     { font-family: 'Serrif', serif;            font-weight: 500; font-size: 22px; line-height: 1.44; letter-spacing: -0.02em; }
+.t-h2-sans{ font-family: 'Helvetica Now Text', sans-serif; font-weight: 500; font-size: 38px; line-height: 1.20; letter-spacing: -0.02em; }
+.t-h3-sans{ font-family: 'Helvetica Now Text', sans-serif; font-weight: 500; font-size: 28px; line-height: 1.32; letter-spacing: -0.02em; }
+.t-h4-sans{ font-family: 'Helvetica Now Text', sans-serif; font-weight: 500; font-size: 22px; line-height: 1.44; letter-spacing: -0.02em; }
+.t-b1     { font-family: 'Helvetica Now Text', sans-serif; font-weight: 400; font-size: 20px; line-height: 1.36; letter-spacing: -0.02em; }
+.t-b2     { font-family: 'Helvetica Now Text', sans-serif; font-weight: 400; font-size: 18px; line-height: 1.38; letter-spacing: -0.02em; }
+.t-b3     { font-family: 'Helvetica Now Text', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.40; letter-spacing: -0.02em; }
+.t-c1     { font-family: 'Helvetica Now Text', sans-serif; font-weight: 400; font-size: 14px; line-height: 1.36; letter-spacing: -0.02em; }
+.t-c2     { font-family: 'Helvetica Now Text', sans-serif; font-weight: 400; font-size: 13px; line-height: 1.38; letter-spacing: -0.02em; }
+.t-c3     { font-family: 'Helvetica Now Text', sans-serif; font-weight: 400; font-size: 12px; line-height: 1.40; letter-spacing: -0.02em; }
+
+/* Weight modifiers */
+.t-medium   { font-weight: 500; }
+.t-semibold { font-weight: 600; }
+.t-bold     { font-weight: 700; }
+
+/* KR (Pretendard) */
+.t-h1-kr  { font-family: 'Pretendard', sans-serif; font-weight: 600; font-size: 66px; line-height: 1.26; letter-spacing: -0.02em; }
+.t-h2-kr  { font-family: 'Pretendard', sans-serif; font-weight: 600; font-size: 34px; line-height: 1.32; letter-spacing: -0.02em; }
+.t-h3-kr  { font-family: 'Pretendard', sans-serif; font-weight: 600; font-size: 26px; line-height: 1.38; letter-spacing: -0.02em; }
+.t-b1-kr  { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 20px; line-height: 1.52; letter-spacing: -0.02em; }
+.t-b2-kr  { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 18px; line-height: 1.54; letter-spacing: -0.02em; }
+.t-b3-kr  { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.56; letter-spacing: -0.02em; }
+.t-c1-kr  { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 14px; line-height: 1.52; letter-spacing: -0.02em; }
+.t-c2-kr  { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 13px; line-height: 1.54; letter-spacing: -0.02em; }
+.t-c3-kr  { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 12px; line-height: 1.56; letter-spacing: -0.02em; }

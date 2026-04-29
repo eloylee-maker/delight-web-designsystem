@@ -2,17 +2,71 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light">
 <title>Footer — delight.ai DS</title>
 <link rel="stylesheet" href="../colors_and_type.css">
-<link rel="stylesheet" href="../ui_kits/web/components.css">
 <style>
-  body { background: #FFFFFF; padding-top: 60px; }
-  .doc-section { width: min(calc(100% - 32px), 1200px); margin: 0 auto 60px; }
-  .doc-eyebrow { font-family:'Helvetica Now Text'; font-size:13px; font-weight:500; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
-  .doc-h2 { font-family:'Serrif'; font-weight:500; font-size:38px; color:var(--text); margin-bottom:24px; letter-spacing:-0.02em; }
-  .doc-p { font-family:'Helvetica Now Text'; font-size:16px; line-height:1.6; color:var(--text-muted); max-width:720px; margin-bottom:32px; }
-  .specs { background:var(--bg-subtle); border-radius:12px; padding:24px; font-family:'Helvetica Now Text'; font-size:14px; line-height:1.6; color:var(--text); margin-bottom:24px; }
-  .specs code { background:rgba(0,0,0,0.05); padding:2px 6px; border-radius:4px; font-family:'SF Mono',Menlo,monospace; font-size:13px; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; padding: 40px 0 80px; background: #FFFFFF; font-family: 'Helvetica Now Text', sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; }
+
+  .doc-section { width: min(calc(100% - 32px), 1400px); margin: 0 auto 32px; }
+  .doc-eyebrow { font-size: 12px; font-weight: 500; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .doc-h2 { font-family: 'Serrif', serif; font-weight: 500; font-size: 38px; color: var(--text); margin: 0 0 16px; letter-spacing: -0.02em; }
+  .doc-p { font-size: 16px; line-height: 1.6; color: var(--text-muted); max-width: 760px; margin: 0 0 16px; }
+  .doc-p code { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 13px; font-family: inherit; color: var(--text); }
+
+  .frame-label { font-size: 11px; font-weight: 500; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .frame-label .pill { background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text); padding: 2px 8px; border-radius: 4px; letter-spacing: -0.01em; text-transform: none; font-weight: 400; }
+
+  /* PC frame: full-width browser-style frame */
+  .pc-frame {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .pc-frame iframe {
+    width: 100%;
+    height: 760px;
+    border: 0;
+    display: block;
+  }
+
+  /* Mobile frame: 375 device shell */
+  .mobile-row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .mobile-col { display: flex; flex-direction: column; align-items: flex-start; }
+  .mobile-frame {
+    width: 375px;
+    height: 820px;
+    border: 8px solid #1A1612;
+    border-radius: 36px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.10);
+    flex-shrink: 0;
+  }
+  .mobile-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    overflow-y: auto;
+  }
+
+  .mobile-notes {
+    flex: 1; min-width: 280px; max-width: 520px;
+    background: var(--bg-subtle); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 24px;
+    font-size: 14px; line-height: 1.7; color: var(--text);
+  }
+  .mobile-notes h3 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+  .mobile-notes ul { margin: 0; padding-left: 18px; color: var(--text-muted); }
+  .mobile-notes li { margin: 4px 0; }
+  .mobile-notes code { background: rgba(0,0,0,0.05); padding: 1px 6px; border-radius: 4px; font-family: inherit; font-size: 13px; color: var(--text); }
+
+  .specs { background: var(--bg-subtle); border-radius: 12px; padding: 20px 24px; font-size: 14px; line-height: 1.7; color: var(--text); }
+  .specs code { background: rgba(0,0,0,0.05); padding: 1px 6px; border-radius: 4px; font-family: inherit; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -21,156 +75,51 @@
   <div class="doc-eyebrow">Component / Navigation</div>
   <h1 class="doc-h2">Footer</h1>
   <p class="doc-p">
-    The footer uses <code>var(--bg-subtle)</code> (#F7F5F0) — never white. Layout is a brand column (284px,
-    margin-right 116px) plus four link columns (240px each, gap 64px). Each link column stacks two groups.
-    The bottom bar has three regions: G2 + social + lang / legal links / © + Sendbird logo.
+    Background <code>--bg-subtle</code>. Brand column + 7 link columns on PC, collapsing to a single-column accordion on mobile.
   </p>
-  <div class="specs">
-    <strong>Anatomy</strong><br>
-    • Background: <code>var(--bg-subtle)</code><br>
-    • Brand col: 284px wide, 116px right margin<br>
-    • Link grid: <code>grid-template-columns: repeat(4, 240px); gap: 64px</code><br>
-    • Each col holds 1–2 <code>.footer-col-group</code> blocks<br>
-    • Bottom bar: 3-region flex with G2 badge, social icons, lang switcher, legal links, copyright
+</div>
+
+<!-- ── PC ── -->
+<div class="doc-section">
+  <div class="frame-label">PC <span class="pill">≥ 1280px · 7 columns</span></div>
+  <div class="pc-frame">
+    <iframe src="_footer-pc.html" title="Footer — PC"></iframe>
   </div>
 </div>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-main-section">
-    <div class="footer-container">
-      <div class="footer-inner">
-        <!-- Brand column -->
-        <div class="footer-brand">
-          <img src="../assets/logos/delight%20logo_black.svg" alt="delight" width="120" height="auto">
-          <div class="footer-brand-tagline">The trust os for ai agents.</div>
-          <a class="footer-contact-btn" href="#">Talk to sales →</a>
-        </div>
-
-        <!-- 4 link columns -->
-        <div class="footer-links-grid">
-          <!-- Col 1 -->
-          <div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">CAPABILITIES</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Voice Agent</a></li>
-                <li><a class="footer-link" href="#">Chat Agent</a></li>
-                <li><a class="footer-link" href="#">Email Agent</a></li>
-                <li><a class="footer-link" href="#">Trust OS</a></li>
-                <li><a class="footer-link" href="#">Agent Steward</a></li>
-              </ul>
-            </div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">PLATFORM</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Connect</a></li>
-                <li><a class="footer-link" href="#">Integrations</a></li>
-                <li><a class="footer-link" href="#">Pricing</a></li>
-              </ul>
-            </div>
-          </div>
-          <!-- Col 2 -->
-          <div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">INDUSTRY</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Financial services</a></li>
-                <li><a class="footer-link" href="#">Healthcare</a></li>
-                <li><a class="footer-link" href="#">Retail</a></li>
-                <li><a class="footer-link" href="#">Travel</a></li>
-              </ul>
-            </div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">USE CASE</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Customer support</a></li>
-                <li><a class="footer-link" href="#">Lead qualification</a></li>
-                <li><a class="footer-link" href="#">Order management</a></li>
-              </ul>
-            </div>
-          </div>
-          <!-- Col 3 -->
-          <div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">RESOURCES</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Blog</a></li>
-                <li><a class="footer-link" href="#">Customer stories</a></li>
-                <li><a class="footer-link" href="#">Webinars</a></li>
-                <li><a class="footer-link" href="#">Newsroom</a></li>
-              </ul>
-            </div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">DEVELOPER</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Docs <span class="footer-link-ext">↗</span></a></li>
-                <li><a class="footer-link" href="#">API reference <span class="footer-link-ext">↗</span></a></li>
-                <li><a class="footer-link" href="#">Status <span class="footer-link-ext">↗</span></a></li>
-              </ul>
-            </div>
-          </div>
-          <!-- Col 4 -->
-          <div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">COMPANY</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">About</a></li>
-                <li><a class="footer-link" href="#">Careers</a></li>
-                <li><a class="footer-link" href="#">Contact</a></li>
-              </ul>
-            </div>
-            <div class="footer-col-group">
-              <div class="footer-col-header">SUPPORT</div>
-              <ul class="footer-links">
-                <li><a class="footer-link" href="#">Help center</a></li>
-                <li><a class="footer-link" href="#">Trust & security</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+<!-- ── Mobile ── -->
+<div class="doc-section">
+  <div class="frame-label">Mobile <span class="pill">375px · accordion</span></div>
+  <div class="mobile-row">
+    <div class="mobile-col">
+      <div class="mobile-frame">
+        <iframe src="_footer-mobile.html" title="Footer — Mobile"></iframe>
       </div>
     </div>
-  </div>
-
-  <!-- Bottom bar -->
-  <div class="footer-bottom">
-    <div class="footer-container">
-      <div class="footer-bottom-inner">
-        <div class="footer-bottom-left">
-          <div class="g2-badge">
-            <span class="g2-badge-star">★ ★ ★ ★ ★</span>
-            <span class="g2-badge-text">4.8 on G2</span>
-          </div>
-          <div class="footer-social">
-            <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v16H4V4zm2-2.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM10 8h4v2.2c.6-1.1 2-2.4 4.3-2.4 4.6 0 5.4 3 5.4 6.9V20h-4v-4.5c0-1.1 0-2.5-1.5-2.5s-1.7 1.2-1.7 2.4V20h-4V8z"/></svg></a>
-            <a class="footer-social-icon" href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3l-7.4 8.5L22 21h-6.7l-5.2-6.8L4 21H1l8-9.1L1.5 3H8.4l4.7 6.2L17.5 3z"/></svg></a>
-            <a class="footer-social-icon" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2s-.2-1.4-.8-2c-.8-.9-1.6-.9-2-.9C16 5 12 5 12 5s-4 0-7.2.3c-.4 0-1.2 0-2 .9-.6.6-.8 2-.8 2S2 9.8 2 11.4v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.9 1.9.9 2.4 1 1.7.1 7.6.2 7.6.2s4 0 7.2-.3c.4 0 1.2 0 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.8 22 8.2 22 8.2zM10 14.6V8.9l5.2 2.9-5.2 2.8z"/></svg></a>
-          </div>
-          <button class="footer-lang">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M3 12h18M12 3a13 13 0 010 18M12 3a13 13 0 000 18" stroke="currentColor" stroke-width="1.5"/></svg>
-            English
-            <span style="font-size:10px;">▾</span>
-          </button>
-        </div>
-        <div class="footer-legal">
-          <a class="footer-legal-link" href="#">Terms</a>
-          <span class="footer-legal-dot">·</span>
-          <a class="footer-legal-link" href="#">Privacy</a>
-          <span class="footer-legal-dot">·</span>
-          <a class="footer-legal-link" href="#">Cookies</a>
-          <span class="footer-legal-dot">·</span>
-          <a class="footer-legal-link" href="#">Trust</a>
-        </div>
-        <div class="footer-copyright">
-          <span>© 2025 delight.ai</span>
-          <span style="opacity:0.5">·</span>
-          <span style="display:inline-flex;align-items:center;gap:6px;">a <img src="../assets/logos/sendbird%20symbol_black.svg" width="14" height="14" alt="Sendbird"> Sendbird brand</span>
-        </div>
-      </div>
+    <div class="mobile-notes">
+      <h3>Mobile behavior</h3>
+      <ul>
+        <li>Each link column collapses into a <code>&lt;details&gt;</code> accordion — header tappable, <code>+ / −</code> indicator on the right.</li>
+        <li>Brand block stacks above link columns.</li>
+        <li>Bottom bar reflows from 3-region grid to a single vertical stack: utilities → legal → © + Sendbird mark.</li>
+        <li>Tap any column header to expand its links.</li>
+      </ul>
     </div>
   </div>
-</footer>
+</div>
+
+<!-- ── Anatomy ── -->
+<div class="doc-section">
+  <div class="specs">
+    <strong>Anatomy</strong><br>
+    • Background: <code>var(--bg-subtle)</code> (#F7F5F0)<br>
+    • PC grid: <code>1.6fr repeat(7, 1fr)</code> — brand column + 7 link columns, 24px column gap, 40px row gap<br>
+    • Brand col: 120px logo mark, Serrif 22/500 tagline, Black "Contact sales" pill (42px)<br>
+    • Link cols: 11px uppercase header, 14px body links, 10px row gap<br>
+    • Bottom bar: 3-region grid <code>auto 1fr auto</code> — utilities (G2 + 5 social + lang) / legal / © + Sendbird<br>
+    • Breakpoints: ≤1280 → 4-col, ≤1100 → 2-col + stacked bottom, ≤600 → 1-col accordion
+  </div>
+</div>
 
 </body>
 </html>

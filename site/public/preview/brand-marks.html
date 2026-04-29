@@ -1,178 +1,211 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><title>Brand marks</title>
 <link rel="stylesheet" href="../colors_and_type.css"/>
 <style>
-  body{margin:0;padding:40px;background:#FFF;color:var(--text);font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.02em}
-  h1{font-family:'Serrif',serif;font-weight:500;font-size:28px;margin:0 0 4px}
-  .sub{font-size:14px;color:var(--text-muted);margin:0 0 36px;max-width:680px;line-height:1.55}
+  body{margin:0;padding:0;background:#FFF;color:var(--text);font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.02em}
 
-  .grp-h{
-    display:flex;align-items:baseline;gap:12px;
-    font-size:11px;font-weight:500;color:var(--text);text-transform:uppercase;letter-spacing:.08em;
-    margin:32px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  /* Group title — eBay-Playbook style */
+  .grp-title{
+    font-family:'Helvetica Now Text',sans-serif;
+    font-size:24px;font-weight:600;color:var(--text);
+    letter-spacing:-.02em;
+    margin:48px 0 14px;padding-bottom:14px;
+    border-bottom:1px solid var(--border);
   }
-  .grp-h .grp-sub{font-size:12px;font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:-.02em}
-
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .row-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-
-  .card{
-    border:1px solid var(--border);border-radius:14px;background:#FFF;overflow:hidden;
-    display:flex;flex-direction:column;
+  .grp-title:first-child{margin-top:0}
+  .grp-title .grp-sub{
+    font-size:14px;font-weight:400;color:var(--text-muted);
+    letter-spacing:-.01em;margin-left:10px;
   }
-  .card.dark{border-color:transparent}
+
+  /* Flat table — gray header bar + hairline rows */
+  .mark-table{
+    width:100%;border-collapse:collapse;
+    font-family:'Helvetica Now Text',sans-serif;font-size:14px;
+    letter-spacing:-.01em;margin:0 0 36px;
+  }
+  .mark-table thead th{
+    background:var(--bg-subtle);
+    font-weight:500;color:var(--text);font-size:13px;
+    text-align:left;padding:14px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  .mark-table tbody td{
+    text-align:left;padding:18px 16px;
+    border-bottom:1px solid var(--border);
+    vertical-align:middle;color:var(--text);
+  }
+
+  /* Stage cell — image preview, no card chrome */
   .stage{
     display:flex;align-items:center;justify-content:center;
-    min-height:180px;padding:36px 28px;background:#FFF;
+    height:120px;width:200px;border-radius:0;
+    background:#FFF;
   }
   .stage.dark{background:#18140F}
-  .stage.lime{background:var(--lime)}
-  .stage.warm{background:var(--bg-subtle)}
+  .stage img{display:block;max-width:80%;max-height:64px}
+  .stage .sym{height:48px;width:auto}
+  .stage .word{height:28px;width:auto}
 
-  .stage img{display:block;max-width:100%;max-height:100%}
-  .stage .sym{height:64px;width:auto}
-  .stage .word{height:36px;width:auto}
-
-  .meta{
-    padding:14px 16px 16px;border-top:1px solid var(--border);
-    display:flex;flex-direction:column;gap:4px;background:#FFF;
-  }
-  .ttl{font-size:13px;font-weight:500;color:var(--text);letter-spacing:-.02em}
-  .desc{font-size:12px;color:var(--text-muted);letter-spacing:-.02em;line-height:1.4}
+  .ttl{font-size:14px;font-weight:500;color:var(--text);letter-spacing:-.02em}
+  .desc{font-size:13px;color:var(--text-muted);letter-spacing:-.01em;line-height:1.5;margin-top:4px}
   .file{
-    font-size:11px;color:var(--text-dim);
+    font-size:12px;color:var(--text-dim);
     font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:0;
+    margin-top:4px;
   }
 
-  /* GNB switcher demo */
-  .switcher{
-    height:50px;border:1px solid var(--border);border-radius:8px;background:var(--bg-subtle);
-    display:inline-flex;align-items:center;padding:0 12px;gap:6px;
+  /* Download button — same pattern as Key visual's .kv-dl */
+  .dl-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Helvetica Now Text',sans-serif;font-size:12px;font-weight:500;
+    color:var(--text);text-decoration:none;letter-spacing:-.01em;
+    padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#FFF;
+    white-space:nowrap;
   }
-  .switcher img{height:22px;width:auto;display:block}
-  .chev{display:flex;color:var(--text-muted)}
-
-  .pair{display:flex;align-items:center;gap:24px;padding:28px}
+  .dl-btn:hover{background:var(--bg-subtle)}
+  .dl-btn svg{width:12px;height:12px;display:block}
 </style></head><body>
 
-<h1>Brand marks</h1>
-<p class="sub">Two products ship under one system: <b style="color:var(--text);font-weight:500">delight.ai</b> and Sendbird. Each has a symbol (icon-only) and a wordmark (logotype + symbol). Black and white variants exist for every form. The covert switcher in the GNB lets users toggle between products.</p>
-
 <!-- ============ delight.ai ============ -->
-<div class="grp-h">delight.ai <span class="grp-sub">primary brand — black on light, white on dark/lime</span></div>
-
-<div class="row-4">
-  <div class="card">
-    <div class="stage"><img class="sym" src="../assets/logos/delight-symbol-black.svg" alt="delight.ai symbol"/></div>
-    <div class="meta">
-      <div class="ttl">Symbol — Black</div>
-      <div class="desc">Default mark on light surfaces. Avatar, favicon, GNB switcher.</div>
-      <div class="file">delight-symbol-black.svg</div>
-    </div>
-  </div>
-  <div class="card dark">
-    <div class="stage dark"><img class="sym" src="../assets/logos/delight-symbol-white.svg" alt="delight.ai symbol white"/></div>
-    <div class="meta">
-      <div class="ttl">Symbol — White</div>
-      <div class="desc">Use on dark frames, hero panels, and the footer.</div>
-      <div class="file">delight-symbol-white.svg</div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="stage"><img class="word" src="../assets/logos/delight-logo-black.svg" alt="delight.ai logotype"/></div>
-    <div class="meta">
-      <div class="ttl">Wordmark — Black</div>
-      <div class="desc">Primary logotype. Use on light surfaces — comms, marketing, decks.</div>
-      <div class="file">delight-logo-black.svg</div>
-    </div>
-  </div>
-  <div class="card dark">
-    <div class="stage dark"><img class="word" src="../assets/logos/delight-logo-white.svg" alt="delight.ai logotype white"/></div>
-    <div class="meta">
-      <div class="ttl">Wordmark — White</div>
-      <div class="desc">For dark backgrounds. Footer, hero overlays, conference signage.</div>
-      <div class="file">delight-logo-white.svg</div>
-    </div>
-  </div>
-</div>
+<h2 class="grp-title">delight.ai<span class="grp-sub">primary brand — black on light, white on dark/lime</span></h2>
+<table class="mark-table">
+  <thead>
+    <tr>
+      <th style="width:230px">Preview</th>
+      <th style="width:30%">Title</th>
+      <th>Usage</th>
+      <th style="width:140px">Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><div class="stage"><img class="sym" src="../assets/logos/delight-symbol-black.svg" alt="delight.ai symbol"/></div></td>
+      <td>
+        <div class="ttl">Symbol — Black</div>
+        <div class="file">delight-symbol-black.svg</div>
+      </td>
+      <td><div class="desc">Default mark on light surfaces. Avatar, favicon, GNB switcher.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/delight-symbol-black.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="stage dark"><img class="sym" src="../assets/logos/delight-symbol-white.svg" alt="delight.ai symbol white"/></div></td>
+      <td>
+        <div class="ttl">Symbol — White</div>
+        <div class="file">delight-symbol-white.svg</div>
+      </td>
+      <td><div class="desc">Use on dark frames, hero panels, and the footer.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/delight-symbol-white.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="stage"><img class="word" src="../assets/logos/delight-logo-black.svg" alt="delight.ai logotype"/></div></td>
+      <td>
+        <div class="ttl">Wordmark — Black</div>
+        <div class="file">delight-logo-black.svg</div>
+      </td>
+      <td><div class="desc">Primary logotype. Use on light surfaces — comms, marketing, decks.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/delight-logo-black.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="stage dark"><img class="word" src="../assets/logos/delight-logo-white.svg" alt="delight.ai logotype white"/></div></td>
+      <td>
+        <div class="ttl">Wordmark — White</div>
+        <div class="file">delight-logo-white.svg</div>
+      </td>
+      <td><div class="desc">For dark backgrounds. Footer, hero overlays, conference signage.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/delight-logo-white.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- ============ Sendbird ============ -->
-<div class="grp-h">Sendbird <span class="grp-sub">paired-product mark — appears in switcher and partner contexts</span></div>
-
-<div class="row-4">
-  <div class="card">
-    <div class="stage"><img class="sym" src="../assets/logos/sendbird-symbol-black.svg" alt="Sendbird symbol"/></div>
-    <div class="meta">
-      <div class="ttl">Symbol — Black</div>
-      <div class="desc">Sendbird mark on light surfaces.</div>
-      <div class="file">sendbird-symbol-black.svg</div>
-    </div>
-  </div>
-  <div class="card dark">
-    <div class="stage dark"><img class="sym" src="../assets/logos/sendbird-symbol-white.svg" alt="Sendbird symbol white"/></div>
-    <div class="meta">
-      <div class="ttl">Symbol — White</div>
-      <div class="desc">For dark contexts and the inverted GNB on Sendbird-side surfaces.</div>
-      <div class="file">sendbird-symbol-white.svg</div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="stage"><img class="word" src="../assets/logos/sendbird-logo-black.svg" alt="Sendbird logotype"/></div>
-    <div class="meta">
-      <div class="ttl">Wordmark — Black</div>
-      <div class="desc">Sendbird logotype on light surfaces.</div>
-      <div class="file">sendbird-logo-black.svg</div>
-    </div>
-  </div>
-  <div class="card dark">
-    <div class="stage dark"><img class="word" src="../assets/logos/sendbird-logo-white.svg" alt="Sendbird logotype white"/></div>
-    <div class="meta">
-      <div class="ttl">Wordmark — White</div>
-      <div class="desc">For dark backgrounds. Footer, partner badges, conference signage.</div>
-      <div class="file">sendbird-logo-white.svg</div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ Lime backdrop ============ -->
-<div class="grp-h">On lime <span class="grp-sub">brand accent surface — always pair with the black mark</span></div>
-
-<div class="row">
-  <div class="card">
-    <div class="stage lime"><img class="sym" src="../assets/logos/delight-symbol-black.svg" alt="delight.ai on lime"/></div>
-    <div class="meta">
-      <div class="ttl">delight.ai symbol on lime</div>
-      <div class="desc">Hero badges, feature spotlights, marketing tiles.</div>
-      <div class="file">delight-symbol-black.svg + #F2FF66</div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="stage warm"><img class="word" src="../assets/logos/delight-logo-black.svg" alt="delight.ai on warm"/></div>
-    <div class="meta">
-      <div class="ttl">Wordmark on warm gray</div>
-      <div class="desc">Light, low-contrast surfaces — cards, doc covers, internal slides.</div>
-      <div class="file">delight-logo-black.svg + #F7F5F0</div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ GNB Switcher ============ -->
-<div class="grp-h">GNB covert logo switcher <span class="grp-sub">how the marks meet inside the navigation</span></div>
-
-<div class="card">
-  <div class="pair">
-    <div class="switcher">
-      <img src="../assets/logos/delight-symbol-black.svg" alt="delight.ai"/>
-      <span class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    </div>
-    <div class="switcher">
-      <img src="../assets/logos/sendbird-symbol-black.svg" alt="Sendbird"/>
-      <span class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    </div>
-    <div style="margin-left:8px">
-      <div class="ttl">Covert logo switcher</div>
-      <div class="desc">50px-tall pill in the GNB. Chevron opens a dropdown listing both products. Symbol is 22px tall regardless of which product is active.</div>
-    </div>
-  </div>
-</div>
+<h2 class="grp-title">Sendbird<span class="grp-sub">paired-product mark — switcher and partner contexts</span></h2>
+<table class="mark-table">
+  <thead>
+    <tr>
+      <th style="width:230px">Preview</th>
+      <th style="width:30%">Title</th>
+      <th>Usage</th>
+      <th style="width:140px">Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><div class="stage"><img class="sym" src="../assets/logos/sendbird-symbol-black.svg" alt="Sendbird symbol"/></div></td>
+      <td>
+        <div class="ttl">Symbol — Black</div>
+        <div class="file">sendbird-symbol-black.svg</div>
+      </td>
+      <td><div class="desc">Sendbird mark on light surfaces.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/sendbird-symbol-black.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="stage dark"><img class="sym" src="../assets/logos/sendbird-symbol-white.svg" alt="Sendbird symbol white"/></div></td>
+      <td>
+        <div class="ttl">Symbol — White</div>
+        <div class="file">sendbird-symbol-white.svg</div>
+      </td>
+      <td><div class="desc">For dark contexts and the inverted GNB on Sendbird-side surfaces.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/sendbird-symbol-white.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="stage"><img class="word" src="../assets/logos/sendbird-logo-black.svg" alt="Sendbird logotype"/></div></td>
+      <td>
+        <div class="ttl">Wordmark — Black</div>
+        <div class="file">sendbird-logo-black.svg</div>
+      </td>
+      <td><div class="desc">Sendbird logotype on light surfaces.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/sendbird-logo-black.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="stage dark"><img class="word" src="../assets/logos/sendbird-logo-white.svg" alt="Sendbird logotype white"/></div></td>
+      <td>
+        <div class="ttl">Wordmark — White</div>
+        <div class="file">sendbird-logo-white.svg</div>
+      </td>
+      <td><div class="desc">For dark backgrounds. Footer, partner badges, conference signage.</div></td>
+      <td>
+        <a class="dl-btn" href="../assets/logos/sendbird-logo-white.svg" download>
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>
+          Download SVG
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 </body></html>

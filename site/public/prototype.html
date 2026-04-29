@@ -1,0 +1,1718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DWDS · Local Prototype</title>
+
+<!-- 사이트 본체와 동일한 스타일 -->
+<link rel="stylesheet" href="/colors_and_type.css" />
+
+<style>
+  .mock-banner {
+    background: #18140F;
+    color: #fff;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    text-align: center;
+  }
+  .mock-banner b { color: #F2FF66; font-weight: 500; }
+
+  /* preview iframe — no card chrome; flows like the rest of the content */
+  .preview-frame {
+    margin: 8px 0 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .preview-frame iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    height: 600px; /* initial; resized by JS on load */
+  }
+
+  /* 홈 카드 그리드 — site의 .card-grid 활용 */
+  .home-card-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: var(--bg-subtle);
+    border-radius: 14px 14px 0 0;
+    display: grid;
+    place-items: center;
+    color: var(--text-dim);
+    font-family: 'Serrif', serif;
+    font-size: 28px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  .card { cursor: pointer; }
+  .card a { display: block; color: inherit; }
+
+  .empty-shell { margin-top: 24px; }
+
+  /* table for Color/Spacing pages — eBay-Playbook style: gray header bar + hairline rows */
+  .token-table {
+    width:100%;
+    border-collapse:collapse;
+    font-family:'Helvetica Now Text',sans-serif;
+    font-size:14px;
+    letter-spacing:-.01em;
+    margin: 0 0 36px;
+  }
+  .token-table thead th {
+    background: var(--bg-subtle);
+    font-weight: 500;
+    color: var(--text);
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: -.01em;
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .token-table tbody td {
+    text-align: left;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+  }
+  .token-table code {
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--text);
+  }
+  /* Inline page: Brand Principles — replaces iframe so the editor can target each row. */
+  .inline-principles {
+    margin: 48px 0 0;
+  }
+  .ip-row {
+    display: grid;
+    grid-template-columns: minmax(360px, 0.9fr) 1fr;
+    gap: 48px;
+    padding: 36px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .ip-row + .ip-row {
+    border-top-width: 0;
+  }
+  .ip-title {
+    font-family: 'Serrif', serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin: 0;
+  }
+  .ip-meta {
+    padding-top: 0;
+  }
+  .ip-desc {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+  .ip-detail {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* Inline page: Key visual — tone & direction sections */
+  .inline-keyvisual {
+    margin: 48px 0 0;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .kv-section {
+    max-width: 934px;
+  }
+  .kv-h2 {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.44;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 0 0 20px;
+  }
+  .kv-lede {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 0 0 16px;
+  }
+  .kv-list {
+    list-style: disc;
+    padding-left: 22px;
+    margin: 0 0 16px;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.65;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .kv-list li {
+    margin: 0;
+  }
+  .kv-outro {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.65;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin: 0;
+  }
+
+  /* Inline key visual: groups, image library, modes, specs, do/don't */
+  .kv-grp-h {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 11px; font-weight: 500; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin: 0 0 12px;
+  }
+  .kv-grp-sub {
+    font-family: 'Helvetica Now Text', sans-serif;
+    margin: -4px 0 14px; font-size: 12px; color: var(--text-dim);
+    max-width: 780px; line-height: 1.55;
+  }
+  .inline-keyvisual code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px; background: var(--bg-subtle);
+    padding: 0 4px; border-radius: 3px;
+  }
+
+  /* Image library grid */
+  .kv-grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  .kv-card { border:0; border-radius:12px; overflow:visible; background:transparent; display:flex; flex-direction:column; align-items:flex-start; }
+  .kv-stage {
+    position: relative; aspect-ratio: 16/9;
+    background: transparent; overflow: hidden;
+    border-radius: 12px;
+    width: 100%;
+  }
+  .kv-img {
+    position:absolute; inset:0;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+  }
+  .kv-stage:not(.kv-stage-clean) .kv-img { background-size: 130% 130%; }
+  .kv-scrim { position:absolute; inset:0; background: rgba(0,0,0,0.20); }
+  .kv-noise {
+    position:absolute; inset:0;
+    background: url('../site/public/assets/key-visual/noise.png') center / cover repeat;
+    opacity: 0.4; mix-blend-mode: overlay; pointer-events:none;
+  }
+  .kv-meta { padding: 14px 0; display:flex; justify-content:space-between; align-items:baseline; gap:12px; width: 100%; }
+  .kv-name { font-family:'Serrif',serif; font-weight:500; font-size:18px; color:var(--text); letter-spacing:-.02em; }
+  .kv-tag  { font-family:'Helvetica Now Text',sans-serif; font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; }
+  .kv-dl {
+    display:inline-flex; align-items:center; gap:6px;
+    margin: 0 0 14px;
+    font-family:'Helvetica Now Text',sans-serif; font-size:12px; font-weight:500;
+    color:var(--text); text-decoration:none; letter-spacing:-.01em;
+    padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#FFF;
+  }
+  .kv-dl:hover { background:var(--bg-subtle); }
+  .kv-dl svg { width:12px; height:12px; display:block; }
+
+  /* Three modes */
+  .kv-cats { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; }
+  .kv-cat { border:1px solid var(--border); border-radius:12px; background:#FFF; overflow:hidden; }
+  .kv-cat-thumb { position:relative; aspect-ratio:16/10; background:#292016; overflow:hidden; }
+  .kv-cat-thumb .kv-img { background-size: 130% 130%; }
+  .kv-cat-body { padding:16px 18px 18px; }
+  .kv-cat-num { font-family:'Helvetica Now Text',sans-serif; font-size:11px; color:var(--text-dim); font-weight:500; letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; }
+  .kv-cat-title { font-family:'Serrif',serif; font-weight:500; font-size:18px; color:var(--text); letter-spacing:-.02em; margin-bottom:8px; }
+  .kv-cat-desc { font-family:'Helvetica Now Text',sans-serif; font-size:12px; color:var(--text-muted); line-height:1.55; margin: 0; }
+
+  /* Mockup card */
+  .kv-mockup-bg { position:absolute; inset:0; background: linear-gradient(180deg, #F7F5F0 0%, #EDEAE4 100%); }
+  .kv-mockup-card {
+    position:absolute; inset: 16% 14% 16% 14%;
+    background:#FFF; border:1px solid var(--border); border-radius: 10px;
+    padding: 14px; display:flex; flex-direction:column; gap:8px;
+    box-shadow: 0 4px 14px 3px rgba(33,33,33,0.06);
+  }
+  .kv-mock-row { display:flex; gap:6px; align-items:center; }
+  .kv-mock-pill { background:var(--bg-subtle); border-radius:999px; padding:3px 9px; font-size:9px; color:var(--text-2); font-family:'Helvetica Now Text',sans-serif; }
+  .kv-mock-bar { background:var(--bg-subtle); border-radius:4px; height:8px; }
+  .kv-mock-bar.sm { width:50%; } .kv-mock-bar.md { width:78%; }
+  .kv-mock-stat { font-family:'Serrif',serif; font-size:22px; color:var(--text); line-height:1; }
+  .kv-mock-badge { background:var(--lime); border-radius:999px; padding:2px 7px; font-size:8px; color:#000; font-weight:500; font-family:'Helvetica Now Text',sans-serif; }
+
+  /* Composite (image + mockup) */
+  .kv-composite-img { position:absolute; inset:0; background-size: cover; background-position: center; }
+  .kv-composite-mock {
+    position:absolute; left:50%; top:50%; transform: translate(-50%, -50%);
+    width: 60%;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+    border-radius: 14px; padding: 12px 14px;
+    display:flex; align-items:center; gap:10px;
+    box-shadow: 0 4px 14px 3px rgba(33,33,33,0.10);
+  }
+  .kv-av { width:24px; height:24px; border-radius:999px; background:#000; flex-shrink:0; }
+  .kv-av-sm { width:14px; height:14px; }
+  .kv-mock-txt { font-family:'Helvetica Now Text',sans-serif; font-size:11px; color:var(--text); line-height:1.35; flex:1; }
+  .kv-mock-txt-sm { font-size:8px; }
+  .kv-mock-sub { color:var(--text-dim); font-size:9px; margin-top:2px; }
+  .kv-mock-check { background:var(--lime); color:#000; font-size:9px; padding:2px 7px; border-radius:999px; font-weight:500; font-family:'Helvetica Now Text',sans-serif; }
+  .kv-composite-mock-sm { font-size:8px; padding:8px 10px; width:70%; }
+
+  /* Spec table */
+  .kv-spec-card { border:1px solid var(--border); border-radius:12px; padding: 18px 22px; background:#FFF; }
+  .kv-spec {
+    display:grid; grid-template-columns: 220px 1fr; gap:16px;
+    padding:12px 0; border-top:1px solid var(--border); font-size:13px;
+    font-family:'Helvetica Now Text',sans-serif;
+  }
+  .kv-spec:first-of-type { border-top:none; }
+  .kv-spec-key { color:var(--text); font-weight:500; }
+  .kv-spec-val { color:var(--text-muted); line-height:1.5; }
+  .kv-anchor { background: rgba(242,255,102,0.35); padding:1px 4px; border-radius:3px; color:var(--text); font-weight:500; }
+
+  /* Do / Don't */
+  .kv-ps { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px; }
+  .kv-ps-card { border:1px solid var(--border); border-radius:10px; background:#FFF; padding:14px; position:relative; }
+  .kv-ps-stage { background:#FBFBF8; border:1px solid var(--border-light); border-radius:6px; aspect-ratio: 16/10; display:flex; align-items:center; justify-content:center; margin-bottom:10px; padding:0; overflow:hidden; }
+  .kv-ps-stage-mock { padding:0; background: linear-gradient(180deg, #F7F5F0 0%, #EDEAE4 100%); }
+  .kv-ps-fill { position:relative; width:100%; height:100%; }
+  .kv-ps-cold { background: linear-gradient(135deg, #4A6FA5 0%, #2A4068 100%); }
+  .kv-ps-mockcard {
+    position:relative; width:80%; height:70%; background:#FFF;
+    border:1px solid var(--border); border-radius:8px; padding:10px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .kv-ps-crowded {
+    position:absolute; inset:8px; background:#FFF; border-radius:8px; padding:8px;
+    display:grid; grid-template-columns:1fr 1fr; gap:6px;
+  }
+  .kv-ps-mark {
+    position:absolute; top:10px; right:10px; width:22px; height:22px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color:#FFF; font-size:13px; font-weight:600; z-index:2;
+  }
+  .kv-ps-good { background: #25BD85; }
+  .kv-ps-bad  { background: #FF5E69; }
+  .kv-ps-text { font-family:'Helvetica Now Text',sans-serif; font-size:12px; color:var(--text-muted); line-height:1.45; }
+
+  /* Group title above each table — H2 weight, hairline under */
+  .token-group-title {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -.02em;
+    margin: 48px 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .token-group-title .grp-sub {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: -.01em;
+    margin-left: 10px;
+  }
+  /* Pill-shaped swatch like eBay */
+  .token-swatch {
+    display:inline-block;
+    vertical-align:middle;
+    width: 44px; height: 22px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    margin-right: 14px;
+  }
+
+  /* internal nav links */
+  a[data-route] { cursor: pointer; }
+
+  /* ── Sidebar collapse/expand ── */
+  .site-sidebar__group-row {
+    display: flex; align-items: center;
+    padding: 0 4px 0 0;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .site-sidebar__group-row .site-sidebar__group-label {
+    flex: 1; margin: 0;
+  }
+  .site-sidebar__group-toggle {
+    appearance: none; background: transparent; border: 0; cursor: pointer;
+    width: 22px; height: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text-dim);
+    border-radius: 6px;
+    flex-shrink: 0;
+    transition: background 120ms ease, color 120ms ease, transform 200ms ease;
+  }
+  .site-sidebar__group-toggle:hover {
+    background: var(--bg-subtle);
+    color: var(--text);
+  }
+  .site-sidebar__group-toggle svg {
+    width: 12px; height: 12px;
+    transition: transform 200ms ease;
+  }
+  /* When CLOSED, list is hidden + chevron points right (rotated -90deg from down) */
+  .site-sidebar__group:not(.is-open) .site-sidebar__pages-wrap {
+    display: none;
+  }
+  .site-sidebar__group:not(.is-open) .site-sidebar__group-toggle svg {
+    transform: rotate(-90deg);
+  }
+  /* OPEN state — chevron points down (default 0deg) */
+  /* Override site/styles/globals.css rule that rotates the WHOLE button 180deg */
+  .site-sidebar__group.is-open .site-sidebar__group-toggle { transform: none; }
+
+  /* ── Sidebar rail collapse (whole sidebar hide) ── */
+  .site-sidebar {
+    position: sticky !important;
+    top: 64px !important;
+    align-self: start !important;
+    transition: opacity 200ms ease;
+    /* override site css padding so "Design system" header sits flush below topbar */
+    padding-top: 0 !important;
+    height: calc(100vh - 64px) !important;
+    overflow-y: auto;
+  }
+
+  /* Sidebar header — "Design system" + collapse button */
+  .site-sidebar__header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 4px 12px 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .site-sidebar__title {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  /* Collapse button — sits inline in the header on the right */
+  .sidebar-rail-toggle {
+    width: 26px; height: 26px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+    appearance: none;
+    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+  .sidebar-rail-toggle:hover {
+    background: var(--bg-subtle);
+    color: var(--text);
+    border-color: var(--text-dim);
+  }
+  .sidebar-rail-toggle svg { width: 13px; height: 13px; }
+
+  /* Collapsed state — shrink the grid column to 0, hide sidebar, show expand button */
+  .site-shell.is-rail-collapsed { grid-template-columns: 0 1fr; }
+  .site-shell.is-rail-collapsed .site-sidebar {
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .site-shell.is-rail-collapsed .sidebar-rail-expand { display: inline-flex; }
+
+  /* Expand button — fixed-positioned just below topbar.
+     When NOT scrolled: banner (34) + topbar (64) = 98 → button at y=110 (below topbar)
+     When scrolled past banner: topbar sticks at y=0, button should follow (set via JS) */
+  .sidebar-rail-expand {
+    display: none;
+    position: fixed;
+    top: 110px; left: 12px;
+    width: 26px; height: 26px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 6px;
+    align-items: center; justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    z-index: 100;
+    appearance: none;
+    transition: top 0ms, background 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+  .sidebar-rail-expand:hover {
+    background: var(--bg-subtle);
+    color: var(--text);
+    border-color: var(--text-dim);
+  }
+  .sidebar-rail-expand svg { width: 13px; height: 13px; }
+
+  /* ── Search button in topbar ── */
+  .site-topbar__search-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; margin-left: 6px;
+    background: transparent; border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; color: var(--text);
+    transition: background 0.12s ease, border-color 0.12s ease;
+  }
+  .site-topbar__search-btn:hover { background: var(--bg-subtle); border-color: var(--text-dim); }
+  .site-topbar__search-btn svg { width: 16px; height: 16px; }
+
+  /* ── GitHub link styled as outlined button to match search ── */
+  .site-topbar__github {
+    display: inline-flex; align-items: center;
+    height: 36px; padding: 0 12px;
+    background: transparent; border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 14px; font-weight: 500; letter-spacing: -0.01em;
+    color: var(--text); text-decoration: none;
+    transition: background 0.12s ease, border-color 0.12s ease;
+  }
+  .site-topbar__github:hover { background: var(--bg-subtle); border-color: var(--text-dim); }
+
+  /* ── Last-commit chip (manually updated) ── */
+  .site-topbar__last-commit {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-right: 12px; padding: 0 4px;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 12px; font-weight: 400; letter-spacing: -0.01em;
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .site-topbar__last-commit > svg {
+    width: 12px !important; height: 12px !important;
+    flex-shrink: 0; color: var(--text-dim);
+    display: block;
+  }
+  .site-topbar__last-commit #last-commit-stamp {
+    color: var(--text); font-weight: 500;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11px; letter-spacing: 0;
+  }
+
+  /* ── Search overlay/modal ── */
+  .search-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 88px;
+    animation: searchFadeIn 0.16s ease;
+  }
+  .search-overlay[hidden] { display: none; }
+  @keyframes searchFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .search-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(20, 18, 14, 0.45);
+    backdrop-filter: blur(2px);
+  }
+  .search-modal {
+    position: relative;
+    width: min(720px, calc(100vw - 32px));
+    max-height: calc(100vh - 120px);
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18), 0 4px 14px rgba(0, 0, 0, 0.08);
+    display: flex; flex-direction: column;
+    animation: searchSlideDown 0.2s ease;
+    overflow: hidden;
+  }
+  @keyframes searchSlideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .search-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .search-head-title {
+    margin: 0;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 500; font-size: 18px; letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .search-close {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    background: transparent; border: none; border-radius: 6px;
+    cursor: pointer; color: var(--text-muted);
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .search-close:hover { background: var(--bg-subtle); color: var(--text); }
+  .search-close svg { width: 14px; height: 14px; }
+  .search-input-wrap {
+    position: relative;
+    padding: 16px 20px 12px;
+  }
+  .search-input-icon {
+    position: absolute; left: 32px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; color: var(--text-muted);
+    pointer-events: none;
+  }
+  #search-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 40px 0 40px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 15px; font-weight: 400; letter-spacing: -0.01em;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  #search-input::placeholder { color: var(--text-dim); }
+  #search-input:focus { background: #FFFFFF; border-color: var(--text); }
+  .search-clear {
+    position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px;
+    background: transparent; border: none; border-radius: 50%;
+    cursor: pointer; color: var(--text-muted);
+    padding: 0;
+  }
+  .search-clear:hover { color: var(--text); }
+  .search-clear svg { width: 14px; height: 14px; }
+  .search-results {
+    flex: 1; overflow-y: auto;
+    padding: 6px 8px 12px;
+    min-height: 60px;
+  }
+  .search-empty,
+  .search-no-results {
+    padding: 28px 20px 36px;
+    text-align: center;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 14px; color: var(--text-dim); letter-spacing: -0.01em;
+  }
+  .search-result {
+    display: block;
+    padding: 12px 14px;
+    margin: 2px 4px;
+    border-radius: 10px;
+    text-decoration: none; color: inherit;
+    cursor: pointer;
+    transition: background 0.1s ease;
+    border: 1px solid transparent;
+  }
+  .search-result:hover,
+  .search-result.is-active {
+    background: var(--bg-subtle);
+    border-color: var(--border-light);
+  }
+  .search-result-eyebrow {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .search-result-title {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 500; font-size: 16px; letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .search-result-title .badge-soon {
+    display: inline-block;
+    padding: 1px 6px; border-radius: 4px;
+    background: var(--border-light); color: var(--text-dim);
+    font-size: 10px; font-weight: 500; letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .search-result-blurb {
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 13px; font-weight: 400; line-height: 1.5; letter-spacing: -0.01em;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .search-result mark {
+    background: var(--lime); color: var(--text);
+    padding: 0 2px; border-radius: 2px; font-weight: 500;
+  }
+  .search-foot {
+    display: flex; align-items: center; gap: 16px;
+    padding: 10px 20px;
+    border-top: 1px solid var(--border-light);
+    background: var(--bg-subtle);
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 12px; color: var(--text-dim); letter-spacing: -0.01em;
+  }
+  .search-foot kbd {
+    display: inline-block;
+    min-width: 18px; padding: 1px 5px;
+    margin-right: 4px;
+    background: #FFFFFF; border: 1px solid var(--border);
+    border-radius: 4px; font-family: 'Helvetica Now Text', sans-serif;
+    font-size: 11px; font-weight: 500; color: var(--text-muted);
+    text-align: center; line-height: 16px;
+  }
+  body.search-open { overflow: hidden; }
+</style>
+</head>
+<body>
+
+<div class="mock-banner">
+  Local prototype · click any sidebar item · no Vercel build · <b>hover any button to see the slide animation</b>
+</div>
+
+<div class="site-shell">
+
+  <!-- ===== Topbar ===== -->
+  <header class="site-topbar">
+    <a href="#" data-route="home" class="site-topbar__brand" style="gap: 4px">
+      <span class="site-topbar__brand-mark" aria-hidden="true" style="background:var(--bg-subtle);border:1px solid var(--border);">
+        <span style="
+          display:block; width:16px; height:16px;
+          background: var(--text);
+          -webkit-mask: url('../site/public/assets/logos/delight-symbol-black.svg') center / contain no-repeat;
+                  mask: url('../site/public/assets/logos/delight-symbol-black.svg') center / contain no-repeat;
+        "></span>
+      </span>
+      <span style="margin: 0px 0px 0px 8px">delight.ai Web Design System</span>
+      <span class="site-topbar__version" style="padding: 2px 6px; font-size: 10px; margin: 0px">v0.1</span>
+    </a>
+    <span class="site-topbar__spacer"></span>
+    <span class="site-topbar__last-commit" title="Manually updated when changes are pushed">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/></svg>
+      Last push <span id="last-commit-stamp">2025-10-30 18:40 KST</span>
+    </span>
+    <a class="site-topbar__github" href="https://github.com/eloylee-maker/delight-web-designsystem" target="_blank" rel="noreferrer noopener">GitHub ↗</a>
+    <button id="search-trigger" class="site-topbar__search-btn" type="button" aria-label="Search">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="9" r="6"/>
+        <path d="m17 17-3.5-3.5"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- ===== Search Modal ===== -->
+  <div id="search-overlay" class="search-overlay" hidden>
+    <div class="search-backdrop" data-search-close></div>
+    <div class="search-modal" role="dialog" aria-label="Search" aria-modal="true">
+      <div class="search-head">
+        <h3 class="search-head-title">Search</h3>
+        <button class="search-close" type="button" aria-label="Close" data-search-close>
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg>
+        </button>
+      </div>
+      <div class="search-input-wrap">
+        <svg class="search-input-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="m17 17-3.5-3.5"/></svg>
+        <input id="search-input" type="text" placeholder="Search components, tokens, foundations…" autocomplete="off" spellcheck="false"/>
+        <button id="search-clear" class="search-clear" type="button" aria-label="Clear" hidden>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="m5.5 5.5 5 5M10.5 5.5l-5 5"/></svg>
+        </button>
+      </div>
+      <div id="search-results" class="search-results" data-state="empty">
+        <div class="search-empty">Start typing to search.</div>
+      </div>
+      <div class="search-foot">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> open</span>
+        <span><kbd>esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="site-sidebar">
+    <div class="site-sidebar__header" style="padding: 12px 4px 12px 0px">
+      <span class="site-sidebar__title">Design system</span>
+      <button class="sidebar-rail-toggle" type="button" id="sidebar-rail-toggle" aria-label="Collapse sidebar" title="Collapse sidebar">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div id="sidebar"></div>
+  </aside>
+
+  <!-- Floating expand button — fixed-positioned at sidebar's top-left when collapsed -->
+  <button class="sidebar-rail-expand" type="button" id="sidebar-rail-expand" aria-label="Expand sidebar" title="Expand sidebar">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- ===== Main ===== -->
+  <main class="site-main" id="main"></main>
+</div>
+
+<footer class="site-footer">
+  <span>© 2026 Sendbird, Inc. — DWDS v0.1</span>
+  <span><a href="https://github.com/eloylee-maker/delight-web-designsystem" target="_blank" rel="noreferrer noopener">Source on GitHub ↗</a></span>
+</footer>
+
+<script>
+/* ============================================================
+   IA — mirror of site/lib/ia.ts SECTIONS
+   ============================================================ */
+/* IA — three top-level sections, alphabetized within each. */
+const SECTIONS = [
+  {
+    slug: 'foundations',
+    title: 'Foundations',
+    blurb: 'Brand-side decisions — voice, marks, imagery — that the implementable system is built on.',
+    pages: [
+      { slug: 'brand-principles', title: 'Brand Principles', blurb: 'The four tenets that guide every visual decision.',     status: 'live',  preview: 'design-principles.html' },
+      { slug: 'key-visual',       title: 'Key visual',       blurb: 'The Key Visual is a core visual element that communicates the identity and emotion of the Delight brand in the most intuitive way. It goes beyond a simple graphic style and serves as a foundational guideline that consistently expresses how the brand wants users to feel and experience.', keywords: 'agent steward trust os 2.0 voice ai desk capabilities moodboard scrim noise mockup composition', status: 'live',  preview: 'key-visual.html' },
+      { slug: 'logo',             title: 'Logo',             blurb: 'delight.ai and Sendbird logos, sizing, switcher pill.', status: 'live',  preview: 'brand-marks.html' },
+      { slug: 'photos',           title: 'Photos',           blurb: 'Subject treatment, framing, and color guidance.',        status: 'shell' },
+      { slug: 'visual-direction', title: 'Visual Direction', blurb: 'Overall art direction, mood, and editorial style.',     status: 'shell' },
+      { slug: 'voice-and-tone',   title: 'Voice & Tone',     blurb: 'Plainspoken, confident, slightly literary.',             status: 'shell' },
+    ],
+  },
+  {
+    slug: 'tokens',
+    title: 'Tokens',
+    blurb: 'The atomic, implementable layer — color, type, spacing, layout, iconography, shadow.',
+    pages: [
+      { slug: 'color',         title: 'Color',         blurb: 'Delight Warm palette, semantic tokens, and accent rules.',     status: 'live',  preview: 'colors.html' },
+      { slug: 'grid',          title: 'Grid',          blurb: '16-col PC / 4-col mobile grid with 16px gutters.',             status: 'live',  preview: 'grid.html' },
+      { slug: 'iconography',   title: 'Iconography',   blurb: 'Hand-drawn icons used in GNB, buttons, and FAQ.',              status: 'live' },
+      { slug: 'layout',        title: 'Layout',        blurb: '1920 canvas, 1552 max width, 184 PC offsets, page patterns.', status: 'live',  preview: 'layout.html' },
+      { slug: 'shadow',        title: 'Shadow',        blurb: 'Elevation tokens for popups, modals, and cards.',              status: 'shell' },
+      { slug: 'spacing',       title: 'Spacing',       blurb: '4px base scale, container offsets, corner radii.',             status: 'live',  preview: 'spacing.html' },
+      { slug: 'typography',    title: 'Typography',    blurb: 'Serrif display, Helvetica Now Text body, Pretendard for KR.',  status: 'live',  preview: 'typography.html' },
+    ],
+  },
+  {
+    slug: 'components',
+    title: 'Components',
+    blurb: 'Each component with anatomy, states, and a live preview.',
+    pages: [
+      { slug: 'accordion',     title: 'Accordion',     blurb: 'Collapsible content panels with FAQ icon pattern.',            status: 'shell' },
+      { slug: 'alert',         title: 'Alert',         blurb: 'Inline messages for success, warning, error.',                 status: 'shell' },
+      { slug: 'breadcrumb',    title: 'Breadcrumb',    blurb: 'Hierarchical navigation links above a page title.',            status: 'shell' },
+      { slug: 'button',        title: 'Button',        blurb: 'Primary black, secondary outline, tertiary link.',             status: 'live',  preview: 'buttons.html' },
+      { slug: 'card',          title: 'Card',          blurb: 'Surface containers with title, body, and optional thumb.',     status: 'shell' },
+      { slug: 'carousel',      title: 'Carousel',      blurb: 'Horizontally-scrolling slide groups with controls.',           status: 'shell' },
+      { slug: 'filter',        title: 'Filter',        blurb: 'Chip filters and dropdown filters for lists.',                 status: 'shell' },
+      { slug: 'form',          title: 'Form',          blurb: 'Inputs, textarea, select, validation states.',                 status: 'live',  preview: 'form.html' },
+      { slug: 'gnb-footer',    title: 'GNB/Footer',    blurb: 'Fixed top bar, mega-menu, footer brand & link cols.',          status: 'live',  preview: 'gnb.html' },
+      { slug: 'input',         title: 'Input',         blurb: 'Text inputs, search, password, with focus and error states.',  status: 'shell' },
+      { slug: 'pagination',    title: 'Pagination',    blurb: '32px squares with active chip and ellipses.',                  status: 'live',  preview: 'pagination.html' },
+      { slug: 'popup-modal',   title: 'Popup/Modal',   blurb: 'Modals and announcement bars.',                                status: 'live',  preview: 'popup.html' },
+      { slug: 'progress-bar',  title: 'Progress Bar',  blurb: 'Linear progress indicators for steps and loading.',            status: 'shell' },
+      { slug: 'table',         title: 'Table',         blurb: 'Data tables with header, rows, and hover.',                    status: 'shell' },
+      { slug: 'tabs',          title: 'Tabs',          blurb: 'Pill-shaped chips with 1px active border.',                    status: 'live',  preview: 'tabs.html' },
+      { slug: 'video',         title: 'Video',         blurb: 'Embedded video with poster, controls, and aspect ratio.',      status: 'shell' },
+    ],
+  },
+];
+
+/* ============================================================
+   Routing — hash-based: #section/page  or  #home
+   ============================================================ */
+function parseHash() {
+  const h = location.hash.replace(/^#/, '');
+  if (!h || h === 'home') return { kind: 'home' };
+  const [section, page] = h.split('/');
+  if (section && page) return { kind: 'page', section, page };
+  if (section) return { kind: 'section', section };
+  return { kind: 'home' };
+}
+
+function findSection(slug) { return SECTIONS.find(s => s.slug === slug); }
+function findPage(sectionSlug, pageSlug) {
+  return findSection(sectionSlug)?.pages.find(p => p.slug === pageSlug);
+}
+
+/* ============================================================
+   Render — Sidebar
+   ============================================================ */
+function renderSidebar() {
+  const cur = parseHash();
+  const html = SECTIONS.map(s => {
+    // Open by default if it's the current section, OR if user has saved preference.
+    const stored = localStorage.getItem('dwds.sidebar.' + s.slug);
+    const inSection = (cur.kind === 'section' && cur.section === s.slug)
+                   || (cur.kind === 'page' && cur.section === s.slug);
+    const isOpen = stored === null ? true : stored === '1';
+    const open = inSection || isOpen;
+    return `
+    <div class="site-sidebar__group${open ? ' is-open' : ''}" data-section="${s.slug}">
+      <div class="site-sidebar__group-row">
+        <p class="site-sidebar__group-label"><a href="#${s.slug}" data-route>${s.title}</a></p>
+        <button class="site-sidebar__group-toggle" type="button" aria-label="Toggle ${s.title}" data-toggle="${s.slug}">
+          <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="site-sidebar__pages-wrap">
+        ${s.pages.map(p => {
+          const active = cur.kind === 'page' && cur.section === s.slug && cur.page === p.slug;
+          return `
+            <a href="#${s.slug}/${p.slug}" data-route class="site-sidebar__link"${active ? ' aria-current="page"' : ''}>
+              <span>${p.title}</span>
+              ${p.status === 'shell' ? '<span class="site-sidebar__badge">Soon</span>' : ''}
+            </a>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+  }).join('');
+  document.getElementById('sidebar').innerHTML = html;
+
+  // Wire up toggle buttons
+  document.querySelectorAll('.site-sidebar__group-toggle').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const slug = btn.dataset.toggle;
+      const group = btn.closest('.site-sidebar__group');
+      const willOpen = !group.classList.contains('is-open');
+      group.classList.toggle('is-open', willOpen);
+      localStorage.setItem('dwds.sidebar.' + slug, willOpen ? '1' : '0');
+    });
+  });
+}
+
+/* ============================================================
+   Render — Main content
+   ============================================================ */
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderHome() {
+  const cards = SECTIONS.map(section => `
+    <section class="prose" style="max-width:none;margin-bottom:64px">
+      <p class="page-eyebrow">${escapeHtml(section.title)}</p>
+      <h2 style="font-family:'Serrif',serif;font-weight:500;font-size:32px;line-height:1.24;letter-spacing:-0.02em;margin:0 0 8px;">
+        <a href="#${section.slug}" data-route>${escapeHtml(section.title)}</a>
+      </h2>
+      <p class="section-desc">${escapeHtml(section.blurb)}</p>
+
+      <div class="card-grid">
+        ${section.pages.map(p => `
+          <a href="#${section.slug}/${p.slug}" data-route class="card">
+            <div class="home-card-thumb">${escapeHtml(p.title)}</div>
+            <div class="card__body">
+              <h3 class="card__title">${escapeHtml(p.title)}</h3>
+              <p class="card__desc">${escapeHtml(p.blurb)}</p>
+            </div>
+            ${p.status === 'shell' ? '<span class="card__status">Soon</span>' : ''}
+          </a>
+        `).join('')}
+      </div>
+    </section>
+  `).join('');
+
+  return `
+    <p class="page-eyebrow">delight.ai Web Design System</p>
+    <h1 class="page-title">DWDS</h1>
+    <p class="page-lede">A design system for <strong>delight.ai</strong> — Sendbird's enterprise AI customer-experience platform. Click any tile to dive in. Hover any button on the Buttons page to see the label-slide animation.</p>
+    ${cards}
+  `;
+}
+
+function renderSectionIndex(section) {
+  return `
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <span><a href="#home" data-route>Home</a><span class="crumbs__sep">/</span></span>
+      <span><span>${escapeHtml(section.title)}</span></span>
+    </nav>
+    <p class="page-eyebrow">${escapeHtml(section.title)}</p>
+    <h1 class="page-title">${escapeHtml(section.title)}</h1>
+    <p class="page-lede">${escapeHtml(section.blurb)}</p>
+    <div class="card-grid">
+      ${section.pages.map(p => `
+        <a href="#${section.slug}/${p.slug}" data-route class="card">
+          <div class="home-card-thumb">${escapeHtml(p.title)}</div>
+          <div class="card__body">
+            <h3 class="card__title">${escapeHtml(p.title)}</h3>
+            <p class="card__desc">${escapeHtml(p.blurb)}</p>
+          </div>
+          ${p.status === 'shell' ? '<span class="card__status">Soon</span>' : ''}
+        </a>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* Page-specific content blocks (anatomy text) */
+const ANATOMY = {
+  'components/gnb-footer': `
+    <ul>
+      <li><strong>GNB height</strong>: 72px. <code>position: fixed</code> with a 72px spacer beneath.</li>
+      <li><strong>GNB background</strong>: white at scroll-top, white-blur with hairline border once scrolled.</li>
+      <li><strong>Hover</strong>: Capabilities opens a mega-menu, Solutions/Resources open floating panels, Customers paints a 2px black underline only.</li>
+      <li><strong>Right cluster</strong>: language popover (globe), login (person), Contact button (Primary, 30px).</li>
+      <li><strong>Footer background</strong>: <code>var(--bg-subtle)</code>.</li>
+      <li><strong>Footer brand column</strong>: 284px wide + 116px right margin. Logo, tagline, social icons.</li>
+      <li><strong>Footer link columns</strong>: 4 × 240px, 64px gap, organized into two visual groups.</li>
+      <li><strong>Footer bottom bar</strong>: 3 regions — language picker, legal links, © Sendbird, Inc.</li>
+    </ul>`,
+  'components/button': `
+    <ul>
+      <li><strong>Hover interaction</strong>: label slides 10px left + arrow (→) fades in from right (0.3s ease). Tertiary keeps label in place; arrow appears inline.</li>
+      <li><strong>Primary</strong>: 42px (medium), <code>#000000</code> bg, white text, 8px radius. Use once per page.</li>
+      <li><strong>Secondary</strong>: white bg, 1px black border. Pairs left of Primary in CTA stacks.</li>
+      <li><strong>Tertiary</strong>: underline with 2px offset; hover reveals arrow.</li>
+      <li><strong>Sizes</strong>: 30 / 42 / 52px. min-width 88 / 112 / 136px. Small uses 6px radius.</li>
+      <li><strong>Lime</strong>: <code>#F2FF66</code> bg — reserved for the dark CTA banner.</li>
+    </ul>`,
+  'components/tabs': `
+    <ul>
+      <li><strong>Shape</strong>: 36px pill, transparent border by default, 1px black when active.</li>
+      <li><strong>Type</strong>: 20px Helvetica Now Text, weight 400 → 500 on active.</li>
+      <li><strong>Hover</strong>: 1px <code>#D9D6D2</code> hairline (inactive only).</li>
+      <li><strong>Use</strong>: switching peer views inside a section. Not for primary navigation.</li>
+    </ul>`,
+  'components/form': `
+    <ul>
+      <li><strong>Inputs</strong>: 40px tall, 8px radius, 1px <code>#E0DAD2</code> border, white surface.</li>
+      <li><strong>Focus</strong>: border darkens to <code>#000000</code>. No outer glow.</li>
+      <li><strong>Errors</strong>: coral <code>#FF5E69</code> for required asterisk, error border, helper text.</li>
+      <li><strong>Labels</strong>: 13px, 6px above field. Required = coral asterisk.</li>
+      <li><strong>Composites</strong>: PhoneInput pairs country select + tel input in one 8px shell with 1px divider.</li>
+    </ul>`,
+  'components/pagination': `
+    <ul>
+      <li><strong>Cells</strong>: 32 × 32px squares with 6px corners.</li>
+      <li><strong>Active</strong>: weight 500, full <code>--text</code> color, <code>--bg-subtle</code> fill.</li>
+      <li><strong>Inactive</strong>: <code>#8C867E</code> text, transparent background; hover paints <code>--bg-subtle</code>.</li>
+      <li><strong>Navigators</strong>: 32px chevron buttons disable at first/last page.</li>
+      <li><strong>Ellipses</strong>: appear when total &gt; 7 pages.</li>
+    </ul>`,
+  'components/popup-modal': `
+    <ul>
+      <li><strong>Modal</strong>: 12px radius, white surface, 1px hairline border, drop-shadow <code>--shadow-1</code>.</li>
+      <li><strong>Announcement bar</strong>: dark background, white text, single dismiss action.</li>
+      <li><strong>Backdrop</strong>: <code>rgba(40,32,22,0.40)</code> with 2px blur.</li>
+    </ul>`,
+};
+
+const COLOR_GROUPS = [
+  {
+    title: 'Backgrounds & Surfaces',
+    rows: [
+      { name: '--bg',        value: '#FFFFFF', notes: 'Page background. Default canvas for every web surface.' },
+      { name: '--bg-subtle', value: '#F7F5F0', notes: 'Card fills, hover, GNB switcher, code blocks (WGray100).' },
+      { name: '--cta-dark',  value: '#18140F', notes: 'Dark sections, footer, hero panels.' },
+      { name: '--lime',      value: '#F2FF66', notes: 'Brand accent fill — feature spotlights, hero badges, the dot.' },
+    ],
+  },
+  {
+    title: 'Warm Gray scale',
+    sub: 'delight.ai — text, borders, disabled states',
+    rows: [
+      { name: 'WGray100', value: '#F7F5F0', notes: 'Subtle background fills (= --bg-subtle).' },
+      { name: 'WGray150', value: '#E5E3DF', notes: 'Default border (--border). Hairlines.' },
+      { name: 'WGray200', value: '#D9D6D2', notes: 'Stronger border (--border-light). Disabled fills.' },
+      { name: 'WGray250', value: '#C4C0B9', notes: 'Disabled link / tertiary text. Paginator disabled arrow.' },
+      { name: 'WGray300', value: '#A8A39B', notes: 'Disabled secondary copy, placeholder iconography.' },
+      { name: 'WGray350', value: '#8C867E', notes: 'Tertiary text — captions, helper copy, metadata.' },
+      { name: 'WGray400', value: '#736E68', notes: 'Muted text (--text-muted). Section descriptions.' },
+      { name: 'WGray600', value: '#54504B', notes: 'Dim text (--text-dim). De-emphasised body, footer links.' },
+      { name: 'WGray800', value: '#3B3530', notes: 'Heavy headings on warm backgrounds (rare).' },
+      { name: 'WGray900', value: '#292016', notes: 'Dark surface — alternate to --cta-dark for warmer panels.' },
+      { name: 'Black',    value: '#000000', notes: 'Default text (--text), primary CTA fill, focus border.' },
+    ],
+  },
+  {
+    title: 'Cool Gray scale',
+    sub: 'Sendbird-side surfaces only — not for delight.ai pages',
+    rows: [
+      { name: 'CGray100', value: '#F2F3F7', notes: 'Sendbird page background, doc sidebars.' },
+      { name: 'CGray150', value: '#E3E5EF', notes: 'Sendbird borders and dividers.' },
+      { name: 'CGray200', value: '#D3D6E3', notes: 'Default radio/checkbox border, Sendbird disabled.' },
+      { name: 'CGray300', value: '#9194A8', notes: 'Sendbird tertiary text and icons.' },
+      { name: 'CGray350', value: '#7A7E92', notes: 'Sendbird secondary icons, helper copy.' },
+      { name: 'CGray400', value: '#686C80', notes: 'Sendbird muted body text.' },
+      { name: 'CGray500', value: '#555869', notes: 'Sendbird body text in mid-emphasis blocks.' },
+      { name: 'CGray600', value: '#42455A', notes: 'Sendbird heavy body, secondary headings.' },
+      { name: 'CGray700', value: '#2E3142', notes: 'Sendbird dark surfaces, table headers.' },
+      { name: 'CGray800', value: '#1B1E2D', notes: 'Sendbird primary text on light surfaces.' },
+      { name: 'CGray900', value: '#0E1017', notes: 'Sendbird headlines and the Sendbird mark fill.' },
+    ],
+  },
+  {
+    title: 'Brand accents',
+    sub: 'use sparingly — one accent per layout',
+    rows: [
+      { name: 'Delight Lime',   value: '#F2FF66', notes: 'Primary brand accent. Spotlight surfaces, hero badges.' },
+      { name: 'Sendbird Purple',value: '#7B39FE', notes: 'Sendbird-side only. Never on a delight.ai page.' },
+      { name: 'Sendbird Lime',  value: '#D1F778', notes: 'Secondary Sendbird accent for paired-product moments.' },
+      { name: 'Black on Lime',  value: '#000000', notes: 'Accent pairing — type and iconography on lime fills.' },
+    ],
+  },
+  {
+    title: 'Semantic',
+    sub: 'errors, info, success — paired 500 + 100 fills',
+    rows: [
+      { name: 'Red500',   value: '#FF5E69', notes: 'Error border + icon. Destructive button fill.' },
+      { name: 'Red100',   value: '#FFE3E5', notes: 'Error toast / banner background.' },
+      { name: 'Blue500',  value: '#27A6F7', notes: 'Info border + icon. Inline link emphasis (rare).' },
+      { name: 'Blue100',  value: '#D8F0FF', notes: 'Info toast / banner background.' },
+      { name: 'Green500', value: '#25BD85', notes: 'Success border + icon. Status badges.' },
+      { name: 'Green100', value: '#D0F3E6', notes: 'Success toast / banner background.' },
+    ],
+  },
+];
+
+/* ============================================================
+   Inline page renderers — replace iframes with native DOM
+   so the editor (parent) can target every node.
+   ============================================================ */
+const PRINCIPLES = [
+  { title: 'Human-centric', desc: 'People-first, empathetic design.', detail: "Decisions begin with the person on the other side of the screen — what they're trying to do, what they're worried about, what would make them feel seen. Empathy outranks elegance." },
+  { title: 'Clear',         desc: 'Confident, simple, and intuitive communication.', detail: "Plain words, generous whitespace, and a single point of focus per screen. We earn the user's attention by saying less and saying it precisely." },
+  { title: 'Balanced',      desc: 'Harmony between function and emotion.', detail: 'Function comes first, but it is never alone. Type, color, and motion are tuned so the system feels considered, not clinical — useful, but with warmth.' },
+  { title: 'Delightful',    desc: 'Warm, sophisticated visuals that inspire joy.', detail: 'A small accent of lime, a hand-drawn icon, a sentence with rhythm. The brand earns trust through competence and rewards attention with quiet moments of pleasure.' },
+];
+
+function renderInlineBrandPrinciples() {
+  return `
+    <div class="inline-principles">
+      ${PRINCIPLES.map(p => `
+        <div class="ip-row">
+          <h2 class="ip-title">${escapeHtml(p.title)}</h2>
+          <div class="ip-meta">
+            <p class="ip-desc">${escapeHtml(p.desc)}</p>
+            <p class="ip-detail">${escapeHtml(p.detail)}</p>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderInlineKeyVisual() {
+  const ASSET = '../site/public/assets/key-visual';
+  const V = '?v=2026042902';
+  return `
+    <div class="inline-keyvisual">
+
+      <section class="kv-section">
+        <h2 class="kv-h2">Tone &amp; Manner of Delight</h2>
+        <p class="kv-lede">Delight's tone and manner move away from a technology-centered expression and instead focus on delivering experiences that naturally blend into people's everyday lives.</p>
+        <ul class="kv-list">
+          <li>Prioritizes naturalness and authenticity over artificial "tech-driven" aesthetics</li>
+          <li>Favors soft, stable visual flows rather than high contrast or overstimulation</li>
+          <li>Emphasizes subtle, positive moments in everyday life instead of exaggerated storytelling</li>
+          <li>Focuses on emotions and experiences rather than just features or outcomes</li>
+        </ul>
+        <p class="kv-outro">Through this, Delight aims to become a brand that is remembered not for its technology, but for how it makes people feel.</p>
+      </section>
+
+      <section class="kv-section">
+        <h2 class="kv-h2">Key Visual Direction</h2>
+        <p class="kv-lede">The Key Visual structures Delight's emotional message into a visual language.</p>
+        <ul class="kv-list">
+          <li>Use of real-world elements such as natural light, shadows, and textures</li>
+          <li>Expression of emotions through nature-inspired motifs (e.g., flowers, breeze, light)</li>
+          <li>A calm and warm atmosphere based on low-saturation color palettes</li>
+          <li>Subtle compositions that convey a sense of flow and movement within stillness</li>
+        </ul>
+        <p class="kv-outro">This allows users to experience the brand's emotional tone effortlessly while engaging with content.</p>
+      </section>
+
+      <!-- ==================== Image-only library ==================== -->
+      <section class="kv-block">
+        <h2 class="kv-h2">Capabilities Key visual</h2>
+
+        <div class="kv-grid">
+          ${[
+            { name: 'Agent Steward', tag: 'image · cropped landscape', file: 'agent-steward.png' },
+            { name: 'Trust OS 2.0',  tag: 'image · seascape horizon',  file: 'trust-os.png' },
+            { name: 'Voice AI',      tag: 'image · sunset water',      file: 'voice-ai.png' },
+            { name: 'Desk',          tag: 'image · warm ripples',      file: 'desk.png' },
+          ].map(c => `
+            <div class="kv-card">
+              <div class="kv-stage kv-stage-clean">
+                <div class="kv-img" style="background-image: url('${ASSET}/${c.file}${V}');"></div>
+              </div>
+              <div class="kv-meta">
+                <div class="kv-name">${c.name}</div>
+                <div class="kv-tag">${c.tag}</div>
+              </div>
+              <a class="kv-dl" href="${ASSET}/${c.file}${V}" download="${c.file}"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1.5v7m0 0L3 5.5m3 3 3-3M2 10.5h8"/></svg>Download PNG</a>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+
+      <!-- ==================== Three composition modes ==================== -->
+      <section class="kv-block">
+        <div class="kv-grp-h">Three composition modes</div>
+        <div class="kv-cats">
+
+          <div class="kv-cat">
+            <div class="kv-cat-thumb">
+              <div class="kv-img" style="background-image: url('${ASSET}/voice-ai.png${V}');"></div>
+              <div class="kv-noise"></div>
+              <div class="kv-scrim"></div>
+            </div>
+            <div class="kv-cat-body">
+              <div class="kv-cat-num">01</div>
+              <div class="kv-cat-title">Image only</div>
+              <p class="kv-cat-desc">Imagery depicting specific, positive everyday moments experienced through the Delight brand. Mood-driven or metaphorical visuals using natural elements — flowers, trees, shadows, water — are recommended.</p>
+            </div>
+          </div>
+
+          <div class="kv-cat">
+            <div class="kv-cat-thumb">
+              <div class="kv-mockup-bg"></div>
+              <div class="kv-mockup-card">
+                <div class="kv-mock-row"><span class="kv-mock-pill">Conversation</span></div>
+                <div class="kv-mock-bar md"></div>
+                <div class="kv-mock-bar sm"></div>
+                <div class="kv-mock-row" style="margin-top:auto; justify-content:space-between; align-items:flex-end;">
+                  <div class="kv-mock-stat">7B+</div>
+                  <div class="kv-mock-badge">memory</div>
+                </div>
+              </div>
+            </div>
+            <div class="kv-cat-body">
+              <div class="kv-cat-num">02</div>
+              <div class="kv-cat-title">Mockup UI or diagram only</div>
+              <p class="kv-cat-desc">Uses only the defined <code>bg1</code> (#F7F5F0) and <code>bg2</code> (gradient warm) colors. Focuses on clear, intuitive, concise information. No photography — UI surfaces speak for themselves.</p>
+            </div>
+          </div>
+
+          <div class="kv-cat">
+            <div class="kv-cat-thumb">
+              <div class="kv-composite-img" style="background-image: url('${ASSET}/voice-ai.png${V}');"></div>
+              <div class="kv-noise" style="opacity:0.25;"></div>
+              <div class="kv-composite-mock">
+                <div class="kv-av"></div>
+                <div class="kv-mock-txt">Looking up Maya's last order…<div class="kv-mock-sub">Memory updated</div></div>
+                <div class="kv-mock-check">✓</div>
+              </div>
+            </div>
+            <div class="kv-cat-body">
+              <div class="kv-cat-num">03</div>
+              <div class="kv-cat-title">Image + mockup UI</div>
+              <p class="kv-cat-desc">Establish a clear visual hierarchy so image and UI don't compete. The image provides mood and context; the UI or diagram delivers the key information. Mockup overlays use 12 px backdrop-blur and the standard drop shadow.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== Specs ==================== -->
+      <section class="kv-block">
+        <div class="kv-grp-h">Specs</div>
+        <div class="kv-spec-card">
+          <div class="kv-spec"><div class="kv-spec-key">Canvas</div><div class="kv-spec-val"><span class="kv-anchor">1920 × 1080</span> (16:9). Source images cropped at <code>cover</code>; bleeds beyond the frame are intentional.</div></div>
+          <div class="kv-spec"><div class="kv-spec-key">Base layer</div><div class="kv-spec-val">Photographic source over a <code>#292016</code> backplate. Imagery is warm, motion-blurred, natural — never cold or blue-cast.</div></div>
+          <div class="kv-spec"><div class="kv-spec-key">Scrim</div><div class="kv-spec-val"><code>rgba(0,0,0,0.20)</code> uniform overlay. Lifts to <code>0.35</code> when copy needs to sit on top.</div></div>
+          <div class="kv-spec"><div class="kv-spec-key">Noise</div><div class="kv-spec-val">Tileable grain at <span class="kv-anchor">opacity 0.4</span>, <span class="kv-anchor">mix-blend-mode overlay</span>. Non-negotiable — adds the brand's characteristic softened-print texture.</div></div>
+          <div class="kv-spec"><div class="kv-spec-key">Mockup overlay</div><div class="kv-spec-val">White surface, 92% opacity, <code>backdrop-filter: blur(12px)</code>, radius <span class="kv-anchor">14 px</span>, drop shadow 01.</div></div>
+          <div class="kv-spec"><div class="kv-spec-key">Mockup-only palette</div><div class="kv-spec-val">Background uses <code>--bg-subtle (#F7F5F0)</code> as bg1 and a warm gradient as bg2. No other colors permitted.</div></div>
+          <div class="kv-spec"><div class="kv-spec-key">Approved subject matter</div><div class="kv-spec-val">Trees, water, shadows, light, fabric, hands, interior moments. Photography page is dominated by warm interiors and lifestyle — no cold/blue palettes.</div></div>
+        </div>
+      </section>
+
+      <!-- ==================== Do / Don't ==================== -->
+      <section class="kv-block">
+        <div class="kv-grp-h">Usage principles</div>
+        <div class="kv-ps">
+
+          <div class="kv-ps-card">
+            <span class="kv-ps-mark kv-ps-good">✓</span>
+            <div class="kv-ps-stage">
+              <div class="kv-ps-fill">
+                <div class="kv-img" style="background-image: url('${ASSET}/voice-ai.png${V}');"></div>
+                <div class="kv-noise"></div>
+                <div class="kv-scrim"></div>
+              </div>
+            </div>
+            <div class="kv-ps-text">Apply scrim + noise on every key visual. Both are part of the brand's softened, slightly aged feel.</div>
+          </div>
+
+          <div class="kv-ps-card">
+            <span class="kv-ps-mark kv-ps-good">✓</span>
+            <div class="kv-ps-stage">
+              <div class="kv-ps-fill">
+                <div class="kv-composite-img" style="background-image: url('${ASSET}/agent-steward.png${V}');"></div>
+                <div class="kv-noise" style="opacity:0.25;"></div>
+                <div class="kv-composite-mock kv-composite-mock-sm">
+                  <div class="kv-av kv-av-sm"></div>
+                  <div class="kv-mock-txt kv-mock-txt-sm">Customer recognized · 7s ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="kv-ps-text">When pairing image + mockup, give one element clear hierarchy. Image = mood. Mockup = information.</div>
+          </div>
+
+          <div class="kv-ps-card">
+            <span class="kv-ps-mark kv-ps-good">✓</span>
+            <div class="kv-ps-stage kv-ps-stage-mock">
+              <div class="kv-ps-mockcard">
+                <div class="kv-mock-bar md"></div>
+                <div class="kv-mock-bar sm"></div>
+                <div class="kv-mock-stat" style="font-size:18px; margin-top:auto;">99.9%</div>
+              </div>
+            </div>
+            <div class="kv-ps-text">Mockup-only key visuals use only bg1 + bg2. Restrained palette keeps focus on the data.</div>
+          </div>
+
+          <div class="kv-ps-card">
+            <span class="kv-ps-mark kv-ps-bad">✕</span>
+            <div class="kv-ps-stage">
+              <div class="kv-ps-fill kv-ps-cold"></div>
+            </div>
+            <div class="kv-ps-text">Don't use cold or blue-cast imagery. Photography skews warm — ambient interior light, sunset, foliage.</div>
+          </div>
+
+          <div class="kv-ps-card">
+            <span class="kv-ps-mark kv-ps-bad">✕</span>
+            <div class="kv-ps-stage">
+              <div class="kv-ps-fill">
+                <div class="kv-img" style="background-image: url('${ASSET}/voice-ai.png${V}');"></div>
+                <div class="kv-ps-crowded">
+                  <div class="kv-mock-bar md"></div>
+                  <div class="kv-mock-bar md"></div>
+                  <div class="kv-mock-bar sm"></div>
+                  <div class="kv-mock-bar sm"></div>
+                </div>
+              </div>
+            </div>
+            <div class="kv-ps-text">Don't crowd image + mockup so that both compete for attention. One must lead.</div>
+          </div>
+
+          <div class="kv-ps-card">
+            <span class="kv-ps-mark kv-ps-bad">✕</span>
+            <div class="kv-ps-stage">
+              <div class="kv-ps-fill">
+                <div class="kv-img" style="background-image: url('${ASSET}/agent-steward.png${V}');"></div>
+              </div>
+            </div>
+            <div class="kv-ps-text">Don't omit scrim and noise. Raw photography reads too commercial — the texture treatment is the brand.</div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  `;
+}
+
+/* Pages registered here get their full content rendered inline.
+   If `withPreview: true`, the preview iframe is appended below as supporting material.
+   If `withPreview: false` (default), inline replaces the iframe entirely. */
+const INLINE_PAGES = {
+  'foundations/brand-principles': { render: renderInlineBrandPrinciples, withPreview: false },
+  'foundations/key-visual':       { render: renderInlineKeyVisual,       withPreview: false },
+};
+
+function renderPage(section, page) {
+  const sIdx = section.pages.findIndex(p => p.slug === page.slug);
+  const prev = section.pages[sIdx - 1];
+  const next = section.pages[sIdx + 1];
+
+  const crumbs = `
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <span><a href="#home" data-route>Home</a><span class="crumbs__sep">/</span></span>
+      <span><a href="#${section.slug}" data-route>${escapeHtml(section.title)}</a><span class="crumbs__sep">/</span></span>
+      <span><span>${escapeHtml(page.title)}</span></span>
+    </nav>
+  `;
+
+  const header = `
+    <p class="page-eyebrow">${escapeHtml(section.title)}</p>
+    <h1 class="page-title">${escapeHtml(page.title)}</h1>
+    <p class="page-lede">${escapeHtml(page.blurb)}</p>
+  `;
+
+  const navFooter = `
+    <nav style="margin-top:96px;padding-top:24px;border-top:1px solid var(--border);display:flex;gap:16px;justify-content:space-between;font-family:'Helvetica Now Text',sans-serif;font-size:14px;letter-spacing:-0.01em;">
+      ${prev ? `<a href="#${section.slug}/${prev.slug}" data-route style="color:var(--text-muted)">← <span style="color:var(--text-dim)">Previous</span> &nbsp; ${escapeHtml(prev.title)}</a>` : '<span></span>'}
+      ${next ? `<a href="#${section.slug}/${next.slug}" data-route style="color:var(--text-muted);text-align:right">${escapeHtml(next.title)} &nbsp; <span style="color:var(--text-dim)">Next</span> →</a>` : '<span></span>'}
+    </nav>
+  `;
+
+  let body = '';
+  const key = `${section.slug}/${page.slug}`;
+
+  // Shell pages
+  if (page.status === 'shell') {
+    // Special override: Iconography links out to lucide v0 instead of "coming soon"
+    if (key === 'tokens/iconography') {
+      body = `
+        <div class="prose">
+          <p>DWDS uses the <strong>Lucide</strong> icon set as its source-of-truth for UI iconography. Browse, search, and copy SVGs from the official library — they paste straight into our components and inherit <code>currentColor</code>.</p>
+        </div>
+        <a href="https://v0.lucide.dev/" target="_blank" rel="noreferrer noopener"
+           style="display:inline-flex;align-items:center;gap:10px;margin-top:24px;
+                  background:var(--text);color:#FFF;text-decoration:none;
+                  font-family:'Helvetica Now Text',sans-serif;font-size:15px;font-weight:500;letter-spacing:-.01em;
+                  padding:14px 22px;border-radius:8px;">
+          Open Lucide icon library
+          <span aria-hidden="true" style="display:inline-block;transform:translateY(-1px)">↗</span>
+        </a>
+        <p style="margin-top:14px;font-size:13px;color:var(--text-dim);font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.01em;">
+          v0.lucide.dev · opens in a new tab
+        </p>
+      `;
+    } else {
+      body = `
+        <div class="empty-shell">
+          <span class="empty-shell__pill">Coming soon</span>
+          <h2 class="empty-shell__title">${escapeHtml(page.title)} — coming soon</h2>
+          <p class="empty-shell__desc">${escapeHtml(page.blurb)}</p>
+        </div>
+      `;
+    }
+  }
+  // Inline-rendered pages (no iframe — fully editable in parent context).
+  // If withPreview, append the iframe preview below as supporting material.
+  else if (INLINE_PAGES[key]) {
+    const cfg = INLINE_PAGES[key];
+    body = cfg.render();
+    if (cfg.withPreview && page.preview) {
+      body += `<div class="preview-frame" style="margin-top:48px"><iframe src="../site/public/preview/${page.preview}"></iframe></div>`;
+    }
+  }
+  // Color page — token tables in eBay-Playbook style
+  else if (key === 'tokens/color') {
+    body = `
+      ${COLOR_GROUPS.map(g => `
+        <h2 class="token-group-title">
+          ${escapeHtml(g.title)}${g.sub ? `<span class="grp-sub">${escapeHtml(g.sub)}</span>` : ''}
+        </h2>
+        <table class="token-table">
+          <thead>
+            <tr>
+              <th style="width:34%">Title</th>
+              <th style="width:30%">Value on light</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${g.rows.map(t => `
+              <tr>
+                <td><code>${escapeHtml(t.name)}</code></td>
+                <td>
+                  <span class="token-swatch" style="background:${t.value}"></span>
+                  <code>${t.value}</code>
+                </td>
+                <td style="color:var(--text-muted)">${escapeHtml(t.notes)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `).join('')}
+      <div class="preview-inline" data-src="../site/public/preview/colors.html"></div>
+    `;
+  }
+  // Components anatomy + preview
+  else if (ANATOMY[key]) {
+    body = `
+      <div class="prose"><h2>Anatomy</h2>${ANATOMY[key]}</div>
+      <div class="preview-frame"><iframe src="../site/public/preview/${page.preview}"></iframe></div>
+    `;
+  }
+  // Generic preview
+  else if (page.preview) {
+    body = `
+      <div class="preview-frame" style="margin-top:24px"><iframe src="../site/public/preview/${page.preview}"></iframe></div>
+    `;
+  }
+  // Fallback prose for non-preview live pages
+  else {
+    body = `<div class="prose"><p>${escapeHtml(page.blurb)}</p></div>`;
+  }
+
+  return crumbs + header + body + navFooter;
+}
+
+function render() {
+  renderSidebar();
+  const main = document.getElementById('main');
+  const cur = parseHash();
+
+  let html = '';
+  if (cur.kind === 'home') html = renderHome();
+  else if (cur.kind === 'section') {
+    const s = findSection(cur.section);
+    if (s) html = renderSectionIndex(s);
+    else html = renderHome();
+  }
+  else if (cur.kind === 'page') {
+    const s = findSection(cur.section);
+    const p = findPage(cur.section, cur.page);
+    if (s && p) html = renderPage(s, p);
+    else html = renderHome();
+  }
+  main.innerHTML = html;
+  window.scrollTo(0, 0);
+  // After paint, auto-size every preview iframe to its content height
+  requestAnimationFrame(() => {
+    main.querySelectorAll('.preview-frame iframe').forEach(autoSizeIframe);
+  });
+}
+
+function autoSizeIframe(iframe) {
+  const fit = () => {
+    try {
+      const doc = iframe.contentDocument;
+      if (!doc) return;
+      const h = Math.max(
+        doc.documentElement.scrollHeight,
+        doc.body ? doc.body.scrollHeight : 0
+      );
+      if (h > 0) iframe.style.height = h + 'px';
+    } catch (e) { /* cross-origin — leave default */ }
+  };
+  if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+    fit();
+  }
+  iframe.addEventListener('load', () => {
+    fit();
+    // some pages load fonts/images after onload; re-fit a few times
+    setTimeout(fit, 200);
+    setTimeout(fit, 800);
+    // observe size changes if supported
+    try {
+      const ro = new ResizeObserver(fit);
+      ro.observe(iframe.contentDocument.documentElement);
+      if (iframe.contentDocument.body) ro.observe(iframe.contentDocument.body);
+    } catch (e) {}
+  });
+}
+
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', render);
+
+/* ============================================================
+   Search — modal with live filtering across SECTIONS
+   ============================================================ */
+(function initSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const trigger = document.getElementById('search-trigger');
+  const input   = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
+  const results = document.getElementById('search-results');
+  if (!overlay || !trigger || !input || !results) return;
+
+  // Build flat index of all pages
+  const INDEX = SECTIONS.flatMap(s =>
+    s.pages.map(p => ({
+      sectionSlug: s.slug,
+      sectionTitle: s.title,
+      pageSlug: p.slug,
+      title: p.title,
+      blurb: p.blurb,
+      status: p.status,
+      hash: '#' + s.slug + '/' + p.slug,
+      hayLow: (p.title + ' ' + p.blurb + ' ' + s.title + ' ' + (p.keywords || '')).toLowerCase(),
+    }))
+  );
+
+  let activeIdx = 0;
+
+  function escapeRegExp(str) { return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function highlight(text, q) {
+    if (!q) return escapeHtml(text);
+    const re = new RegExp('(' + escapeRegExp(q) + ')', 'ig');
+    return escapeHtml(text).replace(re, '<mark>$1</mark>');
+  }
+
+  function search(q) {
+    const query = q.trim().toLowerCase();
+    if (!query) {
+      results.dataset.state = 'empty';
+      results.innerHTML = '<div class="search-empty">Start typing to search.</div>';
+      return [];
+    }
+    const tokens = query.split(/\s+/).filter(Boolean);
+    const matches = INDEX
+      .map(item => {
+        let score = 0;
+        for (const t of tokens) {
+          if (item.title.toLowerCase().includes(t)) score += 10;
+          if (item.sectionTitle.toLowerCase().includes(t)) score += 4;
+          if (item.blurb.toLowerCase().includes(t)) score += 2;
+          if (!item.hayLow.includes(t)) return null; // every token must match
+        }
+        return { item, score };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 12)
+      .map(x => x.item);
+    return matches;
+  }
+
+  function renderResults(q) {
+    const matches = search(q);
+    if (!q.trim()) return;
+    if (matches.length === 0) {
+      results.dataset.state = 'no-results';
+      results.innerHTML = `<div class="search-no-results">No results for "${escapeHtml(q)}".</div>`;
+      activeIdx = 0;
+      return;
+    }
+    results.dataset.state = 'results';
+    activeIdx = 0;
+    const html = matches.map((m, i) => `
+      <a class="search-result${i === 0 ? ' is-active' : ''}" href="${m.hash}" data-idx="${i}" data-hash="${m.hash}">
+        <div class="search-result-eyebrow">${escapeHtml(m.sectionTitle)}</div>
+        <div class="search-result-title">${highlight(m.title, q)}${m.status === 'shell' ? '<span class="badge-soon">Soon</span>' : ''}</div>
+        <div class="search-result-blurb">${highlight(m.blurb, q)}</div>
+      </a>
+    `).join('');
+    results.innerHTML = html;
+  }
+
+  function setActive(newIdx) {
+    const items = results.querySelectorAll('.search-result');
+    if (items.length === 0) return;
+    activeIdx = ((newIdx % items.length) + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle('is-active', i === activeIdx));
+    items[activeIdx].scrollIntoView({ block: 'nearest' });
+  }
+
+  function openSearch() {
+    overlay.hidden = false;
+    document.body.classList.add('search-open');
+    setTimeout(() => input.focus(), 30);
+  }
+  function closeSearch() {
+    overlay.hidden = true;
+    document.body.classList.remove('search-open');
+    input.value = '';
+    clearBtn.hidden = true;
+    results.dataset.state = 'empty';
+    results.innerHTML = '<div class="search-empty">Start typing to search.</div>';
+    activeIdx = 0;
+  }
+
+  trigger.addEventListener('click', openSearch);
+  overlay.addEventListener('click', e => {
+    if (e.target.closest('[data-search-close]') || e.target.classList.contains('search-backdrop')) {
+      closeSearch();
+    }
+  });
+
+  input.addEventListener('input', () => {
+    clearBtn.hidden = input.value.length === 0;
+    renderResults(input.value);
+  });
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    clearBtn.hidden = true;
+    input.focus();
+    renderResults('');
+  });
+
+  // Keyboard navigation
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIdx + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(activeIdx - 1); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      const items = results.querySelectorAll('.search-result');
+      const target = items[activeIdx];
+      if (target) {
+        const hash = target.dataset.hash;
+        closeSearch();
+        location.hash = hash;
+      }
+    }
+  });
+
+  // Click result
+  results.addEventListener('click', e => {
+    const link = e.target.closest('.search-result');
+    if (!link) return;
+    e.preventDefault();
+    const hash = link.dataset.hash;
+    closeSearch();
+    location.hash = hash;
+  });
+
+  // Hover sets active
+  results.addEventListener('mouseover', e => {
+    const link = e.target.closest('.search-result');
+    if (!link) return;
+    const idx = parseInt(link.dataset.idx, 10);
+    if (!isNaN(idx)) setActive(idx);
+  });
+
+  // Global shortcuts: ⌘K / Ctrl+K opens, Esc closes
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      if (overlay.hidden) openSearch(); else closeSearch();
+    } else if (e.key === 'Escape' && !overlay.hidden) {
+      e.preventDefault();
+      closeSearch();
+    }
+  });
+})();
+
+/* ============================================================
+   Sidebar rail collapse/expand
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  const shell = document.querySelector('.site-shell');
+  const collapseBtn = document.getElementById('sidebar-rail-toggle');
+  const expandBtn = document.getElementById('sidebar-rail-expand');
+  if (!shell || !collapseBtn || !expandBtn) return;
+
+  // Restore from localStorage
+  if (localStorage.getItem('dwds.sidebar.rail') === 'collapsed') {
+    shell.classList.add('is-rail-collapsed');
+  }
+  function setCollapsed(v) {
+    shell.classList.toggle('is-rail-collapsed', v);
+    localStorage.setItem('dwds.sidebar.rail', v ? 'collapsed' : 'expanded');
+  }
+  collapseBtn.addEventListener('click', () => setCollapsed(true));
+  expandBtn.addEventListener('click', () => setCollapsed(false));
+
+  // Keep the floating expand button aligned just below the topbar.
+  // mock-banner is 34px tall and scrolls with the page (NOT sticky).
+  // topbar is sticky top:0 → it sticks once banner scrolls past.
+  // → button-y = max(76, 34 + 64 + 12 - scrollY) = max(76, 110 - scrollY)
+  function updateExpandPos() {
+    const y = Math.max(76, 110 - window.scrollY);
+    expandBtn.style.top = y + 'px';
+  }
+  window.addEventListener('scroll', updateExpandPos, { passive: true });
+  updateExpandPos();
+});
+</script>
+
+</body>
+</html>

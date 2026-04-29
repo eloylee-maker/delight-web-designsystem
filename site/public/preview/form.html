@@ -1,173 +1,699 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"/>
-<meta name="color-scheme" content="light"/>
-<title>Form</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><title>Form</title>
 <link rel="stylesheet" href="../colors_and_type.css"/>
 <style>
-  body { margin:0; padding:40px; background:#FFF; color:var(--text); font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; }
-  h1 { font-family:'Serrif',serif; font-weight:500; font-size:28px; margin:0 0 4px; }
-  .sub { font-size:14px; color:var(--text-muted); margin:0 0 28px; max-width:760px; line-height:1.5; }
-  .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:28px 0 12px; }
-  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; padding:24px; background:var(--bg-subtle,#F7F5F0); border-radius:12px; }
-  .full { grid-column: 1 / -1; }
+  body{margin:0;padding:0;background:#FFF;color:var(--text);font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.02em}
 
-  .field { display:flex; flex-direction:column; gap:6px; }
-  label { font-size:13px; color:var(--text); }
-  .req { color:#FF5E69; }
-
-  input[type=text], input[type=email], input[type=tel], textarea, select {
-    width:100%; height:40px; padding:0 16px;
-    font-family:'Helvetica Now Text',sans-serif; font-size:14px; letter-spacing:-.02em;
-    background:#FFF; border:1px solid #E0DAD2; border-radius:8px; outline:none; color:var(--text);
-    transition:border-color .15s;
+  /* Group title */
+  .grp-title{
+    font-family:'Helvetica Now Text',sans-serif;
+    font-size:24px;font-weight:600;color:var(--text);
+    letter-spacing:-.02em;margin:48px 0 14px;padding-bottom:14px;
+    border-bottom:1px solid var(--border);
   }
-  textarea { height:auto; min-height:96px; padding:10px 16px; resize:vertical; line-height:1.5; }
-  select { padding-right:36px; cursor:pointer; appearance:none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1l5 5 5-5' stroke='%236B6258' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    background-repeat:no-repeat; background-position: right 14px center;
+  .grp-title:first-child{margin-top:0}
+  .grp-title .grp-sub{font-size:14px;font-weight:400;color:var(--text-muted);letter-spacing:-.01em;margin-left:10px}
+
+  .body-text{font-size:14px;color:var(--text-muted);line-height:1.5;margin:0 0 18px;max-width:780px}
+
+  /* ============ FORM FIELD ============ */
+  .field{display:flex;flex-direction:column;gap:6px;width:240px}
+  .field-label{
+    font-family:'Helvetica Now Text',sans-serif;font-size:13px;font-weight:400;
+    color:#7A7E91;letter-spacing:-.02em;line-height:1.38;
   }
-  input::placeholder, textarea::placeholder { color:#9E9890; }
-  input:focus, textarea:focus, select:focus { border-color:#000; }
-  .err input, .err textarea, .err select { border-color:#FF5E69; }
-  .err-msg { display:flex; align-items:center; gap:4px; font-size:12px; color:#FF5E69; }
-  .help { font-size:12px; color:var(--text-dim); }
+  .field-label .req{color:#FF5E69;margin-left:2px}
 
-  /* Phone combo */
-  .combo { display:flex; align-items:stretch; border:1px solid #E0DAD2; border-radius:8px; overflow:hidden; background:#FFF; }
-  .combo:focus-within { border-color:#000; }
-  .combo select { border:none; height:40px; width:auto; padding:0 28px 0 12px; background-color:transparent; }
-  .combo .div { width:1px; background:#E0DAD2; }
-  .combo input { border:none; height:40px; }
+  /* Input — base */
+  .input{
+    height:40px;border:1px solid #D3D6E3;border-radius:8px;background:#FFF;
+    padding:8px 16px;font-family:'Helvetica Now Text',sans-serif;font-size:14px;
+    color:var(--text);letter-spacing:-.02em;outline:none;transition:border-color .12s,background .12s;
+    box-sizing:border-box;width:100%;
+  }
+  .input::placeholder{color:#9194A8}
+  .input:hover{border-color:#7A7E91}
+  .input:focus{border-color:#000}
+  .input.is-typing{border-color:#000}
+  .input:disabled, .input.is-disabled{
+    background:#F2F3F7;color:#9194A8;border-color:#D3D6E3;cursor:not-allowed;
+  }
+  .input.is-error{border-color:#FF5E69}
 
-  /* Checkbox / radio */
-  .opt { display:flex; align-items:center; gap:8px; cursor:pointer; }
-  .opt input { position:absolute; opacity:0; }
-  .box { width:20px; height:20px; border:1.5px solid #E0DAD2; background:#FFF; border-radius:4px; display:inline-flex; align-items:center; justify-content:center; transition:.15s; }
-  .opt input[type=radio] + .box { border-radius:50%; }
-  .opt input:checked + .box { background:#000; border-color:#000; }
-  .opt input[type=radio]:checked + .box { background:#FFF; border-width:2px; }
-  .opt input[type=radio]:checked + .box::after { content:''; width:10px; height:10px; border-radius:50%; background:#000; }
-  .opt input[type=checkbox]:checked + .box::after { content:''; width:5px; height:9px; border:2px solid #FFF; border-top:none; border-left:none; transform:rotate(45deg) translateY(-1px); }
-  .opt-text { font-size:14px; }
+  /* Checking — green check icon on the right */
+  .input-wrap{position:relative}
+  .input-wrap .check-icon{
+    position:absolute;right:14px;top:50%;transform:translateY(-50%);
+    width:16px;height:16px;color:#25BD85;pointer-events:none;
+  }
+  .input-wrap.is-checking .input{padding-right:38px}
 
-  /* Submit row */
-  .actions { display:flex; gap:8px; justify-content:flex-end; padding-top:8px; }
-  .btn { font-family:'Helvetica Now Text',sans-serif; height:44px; padding:0 22px; border-radius:999px; font-size:16px; font-weight:500; letter-spacing:-.02em; cursor:pointer; }
-  .btn-primary { background:#18140F; color:#FFF; border:none; }
-  .btn-secondary { background:#FFF; color:#18140F; border:1px solid #18140F; }
-</style>
-</head>
-<body>
+  /* Alert message */
+  .field-alert{
+    display:flex;align-items:center;gap:4px;
+    font-family:'Helvetica Now Text',sans-serif;font-size:12px;
+    color:#FF5E69;letter-spacing:-.02em;line-height:1.4;
+  }
+  .field-alert svg{width:12px;height:12px;flex-shrink:0}
 
-<h1>Form</h1>
-<p class="sub">8px-radius inputs with hairline borders. Black focus ring (no shadow). Required fields marked with a coral asterisk; errors use coral-red <code>#FF5E69</code>.</p>
+  /* Select wrapper — replicates input look + chevron */
+  .select{
+    position:relative;height:40px;border:1px solid #D3D6E3;border-radius:8px;background:#FFF;
+    padding:8px 36px 8px 16px;font-family:'Helvetica Now Text',sans-serif;font-size:14px;
+    color:var(--text);letter-spacing:-.02em;cursor:pointer;
+    display:flex;align-items:center;transition:border-color .12s;
+    user-select:none;box-sizing:border-box;width:100%;
+  }
+  .select.placeholder{color:#9194A8}
+  .select:hover{border-color:#7A7E91}
+  .select.is-active, .select.is-focus{border-color:#000}
+  .select.is-disabled{background:#F2F3F7;color:#9194A8;border-color:#D3D6E3;cursor:not-allowed}
+  .select.is-error{border-color:#FF5E69}
+  .select .chev{
+    position:absolute;right:16px;top:50%;transform:translateY(-50%);
+    width:14px;height:14px;color:#7A7E91;transition:transform .15s;
+  }
+  .select.is-active .chev{transform:translateY(-50%) rotate(180deg);color:var(--text)}
 
-<div class="grp-h">Default form</div>
-<form class="grid" onsubmit="return false">
-  <div class="field">
-    <label>First name <span class="req">*</span></label>
-    <input type="text" placeholder="Jane" />
+  /* Phone composite — country + number, two cells touching with shared border */
+  .phone-row{
+    display:flex;height:40px;border:1px solid #D3D6E3;border-radius:8px;background:#FFF;
+    overflow:hidden;transition:border-color .12s;
+  }
+  .phone-row:hover{border-color:#7A7E91}
+  .phone-row.is-focus{border-color:#000}
+  .phone-row.is-disabled{background:#F2F3F7;border-color:#D3D6E3;cursor:not-allowed}
+  .phone-row.is-error{border-color:#FF5E69}
+  .phone-cc{
+    display:flex;align-items:center;gap:4px;padding:0 12px;
+    border-right:1px solid #D3D6E3;cursor:pointer;
+    font-family:'Helvetica Now Text',sans-serif;font-size:14px;color:var(--text);letter-spacing:-.02em;
+    flex-shrink:0;
+  }
+  .phone-cc .flag{width:16px;height:12px;border-radius:2px;background:#FF5E69;display:inline-flex;align-items:center;justify-content:center;color:#FFF;font-size:9px;font-weight:600}
+  .phone-cc .chev{width:12px;height:12px;color:#7A7E91;margin-left:2px}
+  .phone-num{
+    flex:1;height:100%;border:0;padding:0 16px;background:transparent;outline:none;
+    font-family:'Helvetica Now Text',sans-serif;font-size:14px;color:var(--text);letter-spacing:-.02em;
+  }
+  .phone-num::placeholder{color:#9194A8}
+  .phone-row.is-disabled .phone-num{color:#9194A8;cursor:not-allowed}
+  .phone-row.is-disabled .phone-cc{color:#9194A8;cursor:not-allowed}
+  .phone-row .check-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#25BD85;pointer-events:none}
+
+  /* ============ STATE MATRIX TABLE ============ */
+  .matrix{
+    display:grid;grid-template-columns:80px repeat(3, 1fr);gap:0;
+    border:1px solid var(--border);border-radius:8px;overflow:hidden;
+    background:#FFF;margin:0 0 36px;
+  }
+  .matrix .col-head{
+    background:var(--bg-subtle);
+    padding:14px 20px;font-size:13px;font-weight:500;color:var(--text);
+    border-bottom:1px solid var(--border);
+  }
+  .matrix .row-head{
+    padding:24px 20px;font-size:12px;font-weight:500;color:var(--text-muted);
+    text-transform:uppercase;letter-spacing:.06em;
+    border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+    display:flex;align-items:center;
+  }
+  .matrix .cell{
+    padding:24px 20px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+    display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;
+  }
+  .matrix .cell:nth-child(4n){border-right:0}
+  .matrix .row-last .cell, .matrix .row-last .row-head{border-bottom:0}
+
+  /* For Active row, allow cells to grow tall to accommodate dropdown panel */
+  .cell-tall{align-items:flex-start}
+
+  /* ============ DROPDOWN PANELS ============ */
+  .dd-panel{
+    position:relative;width:100%;
+    background:#FFF;border:1px solid #D3D6E3;border-radius:8px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.06);
+    padding:6px 0;margin-top:6px;
+  }
+  .dd-item{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 16px;font-family:'Helvetica Now Text',sans-serif;font-size:14px;
+    color:var(--text);letter-spacing:-.02em;cursor:pointer;
+    transition:background .12s;
+  }
+  .dd-item:hover{background:#F2F3F7}
+  .dd-item.is-selected{background:#F2F3F7}
+  .dd-item .icon{width:16px;height:16px;color:#7A7E91;flex-shrink:0}
+
+  /* Search input inside dropdown */
+  .dd-search{
+    display:flex;align-items:center;gap:8px;padding:8px 14px;
+    border-bottom:1px solid #E3E5EF;margin-bottom:4px;
+  }
+  .dd-search svg{width:14px;height:14px;color:#7A7E91;flex-shrink:0}
+  .dd-search input{
+    flex:1;border:0;outline:0;font-family:'Helvetica Now Text',sans-serif;font-size:13px;
+    color:var(--text);letter-spacing:-.02em;background:transparent;
+  }
+  .dd-search input::placeholder{color:#9194A8}
+
+  /* Radio + Checkbox controls — SVG icons (20×20) */
+  .ctrl{
+    width:20px;height:20px;flex-shrink:0;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .ctrl svg{display:block;width:20px;height:20px}
+  /* Default state shown by default; selected state hidden */
+  .ctrl .ctrl-on{display:none}
+  /* When item is selected (in dropdown or via preview class), swap */
+  .dd-item.is-selected .ctrl .ctrl-off,
+  .ctrl.is-selected-preview .ctrl-off{display:none}
+  .dd-item.is-selected .ctrl .ctrl-on,
+  .ctrl.is-selected-preview .ctrl-on{display:block}
+
+  /* ============ CONTROLS LIBRARY ============ */
+  .ctrl-grid{
+    display:grid;grid-template-columns:repeat(4, max-content);gap:32px 56px;
+    margin:0 0 36px;
+  }
+  .ctrl-cell{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+  .ctrl-cell .ctrl-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+  .ctrl-row{display:flex;gap:16px;align-items:center}
+
+  /* Standalone interactive radio + checkbox demos */
+  .demo-list{display:flex;flex-direction:column;gap:10px;width:240px;margin:0 0 36px}
+  .demo-list .ctrl-line{
+    display:flex;align-items:center;gap:10px;cursor:pointer;
+    font-family:'Helvetica Now Text',sans-serif;font-size:14px;color:var(--text);letter-spacing:-.02em;
+  }
+  .demo-list .ctrl-line:hover .ctrl-radio,
+  .demo-list .ctrl-line:hover .ctrl-check{border-color:#7A7E91}
+
+  /* Toggle (additional, derived from spec) */
+  .toggle{
+    width:36px;height:20px;border-radius:100px;background:#D3D6E3;
+    position:relative;cursor:pointer;transition:background .15s;flex-shrink:0;
+  }
+  .toggle::after{
+    content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;
+    border-radius:100px;background:#FFF;transition:left .15s;
+    box-shadow:0 1px 2px rgba(0,0,0,.15);
+  }
+  .toggle.is-on{background:#000}
+  .toggle.is-on::after{left:18px}
+  .toggle.is-disabled{background:#E3E5EF;cursor:not-allowed}
+
+</style></head><body>
+
+<!-- ============ Overview ============ -->
+<h2 class="grp-title">Form fields<span class="grp-sub">PC — labels above, 40px input, 8px radius</span></h2>
+<p class="body-text">Forms anchor every conversion surface — Hero lead form, Contact sales, Newsletter. Each field is 40px tall with an 8px corner radius and a 13px label above. Borders are <strong>1px</strong> in every state; only the color changes. Required fields take a red asterisk; alert messages are 12px and live below the input.</p>
+
+<!-- ============ STATE × TYPE MATRIX ============ -->
+<h2 class="grp-title">State × Type matrix<span class="grp-sub">7 states × 3 types — every combination from the design source</span></h2>
+
+<div class="matrix">
+  <div class="col-head"></div>
+  <div class="col-head">Text</div>
+  <div class="col-head">Select</div>
+  <div class="col-head">Select + Text</div>
+
+  <!-- ── NORMAL ─────────────────────────── -->
+  <div class="row-head">Normal</div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <input type="text" class="input" placeholder="Place holder">
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <input type="text" class="input" placeholder="Place holder">
+    </div>
   </div>
-  <div class="field">
-    <label>Last name <span class="req">*</span></label>
-    <input type="text" placeholder="Doe" />
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="select placeholder" data-state="normal">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="select placeholder" data-state="normal">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+    </div>
   </div>
-
-  <div class="field">
-    <label>Work email <span class="req">*</span></label>
-    <input type="email" placeholder="jane@company.com" />
-  </div>
-  <div class="field">
-    <label>Phone</label>
-    <div class="combo">
-      <select><option>+1 US</option><option>+44 UK</option><option>+82 KR</option><option>+81 JP</option></select>
-      <div class="div"></div>
-      <input type="tel" placeholder="Phone number" />
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="phone-row">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder">
+      </div>
     </div>
   </div>
 
-  <div class="field">
-    <label>Company size</label>
-    <select>
-      <option>Select…</option>
-      <option>1–50</option>
-      <option>51–200</option>
-      <option>201–1,000</option>
-      <option>1,001+</option>
-    </select>
+  <!-- ── FOCUS ─────────────────────────── -->
+  <div class="row-head">Focus</div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <input type="text" class="input is-typing" placeholder="Place name">
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <input type="text" class="input is-typing" placeholder="Place name">
+    </div>
   </div>
-  <div class="field">
-    <label>Industry</label>
-    <select>
-      <option>Select…</option>
-      <option>Retail</option>
-      <option>Travel & hospitality</option>
-      <option>Healthcare</option>
-      <option>On-demand</option>
-    </select>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="select is-focus placeholder">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="select is-focus placeholder">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row is-focus">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place name">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="phone-row is-focus">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place name">
+      </div>
+    </div>
   </div>
 
-  <div class="field full">
-    <label>What are you trying to solve?</label>
-    <textarea placeholder="Tell us a little about your use case…"></textarea>
+  <!-- ── TYPING ─────────────────────────── -->
+  <div class="row-head">Typing</div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <input type="text" class="input is-typing" value="Typing">
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <input type="text" class="input is-typing" value="Typing">
+    </div>
+  </div>
+  <div class="cell">
+    <span style="font-size:12px;color:var(--text-dim);align-self:center">— Select fields don't have a typing state.</span>
+  </div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row is-focus">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" value="01027036525">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="phone-row is-focus">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" value="01027036525">
+      </div>
+    </div>
   </div>
 
-  <div class="field full">
-    <label class="opt">
-      <input type="checkbox" checked /><span class="box"></span>
-      <span class="opt-text">I agree to the privacy policy</span>
-    </label>
+  <!-- ── DISABLED ─────────────────────────── -->
+  <div class="row-head">Disabled</div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <input type="text" class="input is-disabled" placeholder="Disabled" disabled>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <input type="text" class="input is-disabled" placeholder="Disabled" disabled>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="select is-disabled placeholder">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="select is-disabled placeholder">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row is-disabled">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder" disabled>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="phone-row is-disabled">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder" disabled>
+      </div>
+    </div>
   </div>
 
-  <div class="actions full">
-    <button class="btn btn-secondary" type="button">Cancel</button>
-    <button class="btn btn-primary" type="submit">Submit</button>
+  <!-- ── CHECKING ─────────────────────────── -->
+  <div class="row-head">Checking</div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="input-wrap is-checking">
+        <input type="text" class="input" value="Validation check">
+        <svg class="check-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="input-wrap is-checking">
+        <input type="text" class="input" value="Validation check">
+        <svg class="check-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+      </div>
+    </div>
   </div>
-</form>
+  <div class="cell">
+    <span style="font-size:12px;color:var(--text-dim);align-self:center">— Selects show checking via the value chip itself.</span>
+  </div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row" style="position:relative;padding-right:38px">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" value="01027036525">
+        <svg class="check-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="phone-row" style="position:relative;padding-right:38px">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg>
+</div>
+        <input type="tel" class="phone-num" value="01027036525">
+        <svg class="check-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+      </div>
+    </div>
+  </div>
 
-<div class="grp-h">States</div>
-<div class="grid">
-  <div class="field">
-    <label>Default</label>
-    <input type="text" placeholder="Placeholder" />
+  <!-- ── ALERT ─────────────────────────── -->
+  <div class="row-head">Alert</div>
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <input type="text" class="input is-error" value="Negative alerts">
+      <span class="field-alert">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 4v3M6 8.5v.01"/></svg>
+        Negative alerts message
+      </span>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <input type="text" class="input is-error" value="Negative alerts">
+      <span class="field-alert">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 4v3M6 8.5v.01"/></svg>
+        Negative alerts message
+      </span>
+    </div>
   </div>
-  <div class="field">
-    <label>Filled</label>
-    <input type="text" value="Acme Corp" />
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="select is-error placeholder">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+      <span class="field-alert">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 4v3M6 8.5v.01"/></svg>
+        Negative alerts message
+      </span>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="select is-error placeholder">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+      <span class="field-alert">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 4v3M6 8.5v.01"/></svg>
+        Negative alerts message
+      </span>
+    </div>
   </div>
-  <div class="field">
-    <label>Focus</label>
-    <input type="text" value="Focused" style="border-color:#000" />
+  <div class="cell">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row is-error">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder">
+      </div>
+      <span class="field-alert">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 4v3M6 8.5v.01"/></svg>
+        Negative alerts message
+      </span>
+    </div>
+    <div class="field">
+      <label class="field-label">Label <span class="req">*</span></label>
+      <div class="phone-row is-error">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder">
+      </div>
+      <span class="field-alert">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 4v3M6 8.5v.01"/></svg>
+        Negative alerts message
+      </span>
+    </div>
   </div>
-  <div class="field err">
-    <label>Error <span class="req">*</span></label>
-    <input type="text" value="" />
-    <span class="err-msg">⚠ This field is required</span>
+
+  <!-- ── ACTIVE (Dropdowns open) ─────────────────────────── -->
+  <div class="row-head row-last-spec">Active</div>
+  <div class="cell cell-tall row-last-spec">
+    <span style="font-size:12px;color:var(--text-dim);align-self:center">— Text inputs don't open dropdowns.</span>
   </div>
-  <div class="field">
-    <label>Disabled</label>
-    <input type="text" value="Disabled" disabled style="background:#F0EDE6;color:#9E9890" />
+  <div class="cell cell-tall row-last-spec" style="flex-direction:column;align-items:stretch">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="select is-active">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+      <div class="dd-panel">
+        <div class="dd-item">Value name 1</div>
+        <div class="dd-item">Value name 2</div>
+        <div class="dd-item is-selected">Value name 3</div>
+        <div class="dd-item">Value name 4</div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label class="field-label">Label</label>
+      <div class="select is-active"><span style="display:inline-flex;align-items:center;gap:6px"><span class="ctrl ctrl-radio" style="width:14px;height:14px"></span>Value name 1</span><svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+      <div class="dd-panel">
+        <div class="dd-item"><span class="ctrl ctrl-radio"></span>Value name 1</div>
+        <div class="dd-item"><span class="ctrl ctrl-radio"></span>Value name 2</div>
+        <div class="dd-item is-selected"><span class="ctrl ctrl-radio"></span>Value name 3</div>
+        <div class="dd-item"><span class="ctrl ctrl-radio"></span>Value name 4</div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label class="field-label">Label</label>
+      <div class="select is-active">Value name 1<svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+      <div class="dd-panel">
+        <div class="dd-item"><span class="ctrl ctrl-check"></span>Value name 1</div>
+        <div class="dd-item"><span class="ctrl ctrl-check"></span>Value name 2</div>
+        <div class="dd-item is-selected"><span class="ctrl ctrl-check"></span>Value name 3</div>
+        <div class="dd-item"><span class="ctrl ctrl-check"></span>Value name 4</div>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <label>With help text</label>
-    <input type="text" placeholder="Optional" />
-    <span class="help">We'll only use this to verify your account.</span>
+  <div class="cell cell-tall row-last-spec" style="flex-direction:column;align-items:stretch">
+    <div class="field">
+      <label class="field-label">Label</label>
+      <div class="phone-row is-focus">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder">
+      </div>
+      <div class="dd-panel">
+        <div class="dd-search">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4.5"/><path d="m12.5 12.5-3-3"/></svg>
+          <input type="search" placeholder="Search">
+        </div>
+        <div class="dd-item">Seoul, South Korea</div>
+        <div class="dd-item">Seoul, South Korea</div>
+        <div class="dd-item is-selected">Seoul, South Korea</div>
+        <div class="dd-item">Seoul, South Korea</div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label class="field-label">Label</label>
+      <div class="phone-row is-focus">
+        <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+        <input type="tel" class="phone-num" placeholder="Place holder">
+      </div>
+      <div class="dd-panel">
+        <div class="dd-search">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4.5"/><path d="m12.5 12.5-3-3"/></svg>
+          <input type="search" placeholder="Search">
+        </div>
+        <div class="dd-item"><span class="ctrl ctrl-check"></span>Seoul, South Korea</div>
+        <div class="dd-item"><span class="ctrl ctrl-check"></span>Seoul, South Korea</div>
+        <div class="dd-item is-selected"><span class="ctrl ctrl-check"></span>Seoul, South Korea</div>
+        <div class="dd-item"><span class="ctrl ctrl-check"></span>Seoul, South Korea</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="grp-h">Choices</div>
-<div class="grid">
-  <div class="field">
-    <label>Checkboxes</label>
-    <label class="opt"><input type="checkbox" checked /><span class="box"></span><span class="opt-text">Email me product updates</span></label>
-    <label class="opt"><input type="checkbox" /><span class="box"></span><span class="opt-text">Subscribe to newsletter</span></label>
+<!-- ============ Radio / Checkbox library ============ -->
+<h2 class="grp-title">Radio &amp; Checkbox<span class="grp-sub">20×20 — black filled when selected</span></h2>
+<p class="body-text">Both controls share the same footprint and border treatment. Default is a 1px gray border on white; selected fills with black and shows a white indicator (dot for radio, checkmark for checkbox). Hover thickens the border to <code>#7A7E91</code>.</p>
+
+<div class="ctrl-grid">
+  <div class="ctrl-cell">
+    <span class="ctrl-label">Radio · default</span>
+    <span class="ctrl-radio"></span>
   </div>
-  <div class="field">
-    <label>Radios</label>
-    <label class="opt"><input type="radio" name="r" checked /><span class="box"></span><span class="opt-text">Self-hosted</span></label>
-    <label class="opt"><input type="radio" name="r" /><span class="box"></span><span class="opt-text">Cloud</span></label>
-    <label class="opt"><input type="radio" name="r" /><span class="box"></span><span class="opt-text">Hybrid</span></label>
+  <div class="ctrl-cell">
+    <span class="ctrl-label">Radio · selected</span>
+    <span class="ctrl-radio is-selected-preview"></span>
+  </div>
+  <div class="ctrl-cell">
+    <span class="ctrl-label">Checkbox · default</span>
+    <span class="ctrl-check"></span>
+  </div>
+  <div class="ctrl-cell">
+    <span class="ctrl-label">Checkbox · selected</span>
+    <span class="ctrl-check is-selected-preview"></span>
   </div>
 </div>
+
+<h3 style="font-size:14px;font-weight:500;margin:0 0 12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em">Try them — click to toggle</h3>
+<div style="display:flex;gap:48px;margin:0 0 36px">
+  <div class="demo-list" id="radio-demo">
+    <label class="ctrl-line"><span class="ctrl-radio" data-radio="1"></span>Email me weekly digest</label>
+    <label class="ctrl-line"><span class="ctrl-radio" data-radio="2"></span>Email me only when there's news</label>
+    <label class="ctrl-line"><span class="ctrl-radio" data-radio="3"></span>Don't email me</label>
+  </div>
+  <div class="demo-list" id="check-demo">
+    <label class="ctrl-line"><span class="ctrl-check" data-check></span>I agree to the Privacy notice</label>
+    <label class="ctrl-line"><span class="ctrl-check" data-check></span>Sign me up for product updates</label>
+    <label class="ctrl-line"><span class="ctrl-check" data-check></span>Send me partner offers (optional)</label>
+  </div>
+</div>
+
+<!-- ============ Toggle ============ -->
+<h2 class="grp-title">Toggle<span class="grp-sub">36×20 — for binary on/off settings</span></h2>
+<p class="body-text">Use a toggle for instant-effect binary settings (notifications, dark mode, marketing opt-in). For checkboxes that submit on form submit, use the Checkbox above.</p>
+<div style="display:flex;gap:32px;align-items:center;margin:0 0 48px;flex-wrap:wrap">
+  <div style="display:flex;gap:12px;align-items:center">
+    <span class="toggle" data-toggle></span>
+    <span style="font-size:14px;color:var(--text)">Off (default)</span>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <span class="toggle is-on" data-toggle></span>
+    <span style="font-size:14px;color:var(--text)">On</span>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <span class="toggle is-disabled"></span>
+    <span style="font-size:14px;color:var(--text-muted)">Disabled</span>
+  </div>
+</div>
+
+<!-- ============ Interactive demos for state changes ============ -->
+<h2 class="grp-title">Interactive — hover, focus, type<span class="grp-sub">click into a field and watch the border</span></h2>
+<p class="body-text">Borders go from <code>#D3D6E3</code> (default) → <code>#7A7E91</code> (hover) → <code>#000</code> (focus/typing). Selects open with a 6px gap dropdown panel. The chevron rotates 180° when active.</p>
+
+<div style="display:flex;gap:24px;flex-wrap:wrap;margin:0 0 48px">
+  <div class="field">
+    <label class="field-label">First name <span class="req">*</span></label>
+    <input type="text" class="input" placeholder="Jane">
+  </div>
+  <div class="field">
+    <label class="field-label">Country</label>
+    <div class="select placeholder" data-select>
+      <span data-select-value>Select country</span>
+      <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg>
+      <div class="dd-panel" data-select-panel style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:5">
+        <div class="dd-item" data-val="South Korea">South Korea</div>
+        <div class="dd-item" data-val="United States">United States</div>
+        <div class="dd-item" data-val="Japan">Japan</div>
+        <div class="dd-item" data-val="Singapore">Singapore</div>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="field-label">Phone</label>
+    <div class="phone-row">
+      <div class="phone-cc"><span class="flag">KR</span> +82 <svg class="chev" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></div>
+      <input type="tel" class="phone-num" placeholder="010-0000-0000">
+    </div>
+  </div>
+</div>
+
+<script>
+  // SVG markup for radio + checkbox states
+  const RADIO_OFF = '<svg class="ctrl-off" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5" y="0.5" width="19" height="19" rx="9.5" fill="white" stroke="#D3D6E3"/><rect x="6" y="6" width="8" height="8" rx="4" fill="#D3D6E3"/></svg>';
+  const RADIO_ON  = '<svg class="ctrl-on"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" rx="10" fill="black"/><rect x="6" y="6" width="8" height="8" rx="4" fill="white"/></svg>';
+  const CHECK_OFF = '<svg class="ctrl-off" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5" y="0.5" width="19" height="19" rx="3.5" fill="white" stroke="#D3D6E3"/><path d="M14.6924 7.03553L9.03554 12.6924L5.50001 9.15685" stroke="#D3D6E3" stroke-width="1.5"/></svg>';
+  const CHECK_ON  = '<svg class="ctrl-on"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" rx="4" fill="black"/><path d="M14.6924 7.03553L9.03554 12.6924L5.50001 9.15685" stroke="white" stroke-width="1.5"/></svg>';
+
+  document.querySelectorAll('.ctrl-radio').forEach(el => {
+    if (!el.querySelector('svg')) el.innerHTML = RADIO_OFF + RADIO_ON;
+  });
+  document.querySelectorAll('.ctrl-check').forEach(el => {
+    if (!el.querySelector('svg')) el.innerHTML = CHECK_OFF + CHECK_ON;
+  });
+
+  // Radio demo — single select
+  document.querySelectorAll('#radio-demo .ctrl-line').forEach(line => {
+    line.addEventListener('click', () => {
+      document.querySelectorAll('#radio-demo .ctrl-radio').forEach(r => {
+        r.classList.remove('is-selected-preview');
+      });
+      line.querySelector('.ctrl-radio').classList.add('is-selected-preview');
+    });
+  });
+
+  // Checkbox demo — multi
+  document.querySelectorAll('#check-demo .ctrl-line').forEach(line => {
+    line.addEventListener('click', () => {
+      line.querySelector('.ctrl-check').classList.toggle('is-selected-preview');
+    });
+  });
+
+  // Toggle demo
+  document.querySelectorAll('[data-toggle]').forEach(t => {
+    t.addEventListener('click', () => {
+      if (t.classList.contains('is-disabled')) return;
+      t.classList.toggle('is-on');
+    });
+  });
+
+  // Select demo
+  document.querySelectorAll('[data-select]').forEach(sel => {
+    const panel = sel.querySelector('[data-select-panel]');
+    const value = sel.querySelector('[data-select-value]');
+    sel.addEventListener('click', e => {
+      if (e.target.closest('.dd-item')) {
+        const item = e.target.closest('.dd-item');
+        value.textContent = item.dataset.val;
+        sel.classList.remove('placeholder');
+        panel.style.display = 'none';
+        sel.classList.remove('is-active');
+        return;
+      }
+      const open = panel.style.display === 'block';
+      panel.style.display = open ? 'none' : 'block';
+      sel.classList.toggle('is-active', !open);
+    });
+    document.addEventListener('click', e => {
+      if (!sel.contains(e.target)) {
+        panel.style.display = 'none';
+        sel.classList.remove('is-active');
+      }
+    });
+  });
+</script>
 
 </body></html>

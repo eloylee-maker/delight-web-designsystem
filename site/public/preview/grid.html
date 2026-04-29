@@ -1,0 +1,219 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="color-scheme" content="light"/><title>Grid</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body{margin:0;padding:0;background:#FFF;color:var(--text);font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.02em}
+
+  /* Group title — eBay-Playbook style */
+  .grp-title{
+    font-family:'Helvetica Now Text',sans-serif;
+    font-size:24px;font-weight:600;color:var(--text);
+    letter-spacing:-.02em;
+    margin:48px 0 14px;padding-bottom:14px;
+    border-bottom:1px solid var(--border);
+  }
+  .grp-title:first-child{margin-top:0}
+  .grp-title .grp-sub{
+    font-size:14px;font-weight:400;color:var(--text-muted);
+    letter-spacing:-.01em;margin-left:10px;
+  }
+
+  /* Spec table */
+  .spec-table{
+    width:100%;border-collapse:collapse;
+    font-family:'Helvetica Now Text',sans-serif;font-size:14px;
+    letter-spacing:-.01em;margin:0 0 28px;
+  }
+  .spec-table thead th{
+    background:var(--bg-subtle);
+    font-weight:500;color:var(--text);font-size:13px;
+    text-align:left;padding:12px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  .spec-table tbody td{
+    padding:14px 16px;border-bottom:1px solid var(--border);
+    vertical-align:middle;color:var(--text);
+  }
+  .spec-table tbody td.label{font-weight:500;width:160px;color:var(--text)}
+  .spec-table tbody td.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;color:var(--text-muted);letter-spacing:0}
+
+  /* Grid demo card — overlay columns over a white surface */
+  .demo{
+    margin:0 0 36px;border:1px solid var(--border);border-radius:8px;
+    background:#FFF;overflow:hidden;
+  }
+  .demo-head{
+    display:flex;align-items:baseline;gap:14px;
+    padding:14px 18px;border-bottom:1px solid var(--border);
+    background:var(--bg-subtle);
+  }
+  .demo-head .h{font-size:14px;font-weight:500;color:var(--text)}
+  .demo-head .sub{font-size:12px;color:var(--text-muted);font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:0}
+
+  .demo-body{position:relative;padding:24px}
+  .demo-canvas{
+    position:relative;margin:0 auto;
+    background:#FFF;
+    border:1px dashed var(--border);
+  }
+  /* Column overlay — purple tint, like Figma's column guide */
+  .demo-cols{
+    position:absolute;inset:0;display:flex;
+    pointer-events:none;
+  }
+  .demo-cols .col{
+    flex:1;background:rgba(123,57,254,0.10);
+    /* Gutter handled by margin-right on each col except last */
+  }
+  .demo-cols .col + .col{margin-left:var(--gutter,16px)}
+  /* Offset wrapper */
+  .demo-cols-wrap{
+    position:absolute;top:0;bottom:0;
+    left:var(--offset,0); right:var(--offset,0);
+    display:flex;
+  }
+  .demo-cols-wrap .col{flex:1;background:rgba(123,57,254,0.10)}
+  .demo-cols-wrap .col + .col{margin-left:var(--gutter,16px)}
+
+  /* Ruler — column count + offset numbers below */
+  .demo-ruler{
+    margin-top:10px;display:flex;justify-content:space-between;
+    font-size:11px;color:var(--text-dim);
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:0;
+  }
+
+  /* Inline numeric callouts */
+  .num-row{display:flex;gap:24px;margin:0 0 18px;flex-wrap:wrap}
+  .num-cell{
+    background:var(--bg-subtle);border:1px solid var(--border);
+    border-radius:8px;padding:10px 14px;min-width:120px;
+  }
+  .num-cell .k{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-weight:500}
+  .num-cell .v{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:14px;color:var(--text)}
+
+  .body-text{font-size:14px;color:var(--text-muted);line-height:1.5;margin:0 0 12px;max-width:720px}
+</style></head><body>
+
+<!-- ============ Overview ============ -->
+<h2 class="grp-title">Grid foundations<span class="grp-sub">canvas, columns, gutter, offset</span></h2>
+<p class="body-text">delight.ai uses a <strong>16-column grid</strong> on PC and a <strong>4-column grid</strong> on mobile. The grid keeps 16px gutters across breakpoints and snaps content to a 1552px max width on PC. Use the columns to align section headers, image bleeds, button rows, and form fields — never eyeball it.</p>
+
+<table class="spec-table">
+  <thead>
+    <tr>
+      <th>Breakpoint</th>
+      <th>Canvas</th>
+      <th>Columns</th>
+      <th>Gutter</th>
+      <th>Offset (L/R)</th>
+      <th>Max content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="label">PC</td><td class="mono">1920px</td><td class="mono">16</td><td class="mono">16px</td><td class="mono">184px</td><td class="mono">1552px</td></tr>
+    <tr><td class="label">Tablet</td><td class="mono">1024px</td><td class="mono">12</td><td class="mono">16px</td><td class="mono">40px</td><td class="mono">944px</td></tr>
+    <tr><td class="label">Mobile</td><td class="mono">375px</td><td class="mono">4</td><td class="mono">16px</td><td class="mono">16px</td><td class="mono">343px</td></tr>
+  </tbody>
+</table>
+
+<!-- ============ PC Grid ============ -->
+<h2 class="grp-title">PC grid<span class="grp-sub">1920 × 16 col × 184 offset</span></h2>
+<div class="num-row">
+  <div class="num-cell"><div class="k">Canvas</div><div class="v">1920px</div></div>
+  <div class="num-cell"><div class="k">Columns</div><div class="v">16</div></div>
+  <div class="num-cell"><div class="k">Gutter</div><div class="v">16px</div></div>
+  <div class="num-cell"><div class="k">Offset</div><div class="v">184px</div></div>
+  <div class="num-cell"><div class="k">Max content</div><div class="v">1552px</div></div>
+</div>
+
+<div class="demo">
+  <div class="demo-head"><span class="h">PC — 1920px / 16 columns</span><span class="sub">offset 184 · gutter 16</span></div>
+  <div class="demo-body">
+    <div class="demo-canvas" style="height:200px;width:100%">
+      <div class="demo-cols-wrap" style="--offset:9.583%;--gutter:0.833%">
+        <!-- 16 cols. Use percentages: offset 184/1920=9.583%, gutter 16/1920=0.833% -->
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      </div>
+    </div>
+    <div class="demo-ruler">
+      <span>← 184 offset</span>
+      <span>16 columns / 16 gutters of 16px</span>
+      <span>184 offset →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Tablet Grid ============ -->
+<h2 class="grp-title">Tablet grid<span class="grp-sub">1024 × 12 col × 40 offset</span></h2>
+<div class="num-row">
+  <div class="num-cell"><div class="k">Canvas</div><div class="v">1024px</div></div>
+  <div class="num-cell"><div class="k">Columns</div><div class="v">12</div></div>
+  <div class="num-cell"><div class="k">Gutter</div><div class="v">16px</div></div>
+  <div class="num-cell"><div class="k">Offset</div><div class="v">40px</div></div>
+  <div class="num-cell"><div class="k">Max content</div><div class="v">944px</div></div>
+</div>
+
+<div class="demo">
+  <div class="demo-head"><span class="h">Tablet — 1024px / 12 columns</span><span class="sub">offset 40 · gutter 16</span></div>
+  <div class="demo-body">
+    <div class="demo-canvas" style="height:160px;width:1024px;max-width:100%">
+      <div class="demo-cols-wrap" style="--offset:3.906%;--gutter:1.563%">
+        <!-- 12 cols. offset 40/1024=3.906%, gutter 16/1024=1.563% -->
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      </div>
+    </div>
+    <div class="demo-ruler">
+      <span>← 40 offset</span>
+      <span>12 columns / 11 gutters of 16px</span>
+      <span>40 offset →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Mobile Grid ============ -->
+<h2 class="grp-title">Mobile grid<span class="grp-sub">375 × 4 col × 16 offset</span></h2>
+<div class="num-row">
+  <div class="num-cell"><div class="k">Canvas</div><div class="v">375px</div></div>
+  <div class="num-cell"><div class="k">Columns</div><div class="v">4</div></div>
+  <div class="num-cell"><div class="k">Gutter</div><div class="v">16px</div></div>
+  <div class="num-cell"><div class="k">Offset</div><div class="v">16px</div></div>
+  <div class="num-cell"><div class="k">Max content</div><div class="v">343px</div></div>
+</div>
+
+<div class="demo">
+  <div class="demo-head"><span class="h">Mobile — 375px / 4 columns</span><span class="sub">offset 16 · gutter 16</span></div>
+  <div class="demo-body">
+    <div class="demo-canvas" style="height:200px;width:375px">
+      <div class="demo-cols-wrap" style="--offset:4.267%;--gutter:4.267%">
+        <!-- 4 cols. offset 16/375=4.267%, gutter 16/375=4.267% -->
+        <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+      </div>
+    </div>
+    <div class="demo-ruler">
+      <span>← 16</span>
+      <span>4 cols / 3 gutters of 16px</span>
+      <span>16 →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Usage rules ============ -->
+<h2 class="grp-title">Usage rules<span class="grp-sub">when to bleed, when to snap</span></h2>
+<table class="spec-table">
+  <thead>
+    <tr><th>Rule</th><th>Detail</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="label">Snap to columns</td><td>Section headers, button rows, form labels, and feature cards must align to the 16-col grid (PC). No sub-column placement.</td></tr>
+    <tr><td class="label">Full-bleed</td><td>Hero images, GNB, and footer can extend to the 1920 canvas edge. Inner content still snaps to 1552 / 16 cols.</td></tr>
+    <tr><td class="label">Span ranges</td><td>PC headlines: 8–10 cols. Body copy: 6–8 cols. Feature cards: 4 cols (×3 across). FAQ: 8 cols centered.</td></tr>
+    <tr><td class="label">Gutter</td><td>Always 16px across breakpoints. Never collapse, never widen.</td></tr>
+    <tr><td class="label">Offset</td><td>PC 184px, Tablet 40px, Mobile 16px. Do not adjust per page — it's a system constant.</td></tr>
+  </tbody>
+</table>
+
+</body></html>

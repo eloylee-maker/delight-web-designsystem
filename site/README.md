@@ -36,6 +36,8 @@ site/
 │   └── PageContent.tsx      Per-page bodies (tokens, anatomy, prose…)
 ├── lib/ia.ts                IA registry — single source of truth for nav
 ├── public/
+│   ├── colors_and_type.css      Root tokens, @font-face, type utilities (used by /preview/*.html)
+│   ├── ui_kits/web/components.css  Component CSS (buttons, tabs, form, footer…)
 │   ├── fonts/               .otf files (Serrif, Helvetica Now Text, Gellix)
 │   ├── assets/              Logos, brand marks
 │   └── preview/             Static HTML previews from the parent repo

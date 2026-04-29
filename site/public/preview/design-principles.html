@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>Design principles</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body{
+    margin:0;padding:48px 0;background:#FFF;color:var(--text);
+    font-family:'Helvetica Now Text',sans-serif;letter-spacing:-.02em;
+  }
+  h1{
+    font-family:'Serrif',serif;font-weight:500;font-size:28px;line-height:1.2;
+    margin:0 0 4px;
+  }
+  .sub{
+    font-size:14px;color:var(--text-muted);margin:0 0 36px;max-width:680px;line-height:1.55;
+  }
+
+  .principles{
+    border-top:1px solid var(--border);
+    margin-top:8px;
+  }
+  .principle{
+    display:flex;align-items:baseline;gap:32px;
+    padding:36px 0 32px;
+    border-bottom:1px solid var(--border);
+  }
+  .p-title{
+    font-family:'Serrif',serif;font-weight:500;
+    font-size:56px;line-height:1.05;letter-spacing:-0.03em;
+    color:var(--text);
+    margin:0;
+    flex-shrink:0;
+  }
+  .p-desc{
+    font-family:'Helvetica Now Text',sans-serif;font-weight:400;
+    font-size:18px;line-height:1.45;letter-spacing:-0.01em;
+    color:var(--text);
+    margin:0;
+    padding-bottom:8px; /* aligns with descender baseline */
+  }
+
+  /* support text below each row — optional second-tier guidance */
+  .p-row{
+    display:grid;grid-template-columns: minmax(360px, 0.9fr) 1fr;
+    gap:48px;
+    padding:36px 0;
+    border-bottom:1px solid var(--border);
+    align-items:end;
+  }
+  .p-row:first-of-type{border-top:1px solid var(--border)}
+  .p-row .p-title{font-size:56px;line-height:1.05;margin:0}
+  .p-row .p-meta{
+    padding-bottom:12px;
+  }
+  .p-row .p-desc{font-size:18px;line-height:1.45;font-weight:500;margin:0 0 6px}
+  .p-row .p-detail{
+    font-size:14px;line-height:1.6;color:var(--text-muted);margin:0;max-width:560px;
+  }
+</style>
+</head><body>
+
+<h1>Design principles</h1>
+<p class="sub">Four tenets that guide every visual and interaction decision in DWDS. Used to settle trade-offs and keep the brand consistent across surfaces.</p>
+
+<div class="principles">
+
+  <div class="p-row">
+    <h2 class="p-title">Human-centric</h2>
+    <div class="p-meta">
+      <p class="p-desc">People-first, empathetic design.</p>
+      <p class="p-detail">Decisions begin with the person on the other side of the screen — what they're trying to do, what they're worried about, what would make them feel seen. Empathy outranks elegance.</p>
+    </div>
+  </div>
+
+  <div class="p-row">
+    <h2 class="p-title">Clear</h2>
+    <div class="p-meta">
+      <p class="p-desc">Confident, simple, and intuitive communication.</p>
+      <p class="p-detail">Plain words, generous whitespace, and a single point of focus per screen. We earn the user's attention by saying less and saying it precisely.</p>
+    </div>
+  </div>
+
+  <div class="p-row">
+    <h2 class="p-title">Balanced</h2>
+    <div class="p-meta">
+      <p class="p-desc">Harmony between function and emotion.</p>
+      <p class="p-detail">Function comes first, but it is never alone. Type, color, and motion are tuned so the system feels considered, not clinical — useful, but with warmth.</p>
+    </div>
+  </div>
+
+  <div class="p-row">
+    <h2 class="p-title">Delightful</h2>
+    <div class="p-meta">
+      <p class="p-desc">Warm, sophisticated visuals that inspire joy.</p>
+      <p class="p-detail">A small accent of lime, a hand-drawn icon, a sentence with rhythm. The brand earns trust through competence and rewards attention with quiet moments of pleasure.</p>
+    </div>
+  </div>
+
+</div>
+
+</body></html>

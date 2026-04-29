@@ -9,77 +9,180 @@
   .sub { font-size:14px; color:var(--text-muted); margin:0 0 28px; max-width:760px; line-height:1.5; }
   .grp-h { font-size:11px; font-weight:500; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin:28px 0 12px; }
   .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:18px 20px; background:var(--bg-subtle,#F7F5F0); border-radius:12px; }
-  .row.dark { background:#18140F; }
 
-  /* Buttons */
-  .btn { font-family:'Helvetica Now Text',sans-serif; letter-spacing:-.02em; cursor:pointer; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; gap:6px; transition:background .15s, border-color .15s, color .15s; }
-  .btn-primary  { height:44px; padding:0 22px; background:#18140F; color:#FFF; border:none; font-size:16px; font-weight:500; }
-  .btn-primary:hover { background:#000; }
-  .btn-secondary{ height:44px; padding:0 22px; background:#FFF; color:#18140F; border:1px solid #18140F; font-size:16px; font-weight:500; }
-  .btn-secondary:hover { background:var(--bg-subtle,#F7F5F0); }
-  .btn-tertiary { height:44px; padding:0 8px; background:transparent; color:#18140F; border:none; font-size:16px; font-weight:500; text-decoration:underline; text-underline-offset:4px; border-radius:0; }
-  .btn-lime { height:44px; padding:0 22px; background:#F2FF66; color:#18140F; border:none; font-size:16px; font-weight:500; }
-  .btn-sm { height:30px; padding:0 14px; font-size:14px; }
-  .btn-lg { height:52px; padding:0 28px; font-size:18px; }
-  .btn[disabled] { opacity:.4; cursor:not-allowed; }
+  /* ============================================================
+     Buttons — mirror of delight-web/src/components/Button.module.css
+     ============================================================ */
 
-  /* Pair example */
-  .pair { display:flex; gap:8px; }
+  /* ---- Base ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Helvetica Now Text', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .btn:disabled { cursor: not-allowed; }
 
-  /* Spec table */
+  /* ---- Label slides left on hover, arrow fades in from right ---- */
+  .btn .label { transition: transform 0.3s ease; }
+  .btn:not(:disabled):hover .label { transform: translateX(-10px); }
+
+  .btn .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translate(-10px, -50%);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  .btn:not(:disabled):hover .arrow {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+
+  /* ---- Arrow position per size ---- */
+  .btn.large .arrow  { right: 22px; }
+  .btn.medium .arrow { right: 14px; }
+  .btn.small .arrow  { right: 10px; }
+
+  /* ---- Sizes ---- */
+  .btn.large  { height: 52px; padding: 0 26px; min-width: 136px; font-size: 18px; border-radius: 8px; }
+  .btn.medium { height: 42px; padding: 0 20px; min-width: 112px; font-size: 16px; border-radius: 8px; }
+  .btn.small  { height: 30px; padding: 0 12px; min-width:  88px; font-size: 14px; border-radius: 6px; }
+
+  /* ---- Primary ---- */
+  .btn.primary { background: #000000; color: #FFFFFF; overflow: hidden; }
+  .btn.primary:disabled { background: #D3D6E3; color: #FFFFFF; }
+
+  /* ---- Secondary ---- */
+  .btn.secondary { background: #FFFFFF; color: #000000; border: 1px solid #000000; overflow: hidden; }
+  .btn.secondary:disabled { color: #9E9890; border-color: #D3D6E3; background: #FFFFFF; }
+
+  /* ---- Tertiary ---- */
+  .btn.tertiary {
+    background: transparent;
+    color: #292016;
+    border: none;
+    padding: 0;
+    min-width: unset;
+    border-radius: 0;
+    overflow: visible;
+    gap: 4px;
+  }
+  .btn.tertiary.large  { height: 22px; font-size: 16px; }
+  .btn.tertiary.medium { height: 22px; font-size: 15px; }
+  .btn.tertiary.small  { height: 18px; font-size: 13px; }
+  .btn.tertiary:disabled { color: #C4C0B9; }
+
+  .btn.tertiary .label {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .btn.tertiary .arrow {
+    position: static;
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .btn.tertiary:not(:disabled):hover .label { transform: none !important; }
+  .btn.tertiary:not(:disabled):hover .arrow { opacity: 1; }
+
+  /* ---- Lime variant — used for dark CTA banner only ---- */
+  .row.dark { background: #18140F; }
+  .btn.lime { background: #F2FF66; color: #18140F; overflow: hidden; }
+
+  /* ---- Loading spinner ---- */
+  @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  .btn .spinner { animation: spin 0.8s linear infinite; flex-shrink: 0; }
+  .btn.is-loading { pointer-events: none; }
+  .btn.is-loading .label { display: none; }
+  .btn.is-loading .arrow { display: none; }
+
+  /* ---- Spec table ---- */
   .spec { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
   .spec th, .spec td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); }
   .spec th { font-weight:500; color:var(--text-dim); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
   .spec code { font-family: ui-monospace, monospace; font-size:12px; color:var(--text-muted); background:var(--bg-subtle,#F7F5F0); padding:1px 6px; border-radius:4px; }
+
+  .pair { display:flex; gap:8px; }
+  .note { font-size:12px; color:var(--text-dim); margin-top:6px; }
 </style>
 </head>
 <body>
 
 <h1>Buttons</h1>
-<p class="sub">Primary actions are pure black with white text. Secondary buttons are outlined; tertiary are link-style. The lime button is reserved for the dark CTA banner.</p>
+<p class="sub">Hover any button → the label slides left and an arrow (→) fades in from the right. Radius is 8px (small: 6px). Tertiary keeps its underline and only reveals the arrow inline.</p>
 
-<div class="grp-h">Variants</div>
+<div class="grp-h">Hierarchy · medium</div>
 <div class="row">
-  <button class="btn btn-primary">Contact sales</button>
-  <button class="btn btn-secondary">Learn more</button>
-  <button class="btn btn-tertiary">See changelog →</button>
+  <button class="btn primary medium"><span class="label">Contact sales</span><span class="arrow">→</span></button>
+  <button class="btn secondary medium"><span class="label">Learn more</span><span class="arrow">→</span></button>
+  <button class="btn tertiary medium"><span class="label">See changelog</span><span class="arrow">→</span></button>
 </div>
+<p class="note">Hover to see the label slide + arrow reveal.</p>
 
-<div class="grp-h">Sizes</div>
+<div class="grp-h">Sizes · primary</div>
 <div class="row">
-  <button class="btn btn-primary btn-sm">Small · 30</button>
-  <button class="btn btn-primary">Default · 44</button>
-  <button class="btn btn-primary btn-lg">Large · 52</button>
+  <button class="btn primary small"><span class="label">Small · 30</span><span class="arrow">→</span></button>
+  <button class="btn primary medium"><span class="label">Medium · 42</span><span class="arrow">→</span></button>
+  <button class="btn primary large"><span class="label">Large · 52</span><span class="arrow">→</span></button>
 </div>
 
 <div class="grp-h">CTA pair · Secondary → Primary</div>
 <div class="row">
   <div class="pair">
-    <button class="btn btn-secondary">Talk to sales</button>
-    <button class="btn btn-primary">Try it free</button>
+    <button class="btn secondary medium"><span class="label">Talk to sales</span><span class="arrow">→</span></button>
+    <button class="btn primary medium"><span class="label">Try it free</span><span class="arrow">→</span></button>
   </div>
 </div>
 
 <div class="grp-h">Lime · CTA banner only</div>
 <div class="row dark">
-  <button class="btn btn-lime">Get a demo</button>
+  <button class="btn lime medium"><span class="label">Get a demo</span><span class="arrow">→</span></button>
 </div>
 
 <div class="grp-h">States</div>
 <div class="row">
-  <button class="btn btn-primary">Default</button>
-  <button class="btn btn-primary" style="background:#000">Hover</button>
-  <button class="btn btn-primary" disabled>Disabled</button>
+  <button class="btn primary medium"><span class="label">Default</span><span class="arrow">→</span></button>
+  <button class="btn primary medium" disabled><span class="label">Disabled</span><span class="arrow">→</span></button>
+  <button class="btn primary medium is-loading">
+    <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-opacity="0.25"/>
+      <path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <button class="btn secondary medium" disabled><span class="label">Disabled</span><span class="arrow">→</span></button>
 </div>
 
 <div class="grp-h">Spec</div>
 <table class="spec">
-  <thead><tr><th>Variant</th><th>Height</th><th>Padding</th><th>Background</th><th>Text</th></tr></thead>
+  <thead><tr><th>Size</th><th>Height</th><th>Min-width</th><th>Padding</th><th>Font</th><th>Radius</th></tr></thead>
   <tbody>
-    <tr><td>Primary</td><td>44px</td><td>0 22px</td><td><code>#18140F</code></td><td><code>#FFFFFF</code></td></tr>
-    <tr><td>Secondary</td><td>44px</td><td>0 22px</td><td><code>#FFFFFF</code></td><td><code>#18140F</code> · 1px border</td></tr>
-    <tr><td>Tertiary</td><td>44px</td><td>0 8px</td><td>transparent</td><td><code>#18140F</code> · underline</td></tr>
-    <tr><td>Lime (banner)</td><td>44px</td><td>0 22px</td><td><code>#F2FF66</code></td><td><code>#18140F</code></td></tr>
+    <tr><td>Large</td><td><code>52px</code></td><td><code>136px</code></td><td><code>0 26px</code></td><td><code>18px / 500</code></td><td><code>8px</code></td></tr>
+    <tr><td>Medium</td><td><code>42px</code></td><td><code>112px</code></td><td><code>0 20px</code></td><td><code>16px / 500</code></td><td><code>8px</code></td></tr>
+    <tr><td>Small</td><td><code>30px</code></td><td><code>88px</code></td><td><code>0 12px</code></td><td><code>14px / 500</code></td><td><code>6px</code></td></tr>
+  </tbody>
+</table>
+
+<table class="spec">
+  <thead><tr><th>Hierarchy</th><th>Background</th><th>Text</th><th>Border</th><th>Disabled</th></tr></thead>
+  <tbody>
+    <tr><td>Primary</td><td><code>#000000</code></td><td><code>#FFFFFF</code></td><td>none</td><td>bg <code>#D3D6E3</code></td></tr>
+    <tr><td>Secondary</td><td><code>#FFFFFF</code></td><td><code>#000000</code></td><td><code>1px #000</code></td><td>border <code>#D3D6E3</code></td></tr>
+    <tr><td>Tertiary</td><td>transparent</td><td><code>#292016</code></td><td>none · underline</td><td>color <code>#C4C0B9</code></td></tr>
+    <tr><td>Lime (banner)</td><td><code>#F2FF66</code></td><td><code>#18140F</code></td><td>none</td><td>—</td></tr>
   </tbody>
 </table>
 
