@@ -228,7 +228,7 @@
   .kv-scrim { position:absolute; inset:0; background: rgba(0,0,0,0.20); }
   .kv-noise {
     position:absolute; inset:0;
-    background: url('../site/public/assets/key-visual/noise.png') center / cover repeat;
+    background: url('/assets/key-visual/noise.png') center / cover repeat;
     opacity: 0.4; mix-blend-mode: overlay; pointer-events:none;
   }
   .kv-meta { padding: 14px 0; display:flex; justify-content:space-between; align-items:baseline; gap:12px; width: 100%; }
@@ -698,8 +698,8 @@
         <span style="
           display:block; width:16px; height:16px;
           background: var(--text);
-          -webkit-mask: url('../site/public/assets/logos/delight-symbol-black.svg') center / contain no-repeat;
-                  mask: url('../site/public/assets/logos/delight-symbol-black.svg') center / contain no-repeat;
+          -webkit-mask: url('/assets/logos/delight-symbol-black.svg') center / contain no-repeat;
+                  mask: url('/assets/logos/delight-symbol-black.svg') center / contain no-repeat;
         "></span>
       </span>
       <span style="margin: 0px 0px 0px 8px">delight.ai Web Design System</span>
@@ -780,33 +780,48 @@
 /* ============================================================
    IA — mirror of site/lib/ia.ts SECTIONS
    ============================================================ */
-/* IA — three top-level sections, alphabetized within each. */
+/* IA — mirrors site/lib/ia.ts SECTIONS exactly */
 const SECTIONS = [
   {
-    slug: 'foundations',
-    title: 'Foundations',
-    blurb: 'Brand-side decisions — voice, marks, imagery — that the implementable system is built on.',
+    slug: 'get-started',
+    title: 'Get started',
+    blurb: 'How DWDS fits together, who it is for, and how to use it inside your team.',
     pages: [
-      { slug: 'brand-principles', title: 'Brand Principles', blurb: 'The four tenets that guide every visual decision.',     status: 'live',  preview: 'design-principles.html' },
-      { slug: 'key-visual',       title: 'Key visual',       blurb: 'The Key Visual is a core visual element that communicates the identity and emotion of the Delight brand in the most intuitive way. It goes beyond a simple graphic style and serves as a foundational guideline that consistently expresses how the brand wants users to feel and experience.', keywords: 'agent steward trust os 2.0 voice ai desk capabilities moodboard scrim noise mockup composition', status: 'live',  preview: 'key-visual.html' },
-      { slug: 'logo',             title: 'Logo',             blurb: 'delight.ai and Sendbird logos, sizing, switcher pill.', status: 'live',  preview: 'brand-marks.html' },
-      { slug: 'photos',           title: 'Photos',           blurb: 'Subject treatment, framing, and color guidance.',        status: 'shell' },
-      { slug: 'visual-direction', title: 'Visual Direction', blurb: 'Overall art direction, mood, and editorial style.',     status: 'shell' },
-      { slug: 'voice-and-tone',   title: 'Voice & Tone',     blurb: 'Plainspoken, confident, slightly literary.',             status: 'shell' },
+      { slug: 'overview',     title: 'Overview',          blurb: 'What DWDS is, the brand context, and the Delight Warm theme.',  status: 'live',  thumbTone: 'subtle', thumbGraphic: 'overview' },
+      { slug: 'principles',   title: 'Design principles', blurb: 'The five tenets that guide every visual decision.',             status: 'shell', thumbTone: 'white' },
+      { slug: 'changelog',    title: 'Changelog',         blurb: 'Versioned updates to tokens, components, and patterns.',        status: 'live',  thumbTone: 'lime',   thumbGraphic: 'changelog' },
+      { slug: 'contributing', title: 'Contributing',      blurb: 'How to propose tokens, components, and patterns.',              status: 'shell', thumbTone: 'subtle' },
     ],
   },
   {
-    slug: 'tokens',
-    title: 'Tokens',
-    blurb: 'The atomic, implementable layer — color, type, spacing, layout, iconography, shadow.',
+    slug: 'foundations',
+    title: 'Foundations',
+    blurb: 'The fundamental decisions — color, type, layout, and tone — that the rest of the system is built on.',
     pages: [
-      { slug: 'color',         title: 'Color',         blurb: 'Delight Warm palette, semantic tokens, and accent rules.',     status: 'live',  preview: 'colors.html' },
-      { slug: 'grid',          title: 'Grid',          blurb: '16-col PC / 4-col mobile grid with 16px gutters.',             status: 'live',  preview: 'grid.html' },
-      { slug: 'iconography',   title: 'Iconography',   blurb: 'Hand-drawn icons used in GNB, buttons, and FAQ.',              status: 'live' },
-      { slug: 'layout',        title: 'Layout',        blurb: '1920 canvas, 1552 max width, 184 PC offsets, page patterns.', status: 'live',  preview: 'layout.html' },
-      { slug: 'shadow',        title: 'Shadow',        blurb: 'Elevation tokens for popups, modals, and cards.',              status: 'shell' },
-      { slug: 'spacing',       title: 'Spacing',       blurb: '4px base scale, container offsets, corner radii.',             status: 'live',  preview: 'spacing.html' },
-      { slug: 'typography',    title: 'Typography',    blurb: 'Serrif display, Helvetica Now Text body, Pretendard for KR.',  status: 'live',  preview: 'typography.html' },
+      { slug: 'color',          title: 'Color',           blurb: 'Delight Warm palette, semantic tokens, and accent rules.',      status: 'live',  preview: 'colors.html',        thumbTone: 'subtle', thumbGraphic: 'color' },
+      { slug: 'typography',     title: 'Typography',      blurb: 'Serrif display, Helvetica Now Text body, Pretendard for KR.',   status: 'live',  preview: 'typography.html',    thumbTone: 'white',  thumbGraphic: 'type' },
+      { slug: 'spacing',        title: 'Spacing & radii', blurb: '4px base scale, container offsets, corner radii.',              status: 'live',  preview: 'spacing.html',       thumbTone: 'subtle', thumbGraphic: 'spacing' },
+      { slug: 'layout',         title: 'Layout & grid',   blurb: '1920 canvas, 1552 max width, 184 PC offsets, 16-col grid.',     status: 'live',  preview: 'layout.html',        thumbTone: 'white',  thumbGraphic: 'grid' },
+      { slug: 'iconography',    title: 'Iconography',     blurb: 'Hand-drawn icons used in GNB, buttons, and FAQ.',               status: 'shell', thumbTone: 'subtle' },
+      { slug: 'brand-marks',    title: 'Brand marks',     blurb: 'delight.ai and Sendbird logos, sizing, switcher pill.',         status: 'live',  preview: 'brand-marks.html',   thumbTone: 'dark',   thumbGraphic: 'logo' },
+      { slug: 'key-visual',     title: 'Key visual',      blurb: 'Hero illustrations and brand imagery.',                          status: 'live',  preview: 'key-visual.html',    thumbTone: 'lime',   thumbGraphic: 'kv' },
+      { slug: 'voice-and-tone', title: 'Voice & tone',    blurb: 'Plainspoken, confident, slightly literary.',                    status: 'shell', thumbTone: 'white' },
+      { slug: 'photography',    title: 'Photography',     blurb: 'Subject treatment, framing, and color guidance.',               status: 'shell', thumbTone: 'subtle' },
+      { slug: 'illustration',   title: 'Illustration',    blurb: 'Spot illustrations and editorial drawings.',                    status: 'shell', thumbTone: 'white' },
+      { slug: 'motion',         title: 'Motion',          blurb: 'Easing, durations, and choreography.',                          status: 'shell', thumbTone: 'subtle' },
+      { slug: 'accessibility',  title: 'Accessibility',   blurb: 'Contrast, focus, keyboard, and screen-reader practices.',       status: 'shell', thumbTone: 'lime' },
+    ],
+  },
+  {
+    slug: 'design-system',
+    title: 'Design system',
+    blurb: 'Tokens, components, and patterns — the implementable layer.',
+    pages: [
+      { slug: 'tokens',     title: 'Tokens',     blurb: 'CSS custom properties and naming conventions.',              status: 'shell', thumbTone: 'subtle' },
+      { slug: 'components', title: 'Components', blurb: 'GNB, footer, buttons, tabs, forms, pagination, popups.',     status: 'live',  thumbTone: 'white',  thumbGraphic: 'components' },
+      { slug: 'patterns',   title: 'Patterns',   blurb: 'Hero, feature stack, stat band, CTA banner, FAQ.',           status: 'live',  preview: 'landing-patterns.html', thumbTone: 'subtle', thumbGraphic: 'patterns' },
+      { slug: 'guidelines', title: 'Guidelines', blurb: "Do’s and don’ts, fidelity checks.",                status: 'live',  preview: 'dos-and-donts.html',    thumbTone: 'lime',   thumbGraphic: 'rules' },
+      { slug: 'processes',  title: 'Processes',  blurb: 'Review, contribution, and release workflow.',                status: 'shell', thumbTone: 'dark' },
     ],
   },
   {
@@ -814,22 +829,23 @@ const SECTIONS = [
     title: 'Components',
     blurb: 'Each component with anatomy, states, and a live preview.',
     pages: [
-      { slug: 'accordion',     title: 'Accordion',     blurb: 'Collapsible content panels with FAQ icon pattern.',            status: 'shell' },
-      { slug: 'alert',         title: 'Alert',         blurb: 'Inline messages for success, warning, error.',                 status: 'shell' },
-      { slug: 'breadcrumb',    title: 'Breadcrumb',    blurb: 'Hierarchical navigation links above a page title.',            status: 'shell' },
-      { slug: 'button',        title: 'Button',        blurb: 'Primary black, secondary outline, tertiary link.',             status: 'live',  preview: 'buttons.html' },
-      { slug: 'card',          title: 'Card',          blurb: 'Surface containers with title, body, and optional thumb.',     status: 'shell' },
-      { slug: 'carousel',      title: 'Carousel',      blurb: 'Horizontally-scrolling slide groups with controls.',           status: 'shell' },
-      { slug: 'filter',        title: 'Filter',        blurb: 'Chip filters and dropdown filters for lists.',                 status: 'shell' },
-      { slug: 'form',          title: 'Form',          blurb: 'Inputs, textarea, select, validation states.',                 status: 'live',  preview: 'form.html' },
-      { slug: 'gnb-footer',    title: 'GNB/Footer',    blurb: 'Fixed top bar, mega-menu, footer brand & link cols.',          status: 'live',  preview: 'gnb.html' },
-      { slug: 'input',         title: 'Input',         blurb: 'Text inputs, search, password, with focus and error states.',  status: 'shell' },
-      { slug: 'pagination',    title: 'Pagination',    blurb: '32px squares with active chip and ellipses.',                  status: 'live',  preview: 'pagination.html' },
-      { slug: 'popup-modal',   title: 'Popup/Modal',   blurb: 'Modals and announcement bars.',                                status: 'live',  preview: 'popup.html' },
-      { slug: 'progress-bar',  title: 'Progress Bar',  blurb: 'Linear progress indicators for steps and loading.',            status: 'shell' },
-      { slug: 'table',         title: 'Table',         blurb: 'Data tables with header, rows, and hover.',                    status: 'shell' },
-      { slug: 'tabs',          title: 'Tabs',          blurb: 'Pill-shaped chips with 1px active border.',                    status: 'live',  preview: 'tabs.html' },
-      { slug: 'video',         title: 'Video',         blurb: 'Embedded video with poster, controls, and aspect ratio.',      status: 'shell' },
+      { slug: 'gnb',        title: 'GNB',        blurb: 'Fixed top bar, mega-menu, language popover.',               status: 'live',  preview: 'gnb.html',        thumbTone: 'white',  thumbGraphic: 'gnb' },
+      { slug: 'footer',     title: 'Footer',     blurb: 'Brand col + 4 link cols, bg-subtle band.',                  status: 'live',  preview: 'footer.html',     thumbTone: 'subtle', thumbGraphic: 'footer' },
+      { slug: 'buttons',    title: 'Buttons',    blurb: 'Primary black, secondary outline, tertiary link.',           status: 'live',  preview: 'buttons.html',    thumbTone: 'dark',   thumbGraphic: 'buttons' },
+      { slug: 'tabs',       title: 'Tabs',       blurb: 'Pill-shaped chips with 1px active border.',                  status: 'live',  preview: 'tabs.html',       thumbTone: 'white',  thumbGraphic: 'tabs' },
+      { slug: 'form',       title: 'Form',       blurb: 'Inputs, textarea, select, validation states.',               status: 'live',  preview: 'form.html',       thumbTone: 'subtle', thumbGraphic: 'form' },
+      { slug: 'pagination', title: 'Pagination', blurb: '32px squares with active chip and ellipses.',                status: 'live',  preview: 'pagination.html', thumbTone: 'white',  thumbGraphic: 'pagination' },
+      { slug: 'popup',      title: 'Popup',      blurb: 'Modals and announcement bars.',                              status: 'live',  preview: 'popup.html',      thumbTone: 'lime',   thumbGraphic: 'popup' },
+    ],
+  },
+  {
+    slug: 'resources',
+    title: 'Resources',
+    blurb: 'Downloads, links, and tools to help you build with DWDS.',
+    pages: [
+      { slug: 'downloads', title: 'Downloads', blurb: 'Fonts, logos, and asset packs.',        status: 'live',  thumbTone: 'subtle', thumbGraphic: 'download' },
+      { slug: 'figma',     title: 'Figma',     blurb: 'Component library and starter files.', status: 'shell', thumbTone: 'white' },
+      { slug: 'github',    title: 'GitHub',    blurb: 'Source repository and releases.',       status: 'live',  thumbTone: 'dark',   thumbGraphic: 'github' },
     ],
   },
 ];
@@ -969,7 +985,7 @@ function renderSectionIndex(section) {
 
 /* Page-specific content blocks (anatomy text) */
 const ANATOMY = {
-  'components/gnb-footer': `
+  'components/gnb': `
     <ul>
       <li><strong>GNB height</strong>: 72px. <code>position: fixed</code> with a 72px spacer beneath.</li>
       <li><strong>GNB background</strong>: white at scroll-top, white-blur with hairline border once scrolled.</li>
@@ -980,7 +996,7 @@ const ANATOMY = {
       <li><strong>Footer link columns</strong>: 4 × 240px, 64px gap, organized into two visual groups.</li>
       <li><strong>Footer bottom bar</strong>: 3 regions — language picker, legal links, © Sendbird, Inc.</li>
     </ul>`,
-  'components/button': `
+  'components/buttons': `
     <ul>
       <li><strong>Hover interaction</strong>: label slides 10px left + arrow (→) fades in from right (0.3s ease). Tertiary keeps label in place; arrow appears inline.</li>
       <li><strong>Primary</strong>: 42px (medium), <code>#000000</code> bg, white text, 8px radius. Use once per page.</li>
@@ -1116,7 +1132,7 @@ function renderInlineBrandPrinciples() {
 }
 
 function renderInlineKeyVisual() {
-  const ASSET = '../site/public/assets/key-visual';
+  const ASSET = '/assets/key-visual';
   const V = '?v=2026042902';
   return `
     <div class="inline-keyvisual">
@@ -1327,12 +1343,182 @@ function renderInlineKeyVisual() {
   `;
 }
 
+function renderInlineOverview() {
+  return `
+    <div class="prose">
+      <h2>What is DWDS?</h2>
+      <p>DWDS (delight.ai Web Design System) is the design language behind <strong>delight.ai</strong> — Sendbird's enterprise AI customer-experience product. It provides tokens, components, and patterns for every delight.ai marketing, landing, and product surface.</p>
+
+      <h2>Delight Warm theme</h2>
+      <p>All delight.ai surfaces use the <strong>Delight Warm</strong> color theme — warm-gray neutrals, pure white backgrounds, and a single lime accent (<code style="background:var(--bg-subtle);padding:2px 6px;border-radius:4px">#F2FF66</code>). This is distinct from Sendbird's cool-gray palette.</p>
+
+      <table class="token-table" style="margin-top:24px">
+        <thead><tr><th>Token</th><th>Value</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>--bg</code></td><td><span class="token-swatch" style="background:#FFFFFF;border:1px solid #D9D6D2"></span><code>#FFFFFF</code></td><td>Page background — always pure white</td></tr>
+          <tr><td><code>--bg-subtle</code></td><td><span class="token-swatch" style="background:#F7F5F0"></span><code>#F7F5F0</code></td><td>Card fills, hover states, code blocks</td></tr>
+          <tr><td><code>--text</code></td><td><span class="token-swatch" style="background:#292016"></span><code>#292016</code></td><td>H1 — primary text</td></tr>
+          <tr><td><code>--lime</code></td><td><span class="token-swatch" style="background:#F2FF66"></span><code>#F2FF66</code></td><td>Single accent — use sparingly</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Type stack</h2>
+      <ul>
+        <li><strong>Serrif</strong> — display headings (H1–H2)</li>
+        <li><strong>Helvetica Now Text</strong> — body, UI, captions</li>
+        <li><strong>Pretendard</strong> — Korean text (loaded via CDN)</li>
+      </ul>
+
+      <h2>How to use this site</h2>
+      <p>Browse sections in the left sidebar. Pages marked <em>Coming soon</em> are planned but not yet published. Live pages include an embedded preview — resize your browser to see responsive behavior.</p>
+    </div>
+  `;
+}
+
+function renderInlineChangelog() {
+  const entries = [
+    {
+      version: 'v0.1.1',
+      date: '2026-04-29',
+      tag: 'Update',
+      changes: [
+        'Updated IA to 5-section structure: Get started · Foundations · Design system · Components · Resources',
+        'Fixed iframe and asset paths for Vercel production serving',
+        'Added globals.css to public/ for static prototype serving',
+        'Renamed component slugs to match ia.ts (button → buttons, gnb-footer → gnb + footer)',
+      ],
+    },
+    {
+      version: 'v0.1.0',
+      date: '2026-04-27',
+      tag: 'Initial release',
+      changes: [
+        'Launched DWDS prototype with 3 sections: Foundations, Tokens, Components',
+        'Live previews: Color, Typography, Spacing, Layout, Brand marks, Key visual, GNB/Footer, Buttons, Form, Pagination, Popup, Tabs',
+        'Deployed to Vercel via GitHub auto-deploy',
+        'Font stack: Serrif, Helvetica Now Text, Gellix',
+      ],
+    },
+  ];
+  return `
+    <div>
+      ${entries.map(e => `
+        <div style="margin-bottom:48px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <h2 style="margin:0;font-family:'Serrif',serif;font-size:22px;font-weight:500;color:var(--text)">${e.version}</h2>
+            <span style="font-size:12px;font-weight:500;font-family:'Helvetica Now Text',sans-serif;background:var(--bg-subtle);color:var(--text-muted);padding:3px 10px;border-radius:20px;border:1px solid var(--border)">${e.tag}</span>
+            <span style="font-size:13px;color:var(--text-dim);font-family:'Helvetica Now Text',sans-serif">${e.date}</span>
+          </div>
+          <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px">
+            ${e.changes.map(c => `<li style="font-family:'Helvetica Now Text',sans-serif;font-size:15px;color:var(--text-muted);line-height:1.5">${c}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('<hr style="border:none;border-top:1px solid var(--border);margin-bottom:48px">')}
+    </div>
+  `;
+}
+
+function renderInlineDsComponents() {
+  const comps = SECTIONS.find(s => s.slug === 'components');
+  if (!comps) return '';
+  return `
+    <div class="prose">
+      <p>DWDS ships ${comps.pages.length} components. Each page includes an anatomy breakdown, key states, and a live embedded preview.</p>
+    </div>
+    <div class="card-grid" style="margin-top:32px">
+      ${comps.pages.map(p => `
+        <a href="#components/${p.slug}" data-route class="card">
+          <div class="card__thumb" style="background:var(--bg-subtle)">
+            <span style="font-family:'Serrif',serif;font-size:22px;font-weight:500;color:var(--text-dim)">${p.title[0]}</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">${escapeHtml(p.title)}</h3>
+            <p class="card__desc">${escapeHtml(p.blurb)}</p>
+          </div>
+        </a>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderInlineDownloads() {
+  return `
+    <div class="prose">
+      <h2>Fonts</h2>
+      <p>All typefaces are bundled with this repository under <code>site/public/fonts/</code>. They are loaded via <code>@font-face</code> in <code>colors_and_type.css</code>.</p>
+    </div>
+    <table class="token-table" style="margin-top:16px">
+      <thead><tr><th>File</th><th>Family</th><th>Weight</th></tr></thead>
+      <tbody>
+        <tr><td><code>Serrif-Regular.otf</code></td><td>Serrif</td><td>400</td></tr>
+        <tr><td><code>Serrif-Medium.otf</code></td><td>Serrif</td><td>500</td></tr>
+        <tr><td><code>Serrif-SemiBold.otf</code></td><td>Serrif</td><td>600</td></tr>
+        <tr><td><code>HelveticaNowText.otf</code></td><td>Helvetica Now Text</td><td>400</td></tr>
+        <tr><td><code>HelveticaNowTextMedium.otf</code></td><td>Helvetica Now Text</td><td>500</td></tr>
+        <tr><td><code>HelveticaNowTextBold.otf</code></td><td>Helvetica Now Text</td><td>700</td></tr>
+        <tr><td><code>Gellix-Regular.otf</code></td><td>Gellix</td><td>400</td></tr>
+        <tr><td><code>Gellix-Medium.otf</code></td><td>Gellix</td><td>500</td></tr>
+        <tr><td><code>Gellix-SemiBold.otf</code></td><td>Gellix</td><td>600</td></tr>
+        <tr><td><code>Gellix-Bold.otf</code></td><td>Gellix</td><td>700</td></tr>
+      </tbody>
+    </table>
+    <div class="prose" style="margin-top:40px">
+      <h2>Logos &amp; assets</h2>
+      <p>Brand assets live in <code>site/public/assets/</code>. SVG logos are available in both black and white variants.</p>
+    </div>
+    <table class="token-table" style="margin-top:16px">
+      <thead><tr><th>File</th><th>Preview</th></tr></thead>
+      <tbody>
+        <tr><td><code>assets/logos/delight-logo-black.svg</code></td><td><img src="/assets/logos/delight-logo-black.svg" style="height:24px;vertical-align:middle" alt="delight.ai logo black"></td></tr>
+        <tr><td><code>assets/logos/delight-logo-white.svg</code></td><td style="background:#1A1612;padding:8px 16px"><img src="/assets/logos/delight-logo-white.svg" style="height:24px;vertical-align:middle" alt="delight.ai logo white"></td></tr>
+        <tr><td><code>assets/logos/sendbird-logo-black.svg</code></td><td><img src="/assets/logos/sendbird-logo-black.svg" style="height:24px;vertical-align:middle" alt="Sendbird logo black"></td></tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function renderInlineGithub() {
+  return `
+    <div class="prose">
+      <h2>Repository</h2>
+      <p>DWDS is open to all Sendbird team members. The repo contains the Next.js documentation site, all preview HTML files, font assets, and the design token source.</p>
+    </div>
+    <a href="https://github.com/eloylee-maker/delight-web-designsystem" target="_blank" rel="noreferrer noopener"
+       style="display:inline-flex;align-items:center;gap:10px;margin-top:24px;
+              background:var(--text);color:#FFF;text-decoration:none;
+              font-family:'Helvetica Now Text',sans-serif;font-size:15px;font-weight:500;letter-spacing:-.01em;
+              padding:14px 22px;border-radius:8px;">
+      eloylee-maker / delight-web-designsystem
+      <span aria-hidden="true" style="transform:translateY(-1px);display:inline-block">↗</span>
+    </a>
+    <div class="prose" style="margin-top:40px">
+      <h2>Repo layout</h2>
+    </div>
+    <table class="token-table" style="margin-top:16px">
+      <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+      <tbody>
+        <tr><td><code>site/app/</code></td><td>Next.js 14 App Router pages</td></tr>
+        <tr><td><code>site/lib/ia.ts</code></td><td>Information architecture — single source of truth</td></tr>
+        <tr><td><code>site/public/preview/</code></td><td>Standalone HTML preview files (embedded as iframes)</td></tr>
+        <tr><td><code>site/public/fonts/</code></td><td>OTF font files</td></tr>
+        <tr><td><code>site/public/assets/</code></td><td>Logos, key visuals, icons</td></tr>
+        <tr><td><code>site/styles/globals.css</code></td><td>Design tokens + global page styles</td></tr>
+        <tr><td><code>CLAUDE.md</code></td><td>Full design-system specification</td></tr>
+      </tbody>
+    </table>
+  `;
+}
+
 /* Pages registered here get their full content rendered inline.
    If `withPreview: true`, the preview iframe is appended below as supporting material.
    If `withPreview: false` (default), inline replaces the iframe entirely. */
 const INLINE_PAGES = {
-  'foundations/brand-principles': { render: renderInlineBrandPrinciples, withPreview: false },
   'foundations/key-visual':       { render: renderInlineKeyVisual,       withPreview: false },
+  'get-started/overview':         { render: renderInlineOverview,        withPreview: false },
+  'get-started/changelog':        { render: renderInlineChangelog,       withPreview: false },
+  'design-system/components':     { render: renderInlineDsComponents,    withPreview: false },
+  'resources/downloads':          { render: renderInlineDownloads,       withPreview: false },
+  'resources/github':             { render: renderInlineGithub,          withPreview: false },
 };
 
 function renderPage(section, page) {
@@ -1367,7 +1553,7 @@ function renderPage(section, page) {
   // Shell pages
   if (page.status === 'shell') {
     // Special override: Iconography links out to lucide v0 instead of "coming soon"
-    if (key === 'tokens/iconography') {
+    if (key === 'foundations/iconography') {
       body = `
         <div class="prose">
           <p>DWDS uses the <strong>Lucide</strong> icon set as its source-of-truth for UI iconography. Browse, search, and copy SVGs from the official library — they paste straight into our components and inherit <code>currentColor</code>.</p>
@@ -1400,11 +1586,11 @@ function renderPage(section, page) {
     const cfg = INLINE_PAGES[key];
     body = cfg.render();
     if (cfg.withPreview && page.preview) {
-      body += `<div class="preview-frame" style="margin-top:48px"><iframe src="../site/public/preview/${page.preview}"></iframe></div>`;
+      body += `<div class="preview-frame" style="margin-top:48px"><iframe src="/preview/${page.preview}"></iframe></div>`;
     }
   }
   // Color page — token tables in eBay-Playbook style
-  else if (key === 'tokens/color') {
+  else if (key === 'foundations/color') {
     body = `
       ${COLOR_GROUPS.map(g => `
         <h2 class="token-group-title">
@@ -1432,20 +1618,20 @@ function renderPage(section, page) {
           </tbody>
         </table>
       `).join('')}
-      <div class="preview-inline" data-src="../site/public/preview/colors.html"></div>
+      <div class="preview-inline" data-src="/preview/colors.html"></div>
     `;
   }
   // Components anatomy + preview
   else if (ANATOMY[key]) {
     body = `
       <div class="prose"><h2>Anatomy</h2>${ANATOMY[key]}</div>
-      <div class="preview-frame"><iframe src="../site/public/preview/${page.preview}"></iframe></div>
+      <div class="preview-frame"><iframe src="/preview/${page.preview}"></iframe></div>
     `;
   }
   // Generic preview
   else if (page.preview) {
     body = `
-      <div class="preview-frame" style="margin-top:24px"><iframe src="../site/public/preview/${page.preview}"></iframe></div>
+      <div class="preview-frame" style="margin-top:24px"><iframe src="/preview/${page.preview}"></iframe></div>
     `;
   }
   // Fallback prose for non-preview live pages
