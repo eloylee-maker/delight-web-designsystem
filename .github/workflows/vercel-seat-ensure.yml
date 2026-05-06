@@ -1,0 +1,12 @@
+name: Ensure Vercel Seat
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [staging, main]
+
+jobs:
+  ensure-seat:
+    uses: sendbird-ai/.github/.github/workflows/vercel-seat-ensure.yml@main
+    secrets: inherit
