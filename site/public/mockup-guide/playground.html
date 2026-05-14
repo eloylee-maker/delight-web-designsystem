@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Mockup Playground — delight.ai blog</title>
+<link rel="stylesheet" href="patterns.css"/>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#EDEAE3; font-family:'Helvetica Now Text','Pretendard',sans-serif; color:#1A1612; letter-spacing:-0.02em; min-height:100vh; }
+  .pg-head { padding:24px 40px; background:#fff; border-bottom:1px solid #D9D5CC; display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
+  .pg-head h1 { font:500 22px/1 'Serrif',serif; margin:0; }
+  .pg-head a { font:500 13px/1 'Helvetica Now Text',sans-serif; color:#1A1612; text-decoration:none; border-bottom:1px solid #1A1612; padding-bottom:2px; }
+
+  .pg-body { display:grid; grid-template-columns: 420px 1fr; gap:0; min-height: calc(100vh - 73px); }
+  .pg-side { background:#FAF8F2; border-right:1px solid #D9D5CC; padding:32px 28px; display:flex; flex-direction:column; gap:18px; }
+  .pg-side h2 { font:500 18px/1.2 'Helvetica Now Text',sans-serif; margin:0; }
+  .pg-side p.help { font:400 14px/1.5 'Helvetica Now Text',sans-serif; color:#6B6258; margin:0; }
+  .pg-side textarea {
+    width:100%; min-height:160px; resize:vertical;
+    padding:14px 16px; border-radius:10px; border:1px solid #D9D5CC; background:#fff;
+    font:400 15px/1.5 'Helvetica Now Text',sans-serif; color:#1A1612; letter-spacing:-0.02em;
+  }
+  .pg-side textarea:focus { outline:none; border-color:#1A1612; }
+  .pg-side button {
+    height:46px; border-radius:10px; border:none; cursor:pointer;
+    background:#1A1612; color:#fff;
+    font:500 15px/1 'Helvetica Now Text',sans-serif; letter-spacing:-0.02em;
+  }
+  .pg-side button:hover { background:#000; }
+  .pg-side button:disabled { background:#9E9890; cursor:wait; }
+  .pg-side .row { display:flex; gap:8px; }
+  .pg-side .row button.alt {
+    flex:1; background:#fff; color:#1A1612; border:1px solid #D9D5CC;
+  }
+  .pg-side .row button.alt:hover { background:#F2EFE8; }
+
+  .toggle-row { display:flex; gap:6px; }
+  .toggle-row button {
+    flex:1; height:36px; background:#fff; color:#1A1612; border:1px solid #D9D5CC; border-radius:8px;
+    font:500 13px/1 'Helvetica Now Text',sans-serif;
+  }
+  .toggle-row button.active { background:#1A1612; color:#fff; border-color:#1A1612; }
+
+  .pg-side .meta {
+    margin-top:auto; padding-top:18px; border-top:1px solid #E5E1DA;
+    font:400 12px/1.5 'Helvetica Now Text',sans-serif; color:#9E9890;
+  }
+  .pg-side .meta strong { color:#4A433C; font-weight:500; }
+  .pg-side .pattern-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    height:30px; padding:0 12px; background:#1A1612; color:#fff;
+    border-radius:99px; font:500 12px/1 'Helvetica Now Text',sans-serif;
+    letter-spacing:0.04em; text-transform:uppercase;
+  }
+
+  .pg-stage { padding:48px; display:flex; justify-content:center; align-items:flex-start; overflow:auto; }
+  .pg-stage[data-mode="670"] { padding:48px 24px; }
+  .stage-frame { background:#F7F5F0; border:1px solid #D9D5CC; border-radius:12px; overflow:hidden; }
+  .stage-670-wrap { width:670px; overflow:hidden; }
+  .stage-670 { width:670px; }
+  .stage-670 .mock-canvas { transform:scale(0.5045); transform-origin:top left; }
+
+  .empty {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:80px 40px; color:#9E9890; max-width:520px;
+  }
+  .empty h3 { font:500 22px/1.3 'Serrif',serif; color:#4A433C; margin:0 0 8px; }
+  .empty p { font:400 15px/1.5 'Helvetica Now Text',sans-serif; margin:0 0 6px; }
+
+  .ex-list { display:flex; flex-direction:column; gap:6px; }
+  .ex-list button {
+    text-align:left; height:auto; padding:10px 14px;
+    background:#fff; color:#1A1612; border:1px solid #D9D5CC; border-radius:8px;
+    font:400 13px/1.45 'Helvetica Now Text',sans-serif;
+  }
+  .ex-list button:hover { background:#F2EFE8; }
+</style>
+</head>
+<body>
+
+<header class="pg-head">
+  <h1>Mockup Playground</h1>
+  <a href="index.html">← Pattern catalog</a>
+</header>
+
+<div class="pg-body">
+  <aside class="pg-side">
+    <h2>프롬프트로 목업 생성</h2>
+    <p class="help">설명할 내용을 한국어로 적어주세요. 적합한 패턴을 자동으로 선택해서 1328px 캔버스에 렌더합니다.</p>
+
+    <textarea id="prompt" placeholder="예: 메모리 기반 AI가 어떻게 학습하는지 3단계로 보여줘 — 입력, 추론, 응답 순서."></textarea>
+
+    <div class="row">
+      <button id="go">목업 생성</button>
+      <button id="random" class="alt" type="button">랜덤 예시</button>
+    </div>
+
+    <div>
+      <p class="help" style="margin-bottom:8px;">표시 크기</p>
+      <div class="toggle-row">
+        <button data-mode="1328" class="active" type="button">1328 px (full)</button>
+        <button data-mode="670" type="button">670 px (blog)</button>
+      </div>
+    </div>
+
+    <div>
+      <p class="help" style="margin-bottom:8px;">예시 프롬프트</p>
+      <div class="ex-list" id="examples"></div>
+    </div>
+
+    <div class="meta">
+      <p style="margin:0 0 8px;">선택된 패턴: <span id="pickedPattern" class="pattern-tag" style="display:none"></span><span id="noPick" style="color:#9E9890">아직 없음</span></p>
+      <p style="margin:0;"><strong>9개 패턴 풀</strong> · stack, numlist, stepbar, stats, quote, iflow, cmp, panels, window</p>
+    </div>
+  </aside>
+
+  <main id="stage" class="pg-stage" data-mode="1328">
+    <div class="empty">
+      <h3>왼쪽에 프롬프트를 입력하세요</h3>
+      <p>예: "도입 전후 비교를 표로 보여줘"</p>
+      <p>예: "고객 인용문 — Match Group VP가 한 말."</p>
+      <p>예: "분기별 처리 메시지 통계 3개를 큰 숫자로."</p>
+    </div>
+  </main>
+</div>
+
+<script src="catalog.js"></script>
+<script src="patterns.js"></script>
+<script>
+  const stage = document.getElementById('stage');
+  const promptEl = document.getElementById('prompt');
+  const goBtn = document.getElementById('go');
+  const randBtn = document.getElementById('random');
+  const pickedEl = document.getElementById('pickedPattern');
+  const noPick = document.getElementById('noPick');
+
+  const EXAMPLES = [
+    '도입 전후 비교 — 응답시간/해결률/개인화 항목을 표로.',
+    '연 처리 메시지, 월간 활성 사용자, 가동률을 큰 숫자로 강조.',
+    '에이전트가 학습하는 3단계 — listen, reason, act.',
+    '고객 인용문: Match Group VP가 도입 후 효과에 대해 말함.',
+    'AI 컨시어지가 어떻게 출시되는지 5단계 단계별 진행상황과 함께.',
+    '메모리 → 적용 → 결과의 개념 흐름을 카드로.',
+    '결과를 가짜 대시보드 화면으로 보여줘 — +34% resolution.',
+    'BEFORE / NOW 비교 패널 3개로 — 고객 본다, 함께 결정한다, 매 턴 학습한다.'
+  ];
+  const exList = document.getElementById('examples');
+  EXAMPLES.slice(0, 4).forEach(ex => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = ex;
+    b.addEventListener('click', () => { promptEl.value = ex; });
+    exList.appendChild(b);
+  });
+
+  // ---- Heuristic pattern picker (no LLM needed) -----------------------
+  // Looks at keywords in prompt and chooses the most fitting pattern.
+  // Returns { id, cfg } where cfg overrides the renderer's default.
+  function pickPattern(p) {
+    const t = p.toLowerCase();
+
+    // Quote — explicit speech / customer testimonial
+    if (/(인용|quote|"|".+"|고객.*말|vp|ceo|cco|cx|story)/i.test(p)) {
+      return { id: 'quote', cfg: extractQuote(p) };
+    }
+    // Stats — numbers + units like %, M, B, K
+    if (/(\d+\s*(b|m|k|%|배|억|만|건|점)|통계|stat|숫자|지표|숫자로|수치)/i.test(p)) {
+      return { id: 'stats', cfg: extractStats(p) };
+    }
+    // Before/Now compare table
+    if (/(before|after|도입.*전.*후|전.*후|이전.*지금|비교.*표|vs)/i.test(p)) {
+      return { id: 'cmp', cfg: extractCmp(p) };
+    }
+    // Process w/ progress bar — release/ship/iteration
+    if (/(출시|ship|배포|단계별 진행|progress|이터레이션|iteration|품질)/i.test(p)) {
+      return { id: 'stepbar', cfg: {} };
+    }
+    // Icon flow — listen/reason/act/triple-step verbs
+    if (/(listen|reason|act|trigger|process|3단계.*동사|순서대로 동작)/i.test(p)) {
+      return { id: 'iflow', cfg: {} };
+    }
+    // 3-panel comparison
+    if (/(panel|패널|3개.*비교|세 개.*비교|see.*decide.*learn)/i.test(p)) {
+      return { id: 'panels', cfg: {} };
+    }
+    // Browser window / dashboard / fake UI
+    if (/(대시보드|dashboard|window|화면.*보여|ui.*screen|app\.)/i.test(p)) {
+      return { id: 'window', cfg: extractWindow(p) };
+    }
+    // Numbered definition list
+    if (/(정의|단계|체크리스트|리스트.*\d|\d.*가지|how.*works|순서)/i.test(p)) {
+      return { id: 'numlist', cfg: {} };
+    }
+    // Default — concept stack
+    return { id: 'stack', cfg: extractStack(p) };
+  }
+
+  // ---- Tiny content extractors — best-effort, fall back to defaults ---
+  function extractQuote(p) {
+    const m = p.match(/[""""]([^""""]+)[""""]/) || p.match(/"([^"]+)"/);
+    return m ? { quote: '"' + m[1] + '"' } : {};
+  }
+  function extractStats(p) {
+    const matches = [...p.matchAll(/([+\-]?\d+(?:\.\d+)?\s*[a-zA-Z%억만+]+)/g)].map(m => m[1].trim());
+    if (matches.length >= 2) {
+      const items = matches.slice(0, 3).map((n, i) => ({
+        num: n,
+        caption: ['연 처리 메시지','월간 활성 사용자','엔터프라이즈 가동률'][i] || '지표'
+      }));
+      return { items, cols: items.length };
+    }
+    return {};
+  }
+  function extractCmp(p) {
+    return {
+      title: p.length > 60 ? 'Before delight.ai vs. Now' : p,
+    };
+  }
+  function extractWindow(p) {
+    const m = p.match(/([+\-]?\d+(?:\.\d+)?\s*%)/);
+    if (m) {
+      return {
+        body: `<div style="font:500 96px/1 'Serrif',serif;text-align:center;padding:80px 0 32px;letter-spacing:-0.04em;">${m[1]}</div>
+               <p style="text-align:center;margin:0;font:400 22px/1.4 'Helvetica Now Text',sans-serif;color:#6B6258;">${p}</p>`
+      };
+    }
+    return {};
+  }
+  function extractStack(p) {
+    return {
+      cards: [
+        { tag: 'CONCEPT', title: p.slice(0, 28) || 'Memory that learns', body: p.slice(0, 120) || '대화를 거듭할수록 고객을 더 잘 이해한다.' },
+        { tag: 'APPLY',   title: 'Personal context',  body: '구매 이력, 선호, 직전 문의를 자동으로 연결.' },
+        { tag: 'OUTCOME', title: '+34% resolution',   body: '재문의 없이 한 번에 해결되는 비율.' }
+      ]
+    };
+  }
+
+  // ---- Optional LLM enhancement (uses window.claude.complete if available)
+  async function enhanceWithClaude(prompt, picked) {
+    if (!window.claude?.complete) return picked;
+    try {
+      const schema = {
+        stack:   '{ cards: [{ tag, title, body }] }  // 2-4 cards',
+        numlist: '{ items: [{ title, body }] }       // 3-6 items',
+        stepbar: '{ title, steps: [{title, body}], iters: [{label, pct, done}], cta }',
+        stats:   '{ items: [{ num, caption }], cols: 1|2|3 }',
+        quote:   '{ pill, quote, author, role }',
+        iflow:   '{ title, steps: [{icon, title, body}], triggerPill, triggerBody }',
+        cmp:     '{ title, rows: [{label, before, now}] }',
+        panels:  '{ items: [{tag, title, body}] }   // exactly 3',
+        window:  '{ title, body /* HTML string */ }'
+      }[picked.id];
+
+      const sys = `delight.ai 블로그 본문에 들어가는 ${picked.id} 목업의 콘텐츠를 한국어로 작성. 반드시 순수 JSON만 반환 (코드블록 없이). 스키마: ${schema}. 한국어 letter-spacing:-0.02em, 절제된 톤.`;
+      const text = await window.claude.complete({
+        messages: [{ role: 'user', content: sys + '\n\n프롬프트:\n' + prompt }]
+      });
+      const cleaned = text.trim().replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+      const parsed = JSON.parse(cleaned);
+      return { ...picked, cfg: parsed };
+    } catch (e) {
+      console.warn('Claude enhance failed, using heuristic cfg', e);
+      return picked;
+    }
+  }
+
+  function paint(picked) {
+    const html = window.renderMock(picked.id, picked.cfg);
+    const mode = stage.dataset.mode;
+    if (mode === '1328') {
+      stage.innerHTML = `<div class="stage-frame"><div class="mock-canvas">${html}</div></div>`;
+    } else {
+      stage.innerHTML = `<div class="stage-frame stage-670-wrap"><div class="stage-670"><div class="mock-canvas">${html}</div></div></div>`;
+      const canvas = stage.querySelector('.mock-canvas');
+      requestAnimationFrame(() => {
+        const h = canvas.getBoundingClientRect().height;
+        stage.querySelector('.stage-670-wrap').style.height = h + 'px';
+      });
+    }
+    pickedEl.style.display = 'inline-flex';
+    pickedEl.textContent = picked.id;
+    noPick.style.display = 'none';
+  }
+
+  let lastPicked = null;
+  async function generate() {
+    const prompt = promptEl.value.trim();
+    if (!prompt) return;
+    goBtn.disabled = true;
+    goBtn.textContent = '생성 중…';
+    try {
+      const picked = pickPattern(prompt);
+      paint(picked);                    // immediate heuristic render
+      const enhanced = await enhanceWithClaude(prompt, picked);
+      lastPicked = enhanced;
+      paint(enhanced);                  // upgrade with LLM content if available
+    } finally {
+      goBtn.disabled = false;
+      goBtn.textContent = '목업 생성';
+    }
+  }
+  goBtn.addEventListener('click', generate);
+  promptEl.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') generate();
+  });
+  randBtn.addEventListener('click', () => {
+    promptEl.value = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
+    generate();
+  });
+
+  document.querySelectorAll('.toggle-row button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.toggle-row button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      stage.dataset.mode = btn.dataset.mode;
+      if (lastPicked) paint(lastPicked);
+    });
+  });
+</script>
+</body>
+</html>

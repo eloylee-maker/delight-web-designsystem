@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="light"/>
+<title>Mockup Pattern Guide — delight.ai blog</title>
+<link rel="stylesheet" href="patterns.css"/>
+<style>
+  body { margin:0; background:#EDEAE3; font-family:'Helvetica Now Text','Pretendard',sans-serif; color:#1A1612; letter-spacing:-0.02em; }
+  .page { max-width:1480px; margin:0 auto; padding:64px 56px 120px; }
+  .page-head h1 { font:500 48px/1.15 'Serrif',serif; margin:0 0 12px; letter-spacing:-0.03em; }
+  .page-head p  { font:400 18px/1.5 'Helvetica Now Text',sans-serif; color:#6B6258; max-width:760px; margin:0 0 8px; }
+  .page-head .meta { font:500 13px/1 'Helvetica Now Text',sans-serif; color:#9E9890; text-transform:uppercase; letter-spacing:0.08em; margin-top:18px; }
+  .grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:48px 40px; margin-top:56px; }
+  .card { background:transparent; }
+  .card-head { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .card-head .badge { font:500 11px/1 'Helvetica Now Text',sans-serif; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; background:#1A1612; color:#fff; border-radius:6px; }
+  .card-head h2 { font:500 22px/1.2 'Helvetica Now Text',sans-serif; margin:0; }
+  .card-desc { font:400 15px/1.5 'Helvetica Now Text',sans-serif; color:#4A433C; margin:0 0 16px; max-width:670px; }
+  .card-specs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
+  .card-specs span { font:500 12px/1 'Helvetica Now Text',sans-serif; padding:6px 10px; border:1px solid #D9D5CC; border-radius:99px; color:#4A433C; background:#fff; }
+  .frame-row { display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; }
+  .ref-thumb { width:200px; border-radius:10px; border:1px solid #D9D5CC; background:#fff; overflow:hidden; }
+  .ref-thumb img { width:100%; display:block; }
+  .ref-thumb .cap { font:500 11px/1 'Helvetica Now Text',sans-serif; padding:8px 10px; color:#9E9890; text-transform:uppercase; letter-spacing:0.08em; border-top:1px solid #EDEAE3; }
+  .open-link { font:500 13px/1 'Helvetica Now Text',sans-serif; color:#1A1612; text-decoration:none; border-bottom:1px solid #1A1612; padding-bottom:2px; }
+  .open-link:hover { color:#7B39FE; border-color:#7B39FE; }
+
+  /* Section banner */
+  .section-banner {
+    grid-column: 1 / -1;
+    border-top: 1px solid #D9D5CC; padding-top:32px; margin-top:24px;
+  }
+  .section-banner h3 { font:500 13px/1 'Helvetica Now Text',sans-serif; color:#9E9890; text-transform:uppercase; letter-spacing:0.12em; margin:0 0 6px; }
+  .section-banner p { font:400 16px/1.5 'Helvetica Now Text',sans-serif; color:#4A433C; margin:0; max-width:760px; }
+
+  /* Header rules */
+  .rules { background:#fff; border:1px solid #E5E1DA; border-radius:16px; padding:28px 32px; margin-top:36px; }
+  .rules h3 { font:500 14px/1 'Helvetica Now Text',sans-serif; color:#9E9890; text-transform:uppercase; letter-spacing:0.12em; margin:0 0 16px; }
+  .rules ul { margin:0; padding-left:20px; font:400 16px/1.6 'Helvetica Now Text',sans-serif; color:#1A1612; }
+  .rules ul li + li { margin-top:6px; }
+  .rules code { font-family:ui-monospace,monospace; font-size:14px; background:#F2EEE6; padding:2px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="page-head">
+    <h1>Mockup Pattern Guide</h1>
+    <p>delight.ai 블로그 본문에 들어가는 목업·다이어그램 패턴 카탈로그입니다. 모든 패턴은 <strong>1328px 캔버스</strong>에서 렌더되고 본문에는 670px 컬럼에 반응형으로 들어갑니다 — retina 2배 해상도 기준이라 글에 박아도 선명합니다.</p>
+    <div class="meta">Canvas 1328 px · Display column 670 px · Scale ratio 0.5045</div>
+
+    <div class="rules">
+      <h3>사용 규칙 (요약)</h3>
+      <ul>
+        <li>본문 1편당 같은 패턴은 최대 2회까지. 같은 카드가 위아래로 반복되면 즉시 다른 패턴으로 교체.</li>
+        <li>강조 색은 <code>--m-lime (#F2FF66)</code> 한 가지. 여러 색을 동시에 쓰지 않는다.</li>
+        <li>실 데이터가 없으면 <em>플레이스홀더</em> 명시 — "🖼 IMAGE" 박스, dummy 숫자 그대로 두고 나중에 교체.</li>
+        <li>제목은 Serrif Medium, 본문·라벨은 Helvetica Now Text. <code>letter-spacing:-0.02em</code> 고정.</li>
+        <li>UI 목업은 항상 macOS traffic light 또는 잘림(crop) 둘 중 하나로 컨텍스트를 준다.</li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="grid" class="grid"></main>
+</div>
+
+<script src="catalog.js"></script>
+<script src="patterns.js"></script>
+<script>
+  const grid = document.getElementById('grid');
+
+  // Frame heights — pattern → frame height (in 670px display units).
+  // Each pattern's natural rendered height varies; this is the visible window.
+  const FRAME_H = {
+    stack:   880,
+    numlist: 700,
+    stepbar: 920,
+    stats:   600,
+    quote:   460,
+    iflow:   860,
+    cmp:     580,
+    panels:  500,
+    window:  520
+  };
+
+  function card(p) {
+    const el = document.createElement('section');
+    el.className = 'card';
+    const renderable = !!window.MOCK_PATTERNS[p.id];
+    const frameH = FRAME_H[p.id] || 670;
+
+    el.innerHTML = `
+      <div class="card-head">
+        <span class="badge">${p.badge}</span>
+        <h2>${p.name}</h2>
+      </div>
+      <p class="card-desc">${p.desc}</p>
+      <div class="card-specs">${p.specs.map(s => `<span>${s}</span>`).join('')}</div>
+      <div class="frame-row">
+        ${renderable
+          ? `<div class="mock-frame" style="--frame-h:${frameH}px"><div class="mock-canvas">${window.renderMock(p.id)}</div></div>`
+          : `<div class="mock-frame" style="--frame-h:340px;display:flex;align-items:center;justify-content:center;color:#9E9890;font:500 14px/1 'Helvetica Now Text',sans-serif;">Renderer 미구현 — 레퍼런스만</div>`}
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${(p.refs || []).map(r => `
+            <div class="ref-thumb">
+              <img src="refs/${r}" alt="${r}"/>
+              <div class="cap">${r}</div>
+            </div>`).join('')}
+          ${renderable ? `<a class="open-link" href="playground.html?p=${p.id}">Open in playground →</a>` : ''}
+        </div>
+      </div>`;
+    return el;
+  }
+
+  // Group: Concept patterns first, then UI mockups
+  const conceptIds = ['stack','numlist','stepbar','stats','quote','iflow','cmp','panels'];
+  const uiIds      = ['window','crop-dash','snippet','modal','mobile','tree'];
+
+  function banner(label, sub) {
+    const b = document.createElement('div');
+    b.className = 'section-banner';
+    b.innerHTML = `<h3>${label}</h3><p>${sub}</p>`;
+    return b;
+  }
+
+  grid.appendChild(banner('Concept & explanation', '본문에서 개념을 설명할 때 쓰는 카드형 패턴. 단계·정의·비교에 강함.'));
+  conceptIds.forEach(id => {
+    const p = window.MOCK_CATALOG.find(x => x.id === id);
+    if (p) grid.appendChild(card(p));
+  });
+
+  grid.appendChild(banner('Product UI mockups', '제품 화면을 절제해서 보여줄 때. 풀 UI보다 한 곳을 크게 잘라내는 게 거의 항상 더 좋다.'));
+  uiIds.forEach(id => {
+    const p = window.MOCK_CATALOG.find(x => x.id === id);
+    if (p) grid.appendChild(card(p));
+  });
+</script>
+</body>
+</html>
