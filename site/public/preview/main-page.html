@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>delight.ai — AI customer experience that remembers</title>
+<style>
+  /* ============================================================
+     Fonts
+     ============================================================ */
+  @font-face { font-family: 'Serrif'; src: url('../fonts/Serrif-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Serrif'; src: url('../fonts/Serrif-Medium.otf')  format('opentype'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Serrif'; src: url('../fonts/Serrif-SemiBold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Helvetica Now Text'; src: url('../fonts/HelveticaNowText.otf')        format('opentype'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Helvetica Now Text'; src: url('../fonts/HelveticaNowTextMedium.otf')  format('opentype'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Helvetica Now Text'; src: url('../fonts/HelveticaNowTextBold.otf')    format('opentype'); font-weight: 700; font-display: swap; }
+
+  /* ============================================================
+     Tokens (Delight Warm)
+     ============================================================ */
+  :root {
+    --bg:           #FFFFFF;
+    --bg-subtle:    #F7F5F0;
+    --surface:      #FFFFFF;
+    --border:       #E5E3DF;
+    --border-light: #EDEAE3;
+    --text:         #1A1612;
+    --text-2:       #29201A;
+    --text-muted:   #6B6258;
+    --text-dim:     #9E9890;
+    --disabled:     #C4C0B9;
+    --lime:         #F2FF66;
+    --lime-dark:    #E8F555;
+    --cta-dark:     #18140F;
+    --max-w:        1552px;
+    --offset-pc:    184px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+  body { font-family: 'Helvetica Now Text', 'Pretendard', sans-serif; letter-spacing: -0.02em; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ============================================================
+     Container & utility
+     ============================================================ */
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+  .eyebrow {
+    font: 500 12px/1 'Helvetica Now Text', sans-serif;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  }
+
+  /* ============================================================
+     Buttons (Primary / Secondary / Tertiary / Lime)
+     ============================================================ */
+  .btn {
+    --btn-pad-x: 26px; --arrow-w: 12px; --arrow-gap: 4px;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--arrow-gap);
+    height: 52px; padding: 0 var(--btn-pad-x);
+    border-radius: 8px; border: none; cursor: pointer; white-space: nowrap;
+    font: 500 16px/1 'Helvetica Now Text', sans-serif; letter-spacing: -0.02em;
+    text-decoration: none; min-width: 136px;
+    transition: background 0.2s, border-color 0.2s, padding 0.18s;
+    position: relative;
+  }
+  .btn .arrow {
+    display: inline-flex; align-items: center; width: 0; overflow: hidden; opacity: 0;
+    margin-left: calc(var(--arrow-gap) * -1);
+    transition: width 0.18s, opacity 0.18s, margin-left 0.18s;
+  }
+  .btn:not(:disabled):hover .arrow { width: var(--arrow-w); margin-left: 0; opacity: 1; }
+  .btn:not(:disabled):hover { padding-left: 18px; padding-right: 18px; }
+  .btn.medium { --arrow-gap: 4px; height: 42px; padding: 0 12px; font-size: 16px; min-width: 112px; gap: var(--arrow-gap); }
+  .btn.medium:not(:disabled):hover { padding-left: 4px; padding-right: 4px; }
+
+  .btn-primary   { background: #000000; color: #FFFFFF; }
+  .btn-primary:hover   { background: #1A1612; }
+  .btn-secondary { background: #FFFFFF; color: #000000; border: 1px solid #000000; }
+  .btn-secondary:hover { background: #FFFFFF; }
+  .btn-tertiary  { background: transparent; color: var(--text); padding: 0; min-width: 0; height: auto; }
+  .btn-tertiary .label { text-decoration: underline; text-underline-offset: 3px; }
+  .btn-tertiary:hover { padding: 0; }
+  .btn-lime      { background: var(--lime); color: var(--text); }
+  .btn-lime:hover { background: var(--lime-dark); }
+
+  /* SVG arrow icon */
+  .arrow svg { width: 12px; height: 9px; flex-shrink: 0; }
+
+  /* ============================================================
+     GNB — 72px fixed
+     ============================================================ */
+  .gnb-announce {
+    height: 40px; background: #0D0D0D; color: #FFF;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    font: 400 14px/1 'Helvetica Now Text', sans-serif; letter-spacing: -0.02em;
+  }
+  .gnb-announce a { color: rgba(255,255,255,0.96); font-weight: 500; }
+  .gnb-announce a::after { content: ' →'; }
+
+  .gnb-wrap { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.92); backdrop-filter: saturate(140%) blur(16px); }
+  .gnb {
+    height: 72px; max-width: 1616px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid transparent; transition: border-color 0.15s;
+  }
+  .gnb.scrolled { border-color: var(--border-light); }
+
+  .gnb-left { display: flex; align-items: center; gap: 32px; }
+  .gnb-brand {
+    width: 74px; height: 50px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg-subtle); display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 0 12px 0 14px; cursor: pointer; flex-shrink: 0;
+  }
+  .gnb-brand img { width: 22px; height: 22px; }
+  .gnb-brand-chev { width: 12px; height: 12px; color: var(--text-muted); }
+
+  .gnb-menu { display: flex; align-items: stretch; height: 72px; }
+  .gnb-menu-item {
+    display: flex; align-items: center; gap: 4px; padding: 0 14px; cursor: pointer; height: 100%;
+    font: 500 16px/1 'Helvetica Now Text', sans-serif; color: var(--text-2); letter-spacing: -0.02em;
+    position: relative;
+  }
+  .gnb-menu-item:hover { background: var(--bg-subtle); }
+  .gnb-menu-item .chev { width: 12px; height: 12px; color: var(--text-muted); transition: transform 0.15s; }
+  .gnb-menu-item:hover .chev { transform: rotate(180deg); }
+
+  .gnb-right { display: flex; align-items: center; gap: 6px; }
+  .gnb-icon-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; height: 36px;
+    border-radius: 8px; cursor: pointer; border: 1px solid transparent;
+    font: 500 16px/1 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.02em;
+  }
+  .gnb-icon-btn:hover { background: var(--bg-subtle); }
+  .gnb-cta {
+    height: 42px; padding: 0 16px; background: #000; color: #FFF; border-radius: 8px;
+    font: 500 16px/1 'Helvetica Now Text', sans-serif; letter-spacing: -0.02em;
+    margin-left: 8px; cursor: pointer; border: 0;
+  }
+  .gnb-cta:hover { background: #1A1612; }
+
+  /* ===== GNB dropdowns ===== */
+  .gnb-item-wrap { position: relative; display: flex; align-items: center; }
+  .gnb-menu-item.is-active::after,
+  .gnb-menu-item[data-trigger]:hover::after {
+    content: ''; position: absolute; left: 14px; right: 14px; bottom: 0;
+    height: 2px; background: var(--text); border-radius: 1px;
+  }
+  .gnb-menu-item[data-trigger]:hover { background: transparent; }
+  .gnb-menu-item.simple:hover::after { display: none; }
+
+  .gnb-drop {
+    position: absolute; top: 72px; left: 0;
+    background: #FFF; border: 1px solid var(--border-light);
+    border-radius: 0 0 14px 14px; box-shadow: 0 24px 64px rgba(0,0,0,0.10);
+    opacity: 0; transform: translateY(-4px); pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 10;
+  }
+  .gnb-drop.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+  .gnb-drop-mega { width: 920px; padding: 0; overflow: hidden; }
+  .drop-cols { display: grid; grid-template-columns: 260px 260px 1fr; gap: 1px; background: var(--border-light); }
+  .drop-col { background: #FFF; padding: 20px 14px; }
+  .drop-col-h {
+    font: 500 11px/1 'Helvetica Now Text', sans-serif; color: var(--text-dim);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 12px 12px;
+  }
+  .drop-link {
+    display: block; padding: 10px 12px; border-radius: 8px;
+    transition: background 0.12s;
+  }
+  .drop-link:hover { background: var(--bg-subtle); }
+  .drop-link .t {
+    font: 500 16px/1.3 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.02em;
+  }
+  .drop-link .d {
+    margin-top: 2px;
+    font: 400 13px/1.4 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+  }
+  .drop-promo {
+    background: var(--bg-subtle); padding: 20px 24px;
+    display: flex; flex-direction: column;
+  }
+  .drop-promo-eyebrow {
+    font: 500 11px/1 'Helvetica Now Text', sans-serif; color: var(--text-dim);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .drop-promo-thumb {
+    width: 100%; aspect-ratio: 16/9; border-radius: 10px;
+    background: linear-gradient(135deg, #1A1612 0%, #4A433C 60%, #F2FF66 240%);
+    margin-bottom: 14px;
+  }
+  .drop-promo-title { font: 500 16px/1.3 'Helvetica Now Text', sans-serif; color: var(--text); }
+  .drop-promo-desc { margin-top: 4px; font: 400 13px/1.4 'Helvetica Now Text', sans-serif; color: var(--text-muted); }
+
+  .drop-integrations {
+    padding: 14px 24px; border-top: 1px solid var(--border-light);
+    display: flex; align-items: center; gap: 16px; background: #FFF;
+  }
+  .drop-int-label {
+    font: 500 11px/1 'Helvetica Now Text', sans-serif; color: var(--text-dim);
+    letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0;
+  }
+  .drop-int-list { display: flex; gap: 6px; flex-wrap: wrap; }
+  .drop-int-pill {
+    display: inline-flex; align-items: center; height: 28px; padding: 0 10px;
+    background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 6px;
+    font: 500 12px/1 'Helvetica Now Text', sans-serif; color: var(--text-2);
+  }
+  .drop-int-pill:hover { background: #FFF; border-color: var(--text-dim); }
+
+  .gnb-drop-panel { padding: 16px 8px; min-width: 280px; }
+  .gnb-drop-panel.narrow { min-width: 260px; padding: 10px 6px; }
+  .drop-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; padding: 0 14px; min-width: 460px; }
+  .drop-mini, .drop-row {
+    display: block; padding: 10px 14px; border-radius: 8px;
+    font: 500 15px/1.3 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.02em;
+    transition: background 0.12s;
+  }
+  .drop-mini:hover, .drop-row:hover { background: var(--bg-subtle); }
+  .gnb-drop-panel .drop-col-h { padding: 4px 14px 8px; }
+  .drop-row { font-size: 16px; }
+
+  /* Lang popover */
+  .gnb-pop {
+    position: absolute; top: 100%; right: 0; margin-top: 4px;
+    background: #FFF; border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.10);
+    min-width: 180px; padding: 6px;
+    opacity: 0; transform: translateY(-4px); pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 10;
+  }
+  .gnb-pop.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .pop-item {
+    display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 6px;
+    font: 400 14px/1 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.01em;
+    cursor: pointer; white-space: nowrap;
+  }
+  .pop-item:hover { background: var(--bg-subtle); }
+  .pop-item.selected { font-weight: 500; }
+  .pop-check { margin-left: auto; color: var(--text-muted); font-size: 12px; }
+  .pop-item:not(.selected) .pop-check { visibility: hidden; }
+  .gnb-icon-btn .chev { width: 12px; height: 12px; color: var(--text-muted); transition: transform 0.15s; }
+  .gnb-icon-btn.is-active .chev { transform: rotate(180deg); }
+
+  /* ============================================================
+     Hero
+     ============================================================ */
+  .hero { padding: 96px 0 120px; background: var(--bg); }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .hero-left { display: flex; flex-direction: column; gap: 28px; align-items: flex-start; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px;
+    background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 999px;
+    font: 500 13px/1 'Helvetica Now Text', sans-serif; color: var(--text-2); letter-spacing: -0.01em;
+  }
+  .hero-badge::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--lime);
+    box-shadow: 0 0 0 4px rgba(242,255,102,0.20);
+  }
+  .hero h1 {
+    margin: 0;
+    font: 500 72px/108% 'Serrif', serif; letter-spacing: -0.025em; color: var(--text);
+    max-width: 740px;
+  }
+  .hero h1 em { font-style: normal; }
+  .hero-lede {
+    margin: 0; max-width: 580px;
+    font: 400 20px/136% 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.015em;
+  }
+  .hero-cta { display: flex; gap: 12px; margin-top: 8px; }
+
+  /* Hero product UI mockup */
+  .hero-product {
+    background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 20px;
+    padding: 24px; box-shadow: 4px 14px 24px 3px rgba(33,33,33,0.06);
+    aspect-ratio: 4/5; max-height: 640px; display: flex; flex-direction: column; gap: 16px;
+    overflow: hidden;
+  }
+  .hp-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; background: #FFF; border-radius: 12px; border: 1px solid var(--border-light);
+  }
+  .hp-bar .av {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #F2FF66 0%, #C7D952 100%);
+  }
+  .hp-bar .meta { flex: 1; }
+  .hp-bar .name { font: 500 14px/1.2 'Helvetica Now Text', sans-serif; color: var(--text); }
+  .hp-bar .status { font: 400 12px/1 'Helvetica Now Text', sans-serif; color: var(--text-muted); margin-top: 2px; }
+  .hp-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: #25BD85; }
+
+  .hp-chat { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+  .hp-msg {
+    background: #FFF; padding: 14px 16px; border-radius: 14px; max-width: 80%;
+    font: 400 14px/1.45 'Helvetica Now Text', sans-serif; color: var(--text); border: 1px solid var(--border-light);
+  }
+  .hp-msg.them { align-self: flex-start; border-bottom-left-radius: 4px; }
+  .hp-msg.me   { align-self: flex-end; background: var(--text); color: #FFF; border-bottom-right-radius: 4px; border: 0; }
+  .hp-msg.mem  { background: rgba(242,255,102,0.25); border-color: rgba(242,255,102,0.6); }
+  .hp-msg .tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .hp-msg .tag::before { content: '●'; color: #2DBD7F; font-size: 8px; }
+
+  .hp-input {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px; background: #FFF; border: 1px solid var(--border-light); border-radius: 999px;
+    font: 400 14px/1 'Helvetica Now Text', sans-serif; color: var(--text-muted);
+  }
+  .hp-input::after {
+    content: ''; flex-shrink: 0; margin-left: auto;
+    width: 28px; height: 28px; border-radius: 50%; background: var(--text);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'><path d='M7 11V3M3 7L7 3L11 7' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat; background-position: center;
+  }
+
+  /* ============================================================
+     Logo Garden
+     ============================================================ */
+  .logo-garden { padding: 48px 0; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+  .logo-garden-track {
+    display: flex; align-items: center; gap: 64px; overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+  }
+  .logo-garden-inner { display: flex; align-items: center; gap: 64px; animation: scroll 40s linear infinite; }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .logo-item {
+    flex-shrink: 0; height: 28px; display: inline-flex; align-items: center;
+    font: 600 18px/1 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .logo-item:hover { opacity: 1; }
+
+  /* ============================================================
+     Section title
+     ============================================================ */
+  .section-title {
+    margin: 0 0 16px;
+    font: 500 38px/120% 'Serrif', serif; letter-spacing: -0.02em; color: var(--text);
+    max-width: 720px;
+  }
+  .section-lede {
+    margin: 0; max-width: 640px;
+    font: 400 18px/138% 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+  }
+
+  /* ============================================================
+     Feature Sections
+     ============================================================ */
+  .feature { padding: 120px 0; }
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+  .feature-grid.reverse > :first-child { order: 2; }
+  .feature-text { display: flex; flex-direction: column; gap: 24px; max-width: 540px; }
+  .feature-text ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .feature-text li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font: 400 16px/156% 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.01em;
+  }
+  .feature-text li::before {
+    content: ''; flex-shrink: 0; margin-top: 8px;
+    width: 16px; height: 8px; border-radius: 2px; background: var(--lime);
+  }
+  .feature-text .btn-tertiary { margin-top: 8px; }
+
+  .feature-visual {
+    background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 24px;
+    padding: 40px; aspect-ratio: 1/1; max-height: 560px;
+    display: flex; flex-direction: column; gap: 14px; overflow: hidden;
+  }
+  .fv-row {
+    background: #FFF; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border-light);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .fv-row.tagged { background: linear-gradient(180deg, #FFFAB8 0%, #FFFFFF 100%); border-color: #F5E68A; }
+  .fv-tag {
+    display: inline-flex; align-items: center; height: 22px; padding: 0 8px;
+    background: #000; color: var(--lime); border-radius: 6px;
+    font: 500 11px/1 'Helvetica Now Text', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0;
+  }
+  .fv-row .text { flex: 1; font: 500 15px/1.4 'Helvetica Now Text', sans-serif; color: var(--text); }
+  .fv-row .meta { font: 400 13px/1 'Helvetica Now Text', sans-serif; color: var(--text-muted); }
+
+  .fv-canvas {
+    background: #FFF; flex: 1; border-radius: 16px; border: 1px solid var(--border-light);
+    padding: 24px; display: flex; flex-direction: column; gap: 12px; min-height: 0;
+  }
+  .fv-canvas .h {
+    display: flex; align-items: center; justify-content: space-between;
+    font: 500 13px/1 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .fv-canvas .h .pill {
+    display: inline-flex; align-items: center; height: 22px; padding: 0 8px;
+    background: var(--lime); border-radius: 6px; color: var(--text);
+    font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+  }
+  .fv-graph {
+    flex: 1; min-height: 80px; display: flex; align-items: flex-end; gap: 8px; padding-top: 16px;
+  }
+  .fv-bar {
+    flex: 1; background: var(--bg-subtle); border-radius: 4px; position: relative; min-height: 8px;
+  }
+  .fv-bar i {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--text); border-radius: 4px;
+  }
+  .fv-bar.lime i { background: var(--lime); border: 1px solid var(--text); }
+
+  /* ============================================================
+     Stats Bar
+     ============================================================ */
+  .stats { padding: 80px 0; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); background: var(--bg); }
+  .stats-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; align-items: center; }
+  .stats-lede {
+    font: 400 18px/138% 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.01em;
+    max-width: 360px;
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 4px;
+    border-left: 1px solid var(--border-light); padding-left: 40px;
+  }
+  .stat .num {
+    font: 500 64px/100% 'Serrif', serif; letter-spacing: -0.04em; color: var(--text);
+  }
+  .stat .cap {
+    font: 400 14px/138% 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+  }
+
+  /* ============================================================
+     Trust OS — three feature cards
+     ============================================================ */
+  .trust { padding: 120px 0; background: var(--bg-subtle); }
+  .trust-head {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 64px; align-items: flex-end;
+    margin-bottom: 56px;
+  }
+  .trust-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px;
+    background: var(--lime); color: var(--text); border-radius: 6px;
+    font: 500 12px/1 'Helvetica Now Text', sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .trust-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .trust-card {
+    background: #FFF; border: 1px solid var(--border-light); border-radius: 20px;
+    padding: 36px 32px; display: flex; flex-direction: column; gap: 16px; min-height: 320px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .trust-card:hover { transform: translateY(-2px); box-shadow: 4px 14px 24px 3px rgba(33,33,33,0.08); }
+  .trust-card .icon {
+    width: 44px; height: 44px; border-radius: 10px; background: var(--bg-subtle);
+    border: 1px solid var(--border-light); display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text);
+  }
+  .trust-card h3 {
+    margin: 12px 0 0;
+    font: 500 24px/132% 'Serrif', serif; letter-spacing: -0.02em; color: var(--text);
+  }
+  .trust-card p {
+    margin: 0;
+    font: 400 15px/156% 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+    flex: 1;
+  }
+  .trust-card .more {
+    font: 500 14px/1 'Helvetica Now Text', sans-serif; color: var(--text);
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .trust-card .more::after { content: ' →'; }
+
+  /* ============================================================
+     Capabilities row
+     ============================================================ */
+  .caps { padding: 120px 0; }
+  .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .cap-card {
+    border: 1px solid var(--border-light); border-radius: 16px;
+    padding: 28px 28px 32px; display: flex; flex-direction: column; gap: 12px;
+    background: #FFF; transition: background 0.2s, transform 0.2s;
+  }
+  .cap-card:hover { background: var(--bg-subtle); transform: translateY(-2px); }
+  .cap-card .num {
+    font: 500 13px/1 ui-monospace, monospace; color: var(--text-dim); letter-spacing: 0.04em;
+  }
+  .cap-card h4 {
+    margin: 0;
+    font: 500 20px/130% 'Helvetica Now Text', sans-serif; letter-spacing: -0.02em; color: var(--text);
+  }
+  .cap-card p {
+    margin: 0;
+    font: 400 14px/152% 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+  }
+
+  /* ============================================================
+     FAQ
+     ============================================================ */
+  .faq { padding: 120px 0; background: var(--bg-subtle); }
+  .faq-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 96px; align-items: flex-start; }
+  .faq-list { display: flex; flex-direction: column; }
+  .faq-item {
+    border-top: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .faq-item summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font: 500 20px/132% 'Helvetica Now Text', sans-serif; color: var(--text); letter-spacing: -0.02em;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item .icon {
+    width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--text-muted); flex-shrink: 0; transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .faq-item .icon .minus { display: none; }
+  .faq-item[open] .icon { background: var(--lime); border-color: var(--lime); color: var(--text); }
+  .faq-item[open] .icon .plus  { display: none; }
+  .faq-item[open] .icon .minus { display: block; }
+  .faq-item p {
+    margin: 16px 0 0; max-width: 720px;
+    font: 400 16px/156% 'Helvetica Now Text', sans-serif; color: var(--text-muted); letter-spacing: -0.01em;
+  }
+
+  /* ============================================================
+     CTA Banner
+     ============================================================ */
+  .cta-banner {
+    background: var(--cta-dark); color: #FFF; padding: 96px 0;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: ''; position: absolute; right: -120px; top: 50%; transform: translateY(-50%);
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(242,255,102,0.16), transparent 60%);
+    pointer-events: none;
+  }
+  .cta-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+  .cta-banner h2 {
+    margin: 0 0 16px;
+    font: 500 56px/120% 'Serrif', serif; letter-spacing: -0.025em; color: #FFF;
+  }
+  .cta-banner h2 em { font-style: normal; color: var(--lime); }
+  .cta-banner p {
+    margin: 0; max-width: 520px;
+    font: 400 18px/156% 'Helvetica Now Text', sans-serif; color: rgba(255,255,255,0.72); letter-spacing: -0.01em;
+  }
+  .cta-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .cta-banner .btn { min-width: 220px; }
+  .cta-banner .meta { font: 400 14px/138% 'Helvetica Now Text', sans-serif; color: rgba(255,255,255,0.56); }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  .footer { background: var(--bg-subtle); padding: 80px 0 32px; }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.4fr repeat(5, 1fr); gap: 48px;
+    margin-bottom: 64px;
+  }
+  .footer-brand h3 {
+    margin: 0 0 12px;
+    font: 600 24px/132% 'Serrif', serif; letter-spacing: -0.02em; color: var(--text);
+    max-width: 280px;
+  }
+  .footer-brand p {
+    margin: 0 0 20px; max-width: 280px;
+    font: 400 14px/156% 'Helvetica Now Text', sans-serif; color: var(--text-muted);
+  }
+  .footer-col h5 {
+    margin: 0 0 16px;
+    font: 500 12px/1 'Helvetica Now Text', sans-serif; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .footer-col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a {
+    font: 400 14px/152% 'Helvetica Now Text', sans-serif; color: var(--text-2); letter-spacing: -0.01em;
+  }
+  .footer-col a:hover { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    font: 400 13px/138% 'Helvetica Now Text', sans-serif; color: var(--text-muted);
+  }
+  .footer-bottom-links { display: flex; gap: 24px; }
+  .footer-bottom-links a:hover { color: var(--text); }
+  .footer-social { display: flex; gap: 8px; }
+  .footer-social a {
+    width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+    display: inline-flex; align-items: center; justify-content: center; color: var(--text-muted);
+  }
+  .footer-social a:hover { background: var(--bg); border-color: var(--text-dim); color: var(--text); }
+
+  /* ============================================================
+     Responsive (very light — main page is 1920 desktop primary)
+     ============================================================ */
+  @media (max-width: 1100px) {
+    .hero-grid, .feature-grid, .feature-grid.reverse, .trust-head, .faq-grid, .cta-grid, .stats-grid {
+      grid-template-columns: 1fr; gap: 48px;
+    }
+    .feature-grid.reverse > :first-child { order: 0; }
+    .trust-cards, .caps-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .stat { padding-left: 0; border-left: 0; padding-top: 16px; border-top: 1px solid var(--border-light); }
+    .hero h1 { font-size: 48px; }
+    .section-title { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     Announcement bar
+     ============================================================ -->
+<div class="gnb-announce">
+  <span>Delight Spark 2026 is coming. The next era of AI concierge.</span>
+  <a href="#">Reserve your seat</a>
+</div>
+
+<!-- ============================================================
+     GNB
+     ============================================================ -->
+<div class="gnb-wrap" id="gnb-wrap">
+<header class="gnb" id="gnb">
+  <div class="gnb-left">
+    <div class="gnb-brand">
+      <img src="../assets/logos/delight-symbol-black.svg" alt="delight.ai">
+      <svg class="gnb-brand-chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg>
+    </div>
+    <nav class="gnb-menu">
+      <div class="gnb-item-wrap">
+        <span class="gnb-menu-item" data-trigger="caps">Capabilities <svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg></span>
+        <div class="gnb-drop gnb-drop-mega" data-drop="caps">
+          <div class="drop-cols">
+            <div class="drop-col">
+              <div class="drop-col-h">Product</div>
+              <a class="drop-link" href="#"><div class="t">Agent Memory Platform</div><div class="d">A living memory of each customer.</div></a>
+              <a class="drop-link" href="#"><div class="t">Omnipresence</div><div class="d">One AI agent across every channel.</div></a>
+              <a class="drop-link" href="#"><div class="t">Trust OS</div><div class="d">Accuracy, brand voice, and policy.</div></a>
+              <a class="drop-link" href="#"><div class="t">AI Agent Builder</div><div class="d">Compose your own agent workflows.</div></a>
+            </div>
+            <div class="drop-col">
+              <div class="drop-col-h">Conversation</div>
+              <a class="drop-link" href="#"><div class="t">For-You Conversations</div><div class="d">Personal context on every reply.</div></a>
+              <a class="drop-link" href="#"><div class="t">Voice AI Agent</div><div class="d">Telephony-grade voice, multilingual.</div></a>
+              <a class="drop-link" href="#"><div class="t">AI Copilot</div><div class="d">Suggest, draft, escalate beside your team.</div></a>
+            </div>
+            <div class="drop-promo">
+              <div class="drop-promo-eyebrow">EVENT</div>
+              <div class="drop-promo-thumb"></div>
+              <div class="drop-promo-title">Delight Spark 2026</div>
+              <div class="drop-promo-desc">May 7 — build the future of AI concierge.</div>
+            </div>
+          </div>
+          <div class="drop-integrations">
+            <span class="drop-int-label">INTEGRATIONS</span>
+            <div class="drop-int-list">
+              <span class="drop-int-pill">Salesforce</span>
+              <span class="drop-int-pill">Zendesk</span>
+              <span class="drop-int-pill">Freshworks</span>
+              <span class="drop-int-pill">Confluence</span>
+              <span class="drop-int-pill">Notion</span>
+              <span class="drop-int-pill">ServiceNow</span>
+              <span class="drop-int-pill">Intercom</span>
+              <span class="drop-int-pill">Drive</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gnb-item-wrap">
+        <span class="gnb-menu-item" data-trigger="sol">Solutions <svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg></span>
+        <div class="gnb-drop gnb-drop-panel" data-drop="sol">
+          <div class="drop-panel-grid">
+            <div>
+              <div class="drop-col-h">Industries</div>
+              <a class="drop-mini" href="#">Retail</a>
+              <a class="drop-mini" href="#">B2B SaaS</a>
+              <a class="drop-mini" href="#">On-demand</a>
+              <a class="drop-mini" href="#">Travel &amp; hospitality</a>
+              <a class="drop-mini" href="#">Financial services</a>
+            </div>
+            <div>
+              <div class="drop-col-h">Use cases</div>
+              <a class="drop-mini" href="#">Customer service</a>
+              <a class="drop-mini" href="#">Inside sales</a>
+              <a class="drop-mini" href="#">Returns &amp; refunds</a>
+              <a class="drop-mini" href="#">Onboarding</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gnb-item-wrap">
+        <span class="gnb-menu-item" data-trigger="res">Resources <svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg></span>
+        <div class="gnb-drop gnb-drop-panel narrow" data-drop="res">
+          <a class="drop-row" href="#">📘 Documentation</a>
+          <a class="drop-row" href="#">📊 ROI calculator</a>
+          <a class="drop-row" href="#">🎙 Podcast — Delight Perspectives</a>
+          <a class="drop-row" href="#">📝 Customer stories</a>
+          <a class="drop-row" href="#">📺 Webinars &amp; recordings</a>
+        </div>
+      </div>
+      <span class="gnb-menu-item simple" data-trigger="cust">Customers</span>
+    </nav>
+  </div>
+  <div class="gnb-right">
+    <div class="gnb-item-wrap">
+      <span class="gnb-icon-btn" data-trigger="lang">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        EN
+        <svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg>
+      </span>
+      <div class="gnb-pop" data-drop="lang">
+        <div class="pop-item selected" data-v="en">EN · English<span class="pop-check">✓</span></div>
+        <div class="pop-item" data-v="ko">KO · 한국어</div>
+        <div class="pop-item" data-v="ja">JA · 日本語</div>
+      </div>
+    </div>
+    <span class="gnb-icon-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      Log in
+    </span>
+    <button class="gnb-cta">Contact sales</button>
+  </div>
+</header>
+</div>
+
+<!-- ============================================================
+     Hero
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <span class="hero-badge">New · Agent Memory Platform 2.0</span>
+        <h1>The AI concierge that remembers <em>every</em> customer.</h1>
+        <p class="hero-lede">delight.ai builds a living memory of each customer across channels — so every conversation feels personal, every resolution lands the first time.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary">
+            <span class="label">Contact sales</span>
+            <span class="arrow"><svg viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.54681 9L9.12766 4.94043L0 4.94043V4.05958L9.12766 4.05957L5.54681 0H6.48511L12 4.5L6.48511 9H5.54681Z" fill="currentColor"/></svg></span>
+          </button>
+          <button class="btn btn-secondary">
+            <span class="label">See live demo</span>
+            <span class="arrow"><svg viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.54681 9L9.12766 4.94043L0 4.94043V4.05958L9.12766 4.05957L5.54681 0H6.48511L12 4.5L6.48511 9H5.54681Z" fill="currentColor"/></svg></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-product" aria-hidden="true">
+        <div class="hp-bar">
+          <div class="av"></div>
+          <div class="meta">
+            <div class="name">Maya · returning customer</div>
+            <div class="status">VIP · 3 prior tickets · last seen Mar 12</div>
+          </div>
+          <div class="dot"></div>
+        </div>
+        <div class="hp-chat">
+          <div class="hp-msg them">Hey, my package never arrived. Can you check what happened to order #4827?</div>
+          <div class="hp-msg mem">
+            <div class="tag">Memory recall</div>
+            Pulled Maya's last delivery exception (Mar 5). Carrier note: <strong>address apartment number missing</strong>. Confirming with her instead of guessing.
+          </div>
+          <div class="hp-msg me">Hi Maya — looks like the package was held by the carrier because the apartment number wasn't on file. Want me to resend to <strong>305 Tully St, Apt 4B</strong>, or update it first?</div>
+          <div class="hp-msg them">Apt 4B is right, please resend. Thanks for catching that!</div>
+        </div>
+        <div class="hp-input">Type a reply…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Logo Garden
+     ============================================================ -->
+<section class="logo-garden">
+  <div class="container">
+    <p class="eyebrow" style="text-align:center; margin-bottom:24px;">Trusted by teams who can't afford a bad conversation</p>
+    <div class="logo-garden-track">
+      <div class="logo-garden-inner">
+        <span class="logo-item">Lotte</span>
+        <span class="logo-item">Redfin</span>
+        <span class="logo-item">Teladoc</span>
+        <span class="logo-item">Noom</span>
+        <span class="logo-item">Match</span>
+        <span class="logo-item">Hyundai</span>
+        <span class="logo-item">Hinge</span>
+        <span class="logo-item">SK telecom</span>
+        <span class="logo-item">Carvana</span>
+        <span class="logo-item">Headspace</span>
+        <!-- duplicated for seamless scroll -->
+        <span class="logo-item">Lotte</span>
+        <span class="logo-item">Redfin</span>
+        <span class="logo-item">Teladoc</span>
+        <span class="logo-item">Noom</span>
+        <span class="logo-item">Match</span>
+        <span class="logo-item">Hyundai</span>
+        <span class="logo-item">Hinge</span>
+        <span class="logo-item">SK telecom</span>
+        <span class="logo-item">Carvana</span>
+        <span class="logo-item">Headspace</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Feature 1 — text left, visual right
+     ============================================================ -->
+<section class="feature">
+  <div class="container">
+    <div class="feature-grid">
+      <div class="feature-text">
+        <p class="eyebrow">Agent Memory Platform</p>
+        <h2 class="section-title">A living memory of every customer.</h2>
+        <p class="section-lede">Order history, preferences, the last call — delight.ai stitches every signal across channels into a single, evolving customer profile your agents can act on.</p>
+        <ul>
+          <li>Unifies CRM, ticket history, and live session events in real time.</li>
+          <li>Surfaces only what's relevant to the current conversation.</li>
+          <li>Learns from every resolved ticket and every escalation.</li>
+        </ul>
+        <a class="btn btn-tertiary" href="#"><span class="label">How memory works</span></a>
+      </div>
+
+      <div class="feature-visual" aria-hidden="true">
+        <div class="fv-row tagged">
+          <span class="fv-tag">MEMORY</span>
+          <span class="text">Maya last contacted us about delivery delays</span>
+        </div>
+        <div class="fv-row">
+          <span class="text">Apartment number missing on 2 prior shipments</span>
+          <span class="meta">Mar 5</span>
+        </div>
+        <div class="fv-row">
+          <span class="text">Prefers SMS over email for delivery updates</span>
+          <span class="meta">Feb 17</span>
+        </div>
+        <div class="fv-canvas">
+          <div class="h"><span>Resolution rate</span> <span class="pill">+34% YoY</span></div>
+          <div class="fv-graph">
+            <div class="fv-bar"><i style="height:35%"></i></div>
+            <div class="fv-bar"><i style="height:42%"></i></div>
+            <div class="fv-bar"><i style="height:55%"></i></div>
+            <div class="fv-bar"><i style="height:60%"></i></div>
+            <div class="fv-bar"><i style="height:72%"></i></div>
+            <div class="fv-bar"><i style="height:78%"></i></div>
+            <div class="fv-bar lime"><i style="height:89%"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Feature 2 — visual left, text right (reverse)
+     ============================================================ -->
+<section class="feature" style="background: var(--bg-subtle);">
+  <div class="container">
+    <div class="feature-grid reverse">
+      <div class="feature-text">
+        <p class="eyebrow">Omnipresence</p>
+        <h2 class="section-title">One conversation, every channel.</h2>
+        <p class="section-lede">Customers don't separate WhatsApp from email or in-app chat — and your agent shouldn't either. delight.ai stays in sync across surfaces with a single memory.</p>
+        <ul>
+          <li>Drop-in connectors for web, mobile, WhatsApp, Instagram, voice.</li>
+          <li>Hand-off to humans without losing context — ever.</li>
+          <li>Localized in 38 languages with native voice and tone.</li>
+        </ul>
+        <a class="btn btn-tertiary" href="#"><span class="label">See all channels</span></a>
+      </div>
+
+      <div class="feature-visual" aria-hidden="true">
+        <div class="fv-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          <span class="text">WhatsApp</span>
+          <span class="meta">8,402 active</span>
+        </div>
+        <div class="fv-row tagged">
+          <span class="fv-tag">LIVE</span>
+          <span class="text">In-app chat — web & iOS / Android SDK</span>
+          <span class="meta">28,114</span>
+        </div>
+        <div class="fv-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6L12 13 2 6"/></svg>
+          <span class="text">Email</span>
+          <span class="meta">12,876</span>
+        </div>
+        <div class="fv-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <span class="text">Voice (Sonata)</span>
+          <span class="meta">2,304</span>
+        </div>
+        <div class="fv-canvas">
+          <div class="h"><span>Handoffs preserved</span> <span class="pill">100%</span></div>
+          <div style="display:flex; align-items:center; gap:12px; padding-top:8px;">
+            <div style="flex:1; height:8px; background:var(--bg-subtle); border-radius:99px; overflow:hidden;">
+              <div style="height:100%; width:100%; background:linear-gradient(90deg, #2DBD7F, var(--lime));"></div>
+            </div>
+            <span style="font: 500 14px/1 'Helvetica Now Text', sans-serif; color: var(--text);">100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Stats Bar
+     ============================================================ -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <p class="stats-lede">Built on the same infrastructure that powers <strong>Sendbird</strong> — at planetary scale.</p>
+      <div class="stat">
+        <div class="num">4B+</div>
+        <div class="cap">Messages handled / year</div>
+      </div>
+      <div class="stat">
+        <div class="num">300M+</div>
+        <div class="cap">Monthly active users</div>
+      </div>
+      <div class="stat">
+        <div class="num">99.9%</div>
+        <div class="cap">Enterprise uptime SLA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Trust OS — three feature cards
+     ============================================================ -->
+<section class="trust">
+  <div class="container">
+    <div class="trust-head">
+      <div>
+        <span class="trust-eyebrow">Trust OS · responsible AI</span>
+        <h2 class="section-title">Three guardrails between your AI and your brand.</h2>
+        <p class="section-lede">Every reply runs through delight.ai's Trust OS — guarding accuracy, brand voice, and policy before it ever reaches a customer.</p>
+      </div>
+      <a class="btn btn-tertiary" href="#" style="justify-self:end;"><span class="label">Read the Trust OS paper</span></a>
+    </div>
+
+    <div class="trust-cards">
+      <div class="trust-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>For-You Conversations</h3>
+        <p>Every response is grounded in the customer's memory + your policies. Not templated. Never generic.</p>
+        <a class="more" href="#">Learn more</a>
+      </div>
+      <div class="trust-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3>Omnipresence</h3>
+        <p>One AI agent across every channel — web, mobile, social, voice — with the same memory and the same brand voice.</p>
+        <a class="more" href="#">See channels</a>
+      </div>
+      <div class="trust-card">
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-9 10-9 10 9 10 9-3 9-10 9-10-9-10-9z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Watchtower QA</h3>
+        <p>1% of every day's conversations are auto-graded against your policy — drift caught in hours, not quarters.</p>
+        <a class="more" href="#">How it scores</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Capabilities row — small cards
+     ============================================================ -->
+<section class="caps">
+  <div class="container">
+    <div class="trust-head" style="grid-template-columns: 1fr; margin-bottom: 48px;">
+      <div>
+        <p class="eyebrow">Built for enterprise</p>
+        <h2 class="section-title">From the first message to the last invoice.</h2>
+      </div>
+    </div>
+    <div class="caps-grid">
+      <div class="cap-card">
+        <span class="num">01</span>
+        <h4>Well-designed AOPS</h4>
+        <p>An operating system for agents — workflows, approvals, and audit trails built in, not bolted on.</p>
+      </div>
+      <div class="cap-card">
+        <span class="num">02</span>
+        <h4>Watchtower QA</h4>
+        <p>Automated quality monitoring on every channel — escalations triggered before customers churn.</p>
+      </div>
+      <div class="cap-card">
+        <span class="num">03</span>
+        <h4>Fast deployment</h4>
+        <p>Production-ready in weeks, not quarters. Drop-in SDKs, prebuilt connectors, expert white-glove rollout.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div>
+        <h2 class="section-title">Questions worth asking.</h2>
+        <p class="section-lede">A few things teams ask before they switch. Have more? <a href="#" style="color:var(--text); text-decoration:underline; text-underline-offset:3px;">Book a call.</a></p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>
+            How is delight.ai different from a chatbot or a generic LLM?
+            <span class="icon">
+              <svg class="plus"  viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="minus" viewBox="0 0 14 14" fill="none"><path d="M1 7h12"        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p>A chatbot answers a single message. delight.ai builds a memory of the customer across every channel and conversation, then uses it to answer with full context — and to act on your systems on their behalf.</p>
+        </details>
+        <details class="faq-item">
+          <summary>
+            What does it integrate with?
+            <span class="icon">
+              <svg class="plus"  viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="minus" viewBox="0 0 14 14" fill="none"><path d="M1 7h12"        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p>Salesforce, Zendesk, Freshworks, Sprinklr, Intercom, Confluence, Google Drive, Notion, ServiceNow — out of the box. Plus a webhooks + REST API for anything else.</p>
+        </details>
+        <details class="faq-item">
+          <summary>
+            How long does it take to launch?
+            <span class="icon">
+              <svg class="plus"  viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="minus" viewBox="0 0 14 14" fill="none"><path d="M1 7h12"        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p>Most teams go live in 2–4 weeks, including connector setup, policy tuning, and a Watchtower QA baseline. We staff a launch architect on every deal.</p>
+        </details>
+        <details class="faq-item">
+          <summary>
+            Is it safe to run on regulated industries?
+            <span class="icon">
+              <svg class="plus"  viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="minus" viewBox="0 0 14 14" fill="none"><path d="M1 7h12"        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p>SOC 2 Type II, ISO 27001, HIPAA, and regional data residency in KR · US · EU. PII redaction and policy guardrails are configurable per channel.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA Banner
+     ============================================================ -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-grid">
+      <div>
+        <h2>Build an AI concierge customers <em>actually</em> trust.</h2>
+        <p>30 minutes with a launch architect. We'll map your top three customer journeys to a delight.ai deployment — live, on your data.</p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn btn-lime">
+          <span class="label">Contact sales</span>
+          <span class="arrow"><svg viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.54681 9L9.12766 4.94043L0 4.94043V4.05958L9.12766 4.05957L5.54681 0H6.48511L12 4.5L6.48511 9H5.54681Z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="meta">No credit card · live demo on your data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Footer
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Enterprise AI customer experience.</h3>
+        <p>delight.ai is a Sendbird company. Built for teams who treat customer experience as their moat.</p>
+        <button class="btn btn-primary medium">
+          <span class="label">Contact sales</span>
+          <span class="arrow"><svg viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.54681 9L9.12766 4.94043L0 4.94043V4.05958L9.12766 4.05957L5.54681 0H6.48511L12 4.5L6.48511 9H5.54681Z" fill="currentColor"/></svg></span>
+        </button>
+      </div>
+      <div class="footer-col">
+        <h5>AI Capabilities</h5>
+        <ul>
+          <li><a href="#">Omnipresent</a></li>
+          <li><a href="#">Voice AI</a></li>
+          <li><a href="#">AI Copilot</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Releases</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Solutions</h5>
+        <ul>
+          <li><a href="#">Retail</a></li>
+          <li><a href="#">B2B</a></li>
+          <li><a href="#">On-demand</a></li>
+          <li><a href="#">Travel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Customer stories</a></li>
+          <li><a href="#">Ebooks &amp; guides</a></li>
+          <li><a href="#">Webinars</a></li>
+          <li><a href="#">ROI Calculator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Developer</h5>
+        <ul>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Server status</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Customers</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Sendbird, Inc. All rights reserved.</div>
+      <div class="footer-bottom-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+        <a href="#">Sub-processors</a>
+      </div>
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+        <a href="#" aria-label="X"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55A3.017 3.017 0 00.5 6.186C0 8.07 0 12 0 12s0 3.93.5 5.814a3.016 3.016 0 002.122 2.136c1.871.55 9.378.55 9.378.55s7.505 0 9.377-.55a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ============================================================
+  // GNB — dropdowns + popovers + scroll border + brand switch
+  // ============================================================
+  (function () {
+    var gnb = document.getElementById('gnb');
+    var closeTimer = null;
+    function cancelClose() { clearTimeout(closeTimer); }
+    function closeAll() {
+      gnb.querySelectorAll('.gnb-drop.is-open, .gnb-pop.is-open').forEach(function (el) { el.classList.remove('is-open'); });
+      gnb.querySelectorAll('.gnb-menu-item.is-active, .gnb-icon-btn.is-active').forEach(function (el) { el.classList.remove('is-active'); });
+    }
+    function scheduleClose() { closeTimer = setTimeout(closeAll, 180); }
+
+    // Hover dropdowns for top-level menu items
+    gnb.querySelectorAll('.gnb-menu .gnb-item-wrap').forEach(function (wrap) {
+      var trigger = wrap.querySelector('[data-trigger]');
+      var drop = wrap.querySelector('.gnb-drop');
+      if (!trigger || !drop) return;
+      wrap.addEventListener('mouseenter', function () {
+        cancelClose(); closeAll();
+        drop.classList.add('is-open'); trigger.classList.add('is-active');
+      });
+      wrap.addEventListener('mouseleave', scheduleClose);
+    });
+
+    // Customers — underline-only hover (no dropdown)
+    var customers = gnb.querySelector('.gnb-menu-item.simple');
+    if (customers) {
+      customers.addEventListener('mouseenter', function () {
+        cancelClose(); closeAll(); customers.classList.add('is-active');
+      });
+      customers.addEventListener('mouseleave', function () {
+        closeTimer = setTimeout(function () { customers.classList.remove('is-active'); }, 180);
+      });
+    }
+
+    // Lang popover (click)
+    var langWrap = gnb.querySelector('[data-trigger="lang"]');
+    if (langWrap) {
+      var langPop = gnb.querySelector('[data-drop="lang"]');
+      langWrap.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = langPop.classList.toggle('is-open');
+        langWrap.classList.toggle('is-active', open);
+      });
+      langPop.addEventListener('click', function (e) {
+        var item = e.target.closest('.pop-item');
+        if (!item) return;
+        langPop.querySelectorAll('.pop-item').forEach(function (x) { x.classList.toggle('selected', x === item); });
+        var label = item.textContent.split('·')[0].trim();
+        var textNode = [].slice.call(langWrap.childNodes).find(function (n) { return n.nodeType === 3 && n.textContent.trim(); });
+        if (textNode) textNode.textContent = ' ' + label + ' ';
+        langPop.classList.remove('is-open'); langWrap.classList.remove('is-active');
+      });
+    }
+
+    // Brand switcher (click)
+    var brand = gnb.querySelector('.gnb-brand');
+    if (brand) {
+      // Build popover lazily
+      var brandPop = document.createElement('div');
+      brandPop.className = 'gnb-pop';
+      brandPop.style.left = '0'; brandPop.style.right = 'auto'; brandPop.style.minWidth = '200px';
+      brandPop.innerHTML = '<div class="pop-item selected" data-v="delight"><img src="../assets/logos/delight-symbol-black.svg" style="width:16px;height:16px" alt="">delight.ai<span class="pop-check">✓</span></div>'
+        + '<div class="pop-item" data-v="sendbird"><img src="../assets/logos/sendbird-symbol-black.svg" style="width:16px;height:16px" alt="">Sendbird</div>';
+      brand.parentNode.style.position = 'relative';
+      brand.parentNode.appendChild(brandPop);
+
+      brand.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closeAll();
+        brandPop.classList.add('is-open');
+      });
+      brandPop.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var item = e.target.closest('.pop-item');
+        if (!item) return;
+        brandPop.querySelectorAll('.pop-item').forEach(function (x) { x.classList.toggle('selected', x === item); });
+        var img = brand.querySelector('img');
+        if (item.dataset.v === 'sendbird') img.src = '../assets/logos/sendbird-symbol-black.svg';
+        else img.src = '../assets/logos/delight-symbol-black.svg';
+        brandPop.classList.remove('is-open');
+      });
+    }
+
+    // Close on outside click + Escape + scroll
+    document.addEventListener('click', function (e) {
+      if (!gnb.contains(e.target)) closeAll();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+    window.addEventListener('scroll', closeAll, { passive: true });
+
+    // Scroll border
+    function onScroll() { gnb.classList.toggle('scrolled', window.scrollY > 8); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+</body>
+</html>
